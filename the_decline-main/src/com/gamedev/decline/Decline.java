@@ -2,54 +2,57 @@ package com.gamedev.decline;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Decline implements ApplicationListener {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
-	private Texture texture;
-	private Sprite sprite;
+	private Sprite character;
 	
 	@Override
 	public void create() {		
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
+		float width = Gdx.graphics.getWidth();
+		float height = Gdx.graphics.getHeight();
 		
-		camera = new OrthographicCamera(1, h/w);
+		Gdx.app.log("Screen Width", String.valueOf(width));
+		Gdx.app.log("Screen Height", String.valueOf(height));
+		
+		camera = new OrthographicCamera(width, height);
 		batch = new SpriteBatch();
 		
-		texture = new Texture(Gdx.files.internal("data/libgdx.png"));
-		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		character = new Sprite(new Texture(Gdx.files.internal("hero_weapon.png")));
+		character.setOrigin(character.getWidth()/2, character.getHeight()/2);
+		character.setPosition(-character.getWidth()/2, -character.getHeight()/2);
 		
-		TextureRegion region = new TextureRegion(texture, 0, 0, 512, 275);
+		Gdx.app.log("Character Width", String.valueOf(character.getWidth()));
+		Gdx.app.log("Character Height", String.valueOf(character.getHeight()));
 		
-		sprite = new Sprite(region);
-		sprite.setSize(0.9f, 0.9f * sprite.getHeight() / sprite.getWidth());
-		sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
-		sprite.setPosition(-sprite.getWidth()/2, -sprite.getHeight()/2);
 	}
 
 	@Override
 	public void dispose() {
 		batch.dispose();
-		texture.dispose();
 	}
 
 	@Override
 	public void render() {		
 		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		sprite.draw(batch);
+		character.draw(batch);
 		batch.end();
+		
+		update();
+	}
+	
+	private void update() {
+		
 	}
 
 	@Override
