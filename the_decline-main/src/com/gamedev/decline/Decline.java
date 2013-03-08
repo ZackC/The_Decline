@@ -16,6 +16,8 @@ public class Decline implements ApplicationListener {
 	private Sprite character;
 	private int heroSpeed = 200;
 	private FPSLogger fps = new FPSLogger();
+	private Texture background;
+	private int backgroundXPos = 0;
 
 	@Override
 	public void create() {		
@@ -31,10 +33,12 @@ public class Decline implements ApplicationListener {
 
 		character = new Sprite(new Texture(Gdx.files.internal("hero_weapon.png")));
 		character.setOrigin(character.getWidth()/2, character.getHeight()/2);
-		character.setPosition(20, 20);
+		character.setPosition(120, 20);
 
 		Gdx.app.log("Character Width", String.valueOf(character.getWidth()));
 		Gdx.app.log("Character Height", String.valueOf(character.getHeight()));
+		
+		background = new Texture(Gdx.files.internal("data/cave.jpg"));
 
 	}
 
@@ -50,6 +54,8 @@ public class Decline implements ApplicationListener {
 
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
+		batch.draw(background,backgroundXPos,0);
+		batch.draw(background,backgroundXPos+background.getWidth(),0);
 		character.draw(batch);
 		batch.end();
 
@@ -62,13 +68,13 @@ public class Decline implements ApplicationListener {
 		
 		if(character.getX() > 0)
 			if(Gdx.input.isKeyPressed(Keys.LEFT)) {
-				character.setX(character.getX() - heroSpeed * Gdx.graphics.getDeltaTime());
+				backgroundXPos += heroSpeed * Gdx.graphics.getDeltaTime();
 				if(character.isFlipX() == false)
 					character.flip(true, false);
 			}
 		if(character.getX()+character.getWidth() < Gdx.graphics.getWidth())
 			if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
-				character.setX(character.getX() + heroSpeed * Gdx.graphics.getDeltaTime());
+				backgroundXPos -= heroSpeed * Gdx.graphics.getDeltaTime();
 				if(character.isFlipX() == true)
 					character.flip(true, false);
 			}
