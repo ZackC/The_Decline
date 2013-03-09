@@ -9,16 +9,35 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
+/*
+ * The main class of the game.
+ */
 public class Decline implements ApplicationListener {
+	// the camera of the game which determines the game view
 	private OrthographicCamera camera;
+	//the object that draws the objects in the game
 	private SpriteBatch batch;
-	private Sprite character;
-	private int heroSpeed = 200;
+	//the main character
+	private Hero character;
+	//the frames per second logger
 	private FPSLogger fps = new FPSLogger();
-	private Texture background;
-	private int backgroundXPos = 0;
+	// the background of the game
+	private RepeatingBackground background;
+	//the singleton that holds the global variables for the game
+	private GlobalSingleton gs = GlobalSingleton.getInstance();
+	//the x position of the hero
+	private int heroXPos = gs.getStartingHeroXPos();
+	//the y position of the hero
+	private int heroYPos = gs.getStartingHeroYPos();
+	//the bullet manager of the game
+	private BulletManager bm;
+	
 
+	/*
+	 * Creates the objects of the game and logs information.
+	 * (non-Javadoc)
+	 * @see com.badlogic.gdx.ApplicationListener#create()
+	 */
 	@Override
 	public void create() {		
 		float width = Gdx.graphics.getWidth();
@@ -30,23 +49,38 @@ public class Decline implements ApplicationListener {
 		camera = new OrthographicCamera(width, height);
 		camera.setToOrtho(false);
 		batch = new SpriteBatch();
-
-		character = new Sprite(new Texture(Gdx.files.internal("hero_weapon.png")));
+        
+		bm = new BulletManager(new Texture(Gdx.files.internal("data/bullet.jpg")));
+		
+		character = new Hero(new Texture(Gdx.files.internal("hero_weapon.png")),bm);
 		character.setOrigin(character.getWidth()/2, character.getHeight()/2);
-		character.setPosition(120, 20);
+		character.setPosition(gs.getStartingHeroXPos(), gs.getStartingHeroYPos());
 
 		Gdx.app.log("Character Width", String.valueOf(character.getWidth()));
 		Gdx.app.log("Character Height", String.valueOf(character.getHeight()));
 		
-		background = new Texture(Gdx.files.internal("data/cave.jpg"));
+		background = new RepeatingBackground(new Texture(Gdx.files.internal("data/cave.jpg")));
 
 	}
 
+	/*
+	 * Used to get rid of objects after the game has finished
+	 * 
+	 * (non-Javadoc)
+	 * @see com.badlogic.gdx.ApplicationListener#dispose()
+	 */
 	@Override
 	public void dispose() {
 		batch.dispose();
 	}
 
+	/*
+	 * draws the objects in their current state and then updates them
+	 * behind the scenes
+	 * 
+	 * (non-Javadoc)
+	 * @see com.badlogic.gdx.ApplicationListener#render()
+	 */
 	@Override
 	public void render() {		
 		Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -54,9 +88,9 @@ public class Decline implements ApplicationListener {
 
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		batch.draw(background,backgroundXPos,0);
-		batch.draw(background,backgroundXPos+background.getWidth(),0);
+		background.draw(batch,character.getXPos());
 		character.draw(batch);
+		bm.draw(batch);
 		batch.end();
 
 		update();
@@ -64,30 +98,42 @@ public class Decline implements ApplicationListener {
 		
 	}
 
+	/*
+	 * updates the scene
+	 */
 	private void update() {
 		
-		if(character.getX() > 0)
-			if(Gdx.input.isKeyPressed(Keys.LEFT)) {
-				backgroundXPos += heroSpeed * Gdx.graphics.getDeltaTime();
-				if(character.isFlipX() == false)
-					character.flip(true, false);
-			}
-		if(character.getX()+character.getWidth() < Gdx.graphics.getWidth())
-			if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
-				backgroundXPos -= heroSpeed * Gdx.graphics.getDeltaTime();
-				if(character.isFlipX() == true)
-					character.flip(true, false);
-			}
+		character.update();
+		bm.update();
 	}
 
+	/*
+	 * used for resizing the game
+	 * 
+	 * (non-Javadoc)
+	 * @see com.badlogic.gdx.ApplicationListener#resize(int, int)
+	 */
 	@Override
 	public void resize(int width, int height) {
 	}
 
+	/*
+	 * used for pausing the game
+	 * 
+	 * (non-Javadoc)
+	 * @see com.badlogic.gdx.ApplicationListener#pause()
+	 */
 	@Override
 	public void pause() {
 	}
 
+	/*
+	 * used for resuming the game
+	 * 
+	 * (non-Javadoc)
+	 * @see com.badlogic.gdx.ApplicationListener#resume()
+	 */
+	
 	@Override
 	public void resume() {
 	}

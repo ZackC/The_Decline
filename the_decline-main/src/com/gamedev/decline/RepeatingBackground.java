@@ -1,0 +1,73 @@
+package com.gamedev.decline;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+/*
+ * The class that creates the repeating background
+ */
+public class RepeatingBackground {
+
+	//the number of background panels
+	private int bpSize = 2;
+	//the array of the background panels
+	private BackgroundPanel[] bp  = new BackgroundPanel[bpSize];
+	//the singleton that holds the global variables
+	private GlobalSingleton gs = GlobalSingleton.getInstance();
+	
+	/*
+	 * The constructor for the class
+	 * 
+	 * newTexture - the images for the background panels
+	 */
+	public RepeatingBackground(Texture newTexture) 
+	{
+		for(int i = 0; i < bpSize; i++)
+		{
+			bp[i] = new BackgroundPanel(newTexture);
+		}
+	}
+
+	/*
+	 * The method that handles drawing the background panels
+	 * 
+	 * batch - the drawing object
+	 * heroPos - the x position of the hero
+	 */
+	public void draw(SpriteBatch batch, float heroPos)
+	{
+		float heroPosInBackground = heroPos % bp[0].getWidth();
+		//System.out.println("HeroPosInScreen: "+ heroPosInBackground);
+		//System.out.println("bp.width: "+bp[0].getWidth());
+		//System.out.println("heroStaringPos: "+heroStartingPos);
+		
+		//for when hero is on left edge of background panel
+		if(heroPos % bp[0].getWidth() < gs.getStartingHeroXPos())
+		{
+			//System.out.println("In 1!!");
+			
+			bp[0].setXPos(-1 * (heroPosInBackground));
+			bp[1].setXPos(-1 * heroPosInBackground - bp[0].getWidth());
+			bp[0].draw(batch);
+			bp[1].draw(batch);
+			
+		}
+		//when hero is on right edge of background panel
+		else if(heroPos % bp[0].getWidth() > bp[0].getWidth() - Gdx.graphics.getWidth())
+		{
+			//System.out.println("In 2!!");
+			bp[0].setXPos(-1 * heroPosInBackground);
+			bp[1].setXPos(-1 * heroPosInBackground  + bp[0].getWidth());
+			bp[0].draw(batch);
+			bp[1].draw(batch);
+		}
+		//when hero is in the center of the background panel
+		else
+		{
+			//System.out.println("In 3!!");
+			bp[0].setXPos(-1 * (heroPosInBackground % bp[0].getWidth()));
+			bp[0].draw(batch);
+		}
+	}
+
+}
