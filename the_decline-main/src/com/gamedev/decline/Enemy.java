@@ -158,4 +158,12 @@ public class Enemy extends Sprite {
 	{
 		xPos = startingXPos;
 	}
+	
+	/*
+	 * returns the width of the enemy
+	 */
+	public int getEnemyWidth()
+	{
+		return enemyWidth;
+	}
 }

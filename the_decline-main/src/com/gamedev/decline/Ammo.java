@@ -21,15 +21,19 @@ public class Ammo
 	int startPosition;
 	//the amount of ammo stored in the container
 	int amountOfAmmoStored;
+	//the width of the ammo object on the screen
+	int ammoWidth;
 	
 	/*
 	 * the constructor for the class
 	 * 
 	 * newTexture - the texture for the ammo object
+	 * newAmmoWidth - the width of the ammo object on the screen
 	 */
-	public Ammo(Texture newTexture, int ammoWidth)
+	public Ammo(Texture newTexture, int newAmmoWidth)
 	{
 		texture = newTexture;
+		ammoWidth = newAmmoWidth;
 		startPosition = Gdx.graphics.getWidth() - ammoWidth/2;
 	}
 	
@@ -68,7 +72,7 @@ public class Ammo
 	public boolean update()
 	{
 		xPos -= gs.getHeroMovement();
-		if(xPos < 0 || xPos > Gdx.graphics.getWidth())
+		if(xPos < -1 * ammoWidth || xPos > Gdx.graphics.getWidth() + ammoWidth)
 		{
 			return false;
 		}

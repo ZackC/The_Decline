@@ -74,7 +74,7 @@ public class EnemyManager {
 		{
 			currentEnemy = enemyIter.next();
 			currentEnemy.update();
-			if(currentEnemy.getXPos() < 0)
+			if(currentEnemy.getXPos() < -1 * currentEnemy.getEnemyWidth())
 			{
 				currentEnemy.setToStartingPosition();
 				enemyIter.remove();
