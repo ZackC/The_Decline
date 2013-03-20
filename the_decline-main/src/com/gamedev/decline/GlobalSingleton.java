@@ -1,5 +1,8 @@
 package com.gamedev.decline;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+
 /*
  * The class that holds the global variables for the game
  */
@@ -19,6 +22,7 @@ public class GlobalSingleton {
 	private float heroXPos = startingHeroXPos;
 	// the amount the hero is currently moving
 	private float heroMovement = 0;
+
 	
 	/*
 	 * the default constructor of the class
@@ -142,7 +146,7 @@ public class GlobalSingleton {
 	}
 	
 	/*
-	 * sets the current hero movment
+	 * sets the current hero movement
 	 * 
 	 * newHeroMovement - the current hero movement
 	 */

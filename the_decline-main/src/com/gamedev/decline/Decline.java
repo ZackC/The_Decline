@@ -31,6 +31,8 @@ public class Decline implements ApplicationListener {
 	private int heroYPos = gs.getStartingHeroYPos();
 	//the bullet manager of the game
 	private BulletManager bm;
+	// the manager of the ammo objects for the game
+	private AmmoManager am;
 	
 
 	/*
@@ -60,11 +62,13 @@ public class Decline implements ApplicationListener {
 		Gdx.app.log("Character Height", String.valueOf(character.getHeight()));
 		
 		background = new RepeatingBackground(new Texture(Gdx.files.internal("data/cave.jpg")));
-
+        am = new AmmoManager(new Texture(Gdx.files.internal("data/ammo.jpg")));
 	}
 
 	/*
 	 * Used to get rid of objects after the game has finished
+	 * 
+	 * This method probably needs to be updated
 	 * 
 	 * (non-Javadoc)
 	 * @see com.badlogic.gdx.ApplicationListener#dispose()
@@ -91,6 +95,7 @@ public class Decline implements ApplicationListener {
 		background.draw(batch,character.getXPos());
 		character.draw(batch);
 		bm.draw(batch);
+		am.draw(batch);
 		batch.end();
 
 		update();
@@ -104,6 +109,7 @@ public class Decline implements ApplicationListener {
 	private void update() {
 		
 		character.update();
+		am.update();
 		bm.update();
 	}
 

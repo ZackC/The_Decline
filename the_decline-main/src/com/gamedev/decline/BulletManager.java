@@ -86,14 +86,16 @@ public class BulletManager {
 			while(enemyIter.hasNext())
 			{
 			  currentEnemy = enemyIter.next();
-			  System.out.println("Checking for overlap");
+			  //System.out.println("Checking for overlap");
 			  if(currentBullet.hasCollision(currentEnemy.getBoundingRectangle()));
 			  {
-				System.out.println("Had overlap");  
+				//System.out.println("Had overlap");  
 				currentEnemy.setToStartingPosition();
 				enemyIter.remove();
 				currentBullet.setXPosToStart();
+				//System.out.println("shot bullets size: "+ shotBullets.size);
 				bulletIter.remove();
+				break;
 			  }
 		    }
 			if(currentBullet.getXPos() > Gdx.graphics.getWidth())
