@@ -10,25 +10,25 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public abstract class Unit extends Sprite{
 	
-	private GlobalSingleton gs = GlobalSingleton.getInstance();
-	private double xPos;
-	private double yPos;
-	private int speed;
-	private int height;
-	private int width;
+	protected GlobalSingleton gs = GlobalSingleton.getInstance();
+	protected double xPos;
+	protected double yPos;
+	protected int speed;
+	protected int height;
+	protected int width;
 	
-	public Unit(){
-		xPos = 0;
-		yPos = 0;
-		speed = 0;
-		height = 0;
-		width = 0;
-	}
-	
-	public Unit(Texture texture){
+	public Unit(Texture texture, int speed, double xPos, double yPos){
 		super(texture);
 		height = texture.getHeight();
 		width = texture.getWidth();
+	}
+	
+	public void setSpeed(int newSpeed){
+		speed = newSpeed;
+	}
+	
+	public int getSpeed(){
+		return speed;
 	}
 	
 	public void setXPos(double newXPos)
@@ -50,4 +50,24 @@ public abstract class Unit extends Sprite{
 	}
 	
 	public abstract void update();
+	
+	
+	public void moveRight(){
+		setXPos(getXPos() + speed * Gdx.graphics.getDeltaTime());
+		gs.setHeroMovement(speed * Gdx.graphics.getDeltaTime());
+		if(isFlipX() == true)
+			flip(true, false);
+	}
+	
+	public void moveLeft(){
+		setXPos(getXPos() - speed * Gdx.graphics.getDeltaTime());
+		gs.setHeroMovement(-1 * (speed * Gdx.graphics.getDeltaTime()));
+		if(isFlipX() == false)
+			flip(true, false);
+	}
+	
+	public void jump(){
+		
+	}
+	
 }
