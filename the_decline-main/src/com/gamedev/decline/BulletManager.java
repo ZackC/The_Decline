@@ -90,7 +90,6 @@ public class BulletManager {
 			  if(currentBullet.hasCollision(currentEnemy.getBoundingRectangle()));
 			  {
 				//System.out.println("Had overlap");  
-				currentEnemy.setToStartingPosition();
 				enemyIter.remove();
 				currentBullet.setXPosToStart();
 				//System.out.println("shot bullets size: "+ shotBullets.size);

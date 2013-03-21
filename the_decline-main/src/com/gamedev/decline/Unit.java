@@ -3,10 +3,8 @@ package com.gamedev.decline;
 
 // Badlogic Imports // 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public abstract class Unit extends Sprite{
 	
