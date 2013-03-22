@@ -1,43 +1,65 @@
+// Package Declaration //
 package com.gamedev.decline;
 
+// Java Package Support //
+// { Not Applicable }
+
+// Badlogic Package Support //
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
-/*
- * The hero class;  this class controls the main character
+
+/**
+ * 
+ * com/gamedev/decline/Hero.java
+ * 
+ * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
+ * @version 	: 2.0
+ * Last Update	: 3/22/2013
+ * Update By	: Ian Middleton
+ * 
+ * Source code for the Hero class. The Hero class represents the Hero object
+ * 	in the game. It extends and uses the Unit class.
+ *
  */
 public class Hero extends Unit {
-	// the hero's movement speed
-	final static int SPEED = 200;
-	// the bullet manager
-	private BulletManager bm;
+
+	// Global Singleton //
 	private GlobalSingleton gs = GlobalSingleton.getInstance();
+	
+	// Constants of the Object //
 	public static final int STARTINGHEROXPOS = 120;
 	public static final int STARTINGHEROYPOS = 20;
+	public final static int SPEED = 200;
+	
+	// Internal Variables //
+	private BulletManager bm;
+	private EnemyManager em;
 	private boolean shoot;
 	private boolean ableToShoot;
 	
-	private EnemyManager em;
-	
-	/*
-	 * The hero constructor using a texture
+	/**
+	 * Instantiates a new Hero object by calling the super constructor (Unit) and
+	 * 	setting the managers up in addition to other internal variables.
 	 * 
-	 * texture - the image for the hero
-	 * newBm - the bulletManager
+	 * @param texture	: The image to be used for the hero.
+	 * @param newBm		: The manager for the bullets.
+	 * @param newEm		: The manager for the enemies.
 	 */
 	public Hero(Texture texture, BulletManager newBm, EnemyManager newEm) {
 		super(texture, SPEED, STARTINGHEROXPOS, STARTINGHEROYPOS);
+		
 		bm = newBm;
+		em = newEm;
+		
 		shoot = false;
 		ableToShoot = true;
-		em = newEm;
 	}
 	
-	/*
-	 * updates the hero
-	 * 
-	 * at the moment - this method is used to move the hero and have the
-	 *    hero shoot bullets
+	/**
+	 * The update function is called every global update. It checks for key presses and updates the hero
+	 * 	accordingly. It then also updates the GlobalSingleton with new values if needed. Update functions
+	 * 	for the managers are also called here.
 	 */
 	public void update()
 	{

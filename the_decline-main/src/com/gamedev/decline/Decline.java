@@ -1,35 +1,51 @@
+// Package Declaration //
 package com.gamedev.decline;
 
+// Java Package Support //
+// { Not Applicable }
+
+// Badlogic Package Support //
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-/*
- * The main class of the game.
+
+/**
+ * 
+ * com/gamedev/decline/Decline.java
+ * 
+ * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
+ * @version 	: 2.0
+ * Last Update	: 3/22/2013
+ * Update By	: Ian Middleton
+ * 
+ * Source code for the Decline class. The Decline class takes care of essentially
+ * 	"running" the entire game. All high-level game elements in addition to the camera, background,
+ * 	and batch are instantiated and executed here.
+ *
  */
 public class Decline implements ApplicationListener {
-	// the camera of the game which determines the game view
-	private OrthographicCamera camera;
-	//the object that draws the objects in the game
-	private SpriteBatch batch;
-	//the main character
-	private Hero character;
-	// the background of the game
-	private RepeatingBackground background;
-	//the singleton that holds the global variables for the game
-	private GlobalSingleton gs = GlobalSingleton.getInstance();
-	//the bullet manager of the game
-	private BulletManager bm;
-	// the manager of the ammo objects for the game
-	private AmmoManager am;
 	
+	// Global Singleton //
+	private GlobalSingleton gs = GlobalSingleton.getInstance();
+	
+	// Constants for the Objects //
+	// { Not Applicable }
+	
+	// Internal Variables //
+	private OrthographicCamera camera;
+	private SpriteBatch batch;
+	private RepeatingBackground background;
+	private Hero character;
+	private BulletManager bm;
 	private EnemyManager em;
 	
 
-	/*
-	 * Creates the objects of the game and logs information.
+	/**
+	 * Function run when the game is started. Basically a high-level constructor for the game.
+	 * 
 	 * (non-Javadoc)
 	 * @see com.badlogic.gdx.ApplicationListener#create()
 	 */
@@ -51,28 +67,27 @@ public class Decline implements ApplicationListener {
 		
 		character = new Hero(new Texture(Gdx.files.internal("hero_weapon.png")),bm, em);
 		character.setOrigin(character.getWidth()/2, character.getHeight()/2);
-		character.setPosition(gs.getStartingHeroXPos(), gs.getStartingHeroYPos());
+		character.setPosition(gs.STARTING_HERO_XPOS, gs.STARTING_HERO_YPOS);
 		
 		background = new RepeatingBackground(new Texture(Gdx.files.internal("data/cave.jpg")));
         //am = new AmmoManager(new Texture(Gdx.files.internal("data/ammo.jpg")));
 	}
 
-	/*
-	 * Used to get rid of objects after the game has finished
-	 * 
-	 * This method probably needs to be updated
+	/**
+	 * Cleans up all resources when the game is closed.
 	 * 
 	 * (non-Javadoc)
 	 * @see com.badlogic.gdx.ApplicationListener#dispose()
+	 * 
+	 * *** INCOMPLETE ***
 	 */
 	@Override
 	public void dispose() {
 		batch.dispose();
 	}
 
-	/*
-	 * draws the objects in their current state and then updates them
-	 * behind the scenes
+	/**
+	 * Calls the draw functions for all objects and then calls the update function. 
 	 * 
 	 * (non-Javadoc)
 	 * @see com.badlogic.gdx.ApplicationListener#render()
@@ -88,51 +103,53 @@ public class Decline implements ApplicationListener {
 		character.draw(batch);
 		bm.draw(batch);
 		em.draw(batch);
-		//am.draw(batch);
 		batch.end();
 
 		update();
 		
 	}
 
-	/*
-	 * updates the scene
+	/**
+	 * Calls the update functions for all objects.
 	 */
 	private void update() {
-		
 		character.update();
-		//am.update();
 		bm.update();
 		em.update();
 	}
 
-	/*
-	 * used for resizing the game
+	/**
+	 * Function used for resizing of the game.
 	 * 
 	 * (non-Javadoc)
 	 * @see com.badlogic.gdx.ApplicationListener#resize(int, int)
+	 * 
+	 * *** INCOMPLETE ***
 	 */
 	@Override
 	public void resize(int width, int height) {
 	}
 
-	/*
-	 * used for pausing the game
+	/**
+	 * Function used for pausing of the game.
 	 * 
 	 * (non-Javadoc)
 	 * @see com.badlogic.gdx.ApplicationListener#pause()
+	 * 
+	 * *** INCOMPLETE ***
 	 */
 	@Override
 	public void pause() {
 	}
 
-	/*
-	 * used for resuming the game
+	/**
+	 * Function used for resuming of the game
 	 * 
 	 * (non-Javadoc)
 	 * @see com.badlogic.gdx.ApplicationListener#resume()
+	 * 
+	 * *** INCOMPLETE ***
 	 */
-	
 	@Override
 	public void resume() {
 	}

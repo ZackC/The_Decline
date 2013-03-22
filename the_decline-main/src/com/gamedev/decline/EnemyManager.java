@@ -1,53 +1,62 @@
+// Package Declaration //
 package com.gamedev.decline;
 
+// Java Package Support //
 import java.util.Iterator;
+import java.util.Random;
 
+// Badlogic Package Support //
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-import java.util.Random;
 
-/*
- * The class that manages all of the enemies
+/**
+ * 
+ * com/gamedev/decline/EnemyManager.java
+ * 
+ * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
+ * @version 	: 2.0
+ * Last Update	: 3/22/2013
+ * Update By	: Ian Middleton
+ * 
+ * Source code for the EnemyManager class. The EnemyManager class takes care of creating,
+ * 	updating, drawing, and reallocating Enemy objects.
+ *
  */
 public class EnemyManager {
-	// texture of enemy
-	private Texture texture;
-	private static final int MAX_ENEMIES = 15;
-	private Enemy[] enemies = new Enemy[MAX_ENEMIES];
-	private int currentEnemyNumber = 0;
-	//the array that stores all of the enemies currently on screen
-	private Array<Enemy> currentEnemies = new Array<Enemy>();
-	//an iterator over the currentEnemies
-	private Iterator<Enemy> enemyIter;
-	//the object representing the enemy being used at the moment
-	private Enemy currentEnemy;
-	//a random number generator
-	private Random rand = new Random();
-	//the position where a new enemy will be generated
-	private int newEnemyXPosition = Gdx.graphics.getWidth()/2 + rand.nextInt(100);
-	//the singleton holding the global variables for the game
+	
+	// Global Singleton //
 	private GlobalSingleton gs = GlobalSingleton.getInstance();
 	
-	/*
-	 * the defualt constructor for the class
-	 * 
-	 * texture - the image of the enemies
-	 */
-	public EnemyManager(Texture texture) 
-	{
-		for (int i = 0; i < MAX_ENEMIES; i++)
-		{
-			enemies[i] = new Enemy(texture);
-		}
-	}
+	// Constants for the Object //
+	public static final int MAX_ENEMIES = 15;
 	
-	/*
-	 * the method that makes enemies appear
+	// Internal Variables //
+	private Enemy[] enemies = new Enemy[MAX_ENEMIES];
+	private Array<Enemy> currentEnemies = new Array<Enemy>();
+	private Iterator<Enemy> enemyIter;
+	private Enemy currentEnemy;
+	private int currentEnemyNumber = 0;
+	private Random rand = new Random();
+	private int newEnemyXPosition = Gdx.graphics.getWidth()/2 + rand.nextInt(100);
+
+	
+	/**
+	 * Instantiates a new EnemyManager object. The EnemyManager fills an array of new Enemy objects
+	 * 	with the given Texture to be used in the game. This is done to create a buffer of Enemy objects.
 	 * 
-	 * it adds an enemy from the enemyArray to the currentEnemies array and
-	 * increments the enemy count.
+	 * @param texture	: The image to be used for the Enemy objects.
+	 */
+	public EnemyManager(Texture texture) {
+		for (int i = 0; i < MAX_ENEMIES; i++){
+			enemies[i] = new Enemy(texture);
+		} // end for
+	} // end EnemyManager
+	
+	/**
+	 * Grabs a Enemy from the Enemy buffer created when the manager was constructed. This Enemy 
+	 * 	is then added to the array of Enemy that are to be drawn to the screen and updated.
 	 */
 	public void makeEnemyAppear()
 	{
@@ -55,9 +64,11 @@ public class EnemyManager {
 		currentEnemyNumber++;
 	}
 	
-	/*
-	 * Moves the enemy objects.  Also determines if enemy objects need to 
-	 * be removed from the scene and does so accordingly
+	/**
+	 * Checks to see if the hero has moved farther than the random amount required for a new enemy to be spawned.
+	 * 	If the hero has moved this distance than a new enemy is created. Afterwards, the function iterates through
+	 * 	all Enemies on the screen and calls their update method. If an Enemy has traveled off screen after updating
+	 * 	then that Enemy is removed.
 	 */
 	public void update()
 	{
@@ -83,8 +94,11 @@ public class EnemyManager {
 		
 	}
 	
-	/*
-	 * draws the enemies that are currently displayed
+	/**
+	 * Iterates through the array of Enemies to be drawn to the screen, sets their draw position and calls 
+	 * 	the draw function for each Enemy.
+	 * 
+	 * @param batch - The SpriteBatch object which will draw the Enemy objects.
 	 */
 	public void draw(SpriteBatch batch)
 	{
@@ -95,13 +109,5 @@ public class EnemyManager {
 			currentEnemy.setPosition(currentEnemy.getXPos(), currentEnemy.getYPos());
 			currentEnemy.draw(batch);
 		}
-	}
-	
-	/*
-	 * returns an iterator over the enemies currently displayed
-	 */
-	public Iterator<Enemy> getCurrentEnemiesIter()
-	{
-		return currentEnemies.iterator();
 	}
 }

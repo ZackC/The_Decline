@@ -1,167 +1,153 @@
+// Package Declaration //
 package com.gamedev.decline;
 
-/*
- * The class that holds the global variables for the game
+// Java Package Support //
+// { Not Applicable }
+
+// Badlogic Package Support //
+// { Not Applicable }
+
+/**
+ * 
+ * com/gamedev/decline/GlobalSingleton.java
+ * 
+ * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
+ * @version 	: 2.0
+ * Last Update	: 3/22/2013
+ * Update By	: Ian Middleton
+ * 
+ * Source code for the GlobalSingleton class. The GlobalSingleton class holds information that will need
+ * 	to be accessed across the game.
+ *
  */
 public class GlobalSingleton {
 	
-	// the singleton instance of the class
+	// Global Singleton //
     private static GlobalSingleton instance = null;
-    //the starting x position of the hero
-	private int startingHeroXPos = 120;
-	// the starting y position of the hero
-	private int startingHeroYPos = 20;
-	// the width of the hero
-	private int heroWidth;
-	// the height of the hero
-	private int heroHeight;
-	// the current x position of the hero
-	private float heroXPos = startingHeroXPos;
-	// the amount the hero is currently moving
-	private float heroMovement = 0;
-	private int heroOrientation = 0;
+    
+    // Constants of the Object //
+    public static final int STARTING_HERO_XPOS = 120;
+    public static final int STARTING_HERO_YPOS = 20;
 	public static final int RIGHT = 0;
 	public static final int LEFT = 1;
+    
+    // Internal Variables //
+	private int heroWidth;
+	private int heroHeight;
+	private float heroXPos = STARTING_HERO_XPOS;
+	private float heroMovement = 0;
+	private int heroOrientation = 0;
 
 	
-	/*
-	 * the default constructor of the class
-	 */
-	private GlobalSingleton() 
-	{
+	private GlobalSingleton() {
 		
-	}
+	} // end GlobalSingleton()
 	
-	/*
-	 * The way to get an instance of the class.
-	 * Returns an instance if it is already created;
-	 * Otherwise it creates a new one and then returns it.
+	/**
+	 * Gets the instance of the class. If one does not exist it creates a new one.
+	 * 
+	 * @return	: The instance of the class.
 	 */
-	public static GlobalSingleton getInstance()
-	{
-		if(instance == null)
-		{
+	public static GlobalSingleton getInstance(){
+		if(instance == null){
 			instance = new GlobalSingleton();
 			return instance;
-		}
-		else
-		{
+		} // end if
+		else{
 			return instance;
-		}
-	}
-
-	/*
-	 * Returns the starting x position of the hero
-	 */
-	public int getStartingHeroXPos()
-	{
-		return startingHeroXPos;
-	}
+		} // end else
+	} // end getInstance()
 	
-	
-	/*
-	 * Returns the starting y position of the hero
+	/**
+	 * Gets the width of the hero.
+	 * 
+	 * @return	: Width of the hero. 
 	 */
-	public int getStartingHeroYPos()
-	{
-		return startingHeroYPos;
-	}
-	
-	/*
-	 * Returns the width of the hero
-	 */
-	public int getHeroWidth()
-	{
+	public int getHeroWidth(){
 		return heroWidth;
-	}
+	} // end getHeroWidth()
 	
-	/*
-	 * returns the current x position of the hero
+	/**
+	 * Gets the height of the hero.
+	 * 
+	 * @return	: Height of the hero.
 	 */
-	public float getHeroXPos()
-	{
-		return heroXPos;
-	}
-	
-	/*
-	 * returns the height of the hero
-	 */
-	public int getHeroHeight()
-	{
+	public int getHeroHeight(){
 		return heroHeight;
-	}
+	} // end getHeroHeight()
 	
-	/*
-	 * returns the current movement of the hero (how much he is moving 
-	 * at that time)
+	/**
+	 * Gets the x position of the hero.
+	 * 
+	 * @return	: X position of the hero.
 	 */
-	public float getHeroMovement()
-	{
-		return heroMovement;
-	}
+	public float getHeroXPos(){
+		return heroXPos;
+	} // end getHeroXPos()
 	
+	/**
+	 * Gets the current movement speed of the hero. The movement speed is positive if the hero is moving
+	 * 	right and negative if the hero is moving left.
+	 * 
+	 * @return	: The movement speed of the hero.
+	 */
+	public float getHeroMovement(){
+		return heroMovement;
+	} // end getHeroMovement()
+	
+	/**
+	 * Gets the current orientation of the hero. The orientation can be resolved by comparing the return value
+	 * 	to the constants in the singleton for left and right.
+	 * 
+	 * @return	: The orientation of the hero.
+	 */
 	public int getHeroOrientation(){
 		return heroOrientation;
-	}
+	} // end getHeroOrientation()
 	
-	/*
-	 * returns the starting x position of the hero
-	 */
-	public void setStartingHeroXPos(int newXPos)
-	{
-		startingHeroXPos = newXPos;
-	}
-	
-	/*
-	 * sets the staring y position of the hero
+	/**
+	 * Sets the width of the hero.
 	 * 
-	 * newYPos - the new y position
+	 * @param newWidth	: The new width of the hero. 
 	 */
-	public void setStartingHeroYPos(int newYPos)
-	{
-		startingHeroYPos = newYPos;
-	}
-	
-	/*
-	 * sets the width of the hero
-	 * 
-	 * newWidth - the width 
-	 */
-	public void setHeroWidth(int newWidth)
-	{
+	public void setHeroWidth(int newWidth){
 		heroWidth = newWidth;
-	}
-	/*
-	 * sets the height of the hero
+	} // end setHeroWidth()
+	
+	/**
+	 * Sets the height of the hero.
 	 * 
-	 * newHeight - the hero's height
+	 * @param newHeight	: The new height of the hero.
 	 */
-	public void setHeroHeight(int newHeight)
-	{
+	public void setHeroHeight(int newHeight){
 		heroHeight = newHeight;
-	}
-	/*
-	 * sets the current x position of the hero
+	} // end setHeroHeight()
+	
+	/**
+	 * Sets the current x position of the hero.
 	 * 
-	 * newPos - the new x position
+	 * @param newPos	: The new x position of the hero.
 	 */
-	public void setHeroXPos(float newPos)
-	{
+	public void setHeroXPos(float newPos){
 		heroXPos = newPos;
-	}
+	} // end setHeroXPos()
 	
-	/*
-	 * sets the current hero movement
+	/**
+	 * Sets the current hero movement.
 	 * 
-	 * newHeroMovement - the current hero movement
+	 * @param newHeroMovement	: The current movement of the hero.
 	 */
-	public void setHeroMovement(float newHeroMovement)
-	{
+	public void setHeroMovement(float newHeroMovement){
 		heroMovement = newHeroMovement;
-	}
+	} // end setHeroMovement()
 	
+	/**
+	 * Sets the current hero orientation.
+	 * 
+	 * @param newHeroOrientation	: The current orientation of the hero.
+	 */
 	public void setHeroOrientation(int newHeroOrientation){
 		heroOrientation = newHeroOrientation;
-	}
+	} // end setHeroOrientation()
 	
 }

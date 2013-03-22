@@ -1,108 +1,114 @@
+// Package Declaration //
 package com.gamedev.decline;
 
+//Java Package Support //
 import java.util.Iterator;
 
+//Badlogic Package Support //
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
-/*
- * The class that manages all of the bullet objects
+/**
+ * 
+ * com/gamedev/decline/BulletManager.java
+ * 
+ * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
+ * @version 	: 2.0
+ * Last Update	: 3/22/2013
+ * Update By	: Ian Middleton
+ * 
+ * Source code for the BulletManager class. The BulletManager class takes care of creating,
+ * 	updating, drawing, and reallocating Bullet objects.
+ *
  */
 public class BulletManager {
 
-	private Bullet[] rightBullets = new Bullet[50];
-	private Bullet[] leftBullets = new Bullet[50];
-	//the number of bullets initialized at the beginning and the max number in
-	//the game
-	private int maxBulletNumber = 50;
-	//the number of the current bullet fired; this number always increments
-	private int currentRightBulletNumber = 0;
-	private int currentLeftBulletNumber = 0;
-	//the array that stores the bullets currently on the screen
-	private Array<Bullet> shotBullets = new Array<Bullet>();
-	//the iterator of the shotBullets array
-	private Iterator<Bullet> bulletIter;
-	//the object for the currentBullet being looked at
-	private Bullet currentBullet;
-	//the singleton that holds all of the global variables
+	// Global Singleton //
 	private GlobalSingleton gs = GlobalSingleton.getInstance();
-	private Bullet bulletHolder;
 	
-	/*
-	 * The default constructor for the BulletManager class
+	// Constants for the Object //
+	public static final int MAX_BULLET_NUMBER = 100;
+	
+	// Internal Variables //
+	private Bullet[] bullets = new Bullet[100];
+	private Array<Bullet> shotBullets = new Array<Bullet>();
+	private Iterator<Bullet> bulletIter;
+	private int currentBulletNumber = 0;
+	private Bullet currentBullet;
+	
+	/**
+	 * Instantiates a new BulletManager object. The BulletManager fills an array of new Bullet objects
+	 * 	with the given Texture to be used in the game. This is done to create a buffer of Bullet objects.
 	 * 
-	 * newTexture - the image of the bullet
+	 * @param texture	: The image to be used for the Bullet objects.
 	 */
-	public BulletManager(Texture texture) 
-	{
-		for(int i = 0; i < 50; i++){
-			rightBullets[i] = new Bullet(texture, gs.RIGHT);
-		    leftBullets[i] = new Bullet(texture, gs.LEFT);
-		}
-	}
+	public BulletManager(Texture texture) {
+		for(int i = 0; i < 100; i++){
+			bullets[i] = new Bullet(texture);
+		} // end for
+	} // end BulletManager()
 	
-	/*
-	 * The method for adding a bullet to the screen.  
-	 * Adds the bullet to the shotBullet array and increments 
-	 * the currentBulletNumber.
+	/**
+	 * Grabs a Bullet from the Bullet buffer created when the manager was constructed. This Bullet is then 
+	 * 	given a direction and a starting position based on which way the Hero object is oriented. This Bullet 
+	 * 	is then added to the array of Bullets that are to be drawn to the screen and updated.
 	 */
-	public void shootBullet()
-	{
+	public void shootBullet(){
 		if(gs.getHeroOrientation() == gs.RIGHT){
-			bulletHolder = rightBullets[currentRightBulletNumber % maxBulletNumber];
-			bulletHolder.setXPos(gs.getStartingHeroXPos()+80);
-			shotBullets.add(bulletHolder);
-			currentRightBulletNumber++;
-		}
+			currentBullet = bullets[currentBulletNumber % MAX_BULLET_NUMBER];
+			
+			currentBullet.setOrientation(gs.RIGHT);
+			currentBullet.setXPos(gs.STARTING_HERO_XPOS+80);
+			currentBullet.setYPos(gs.STARTING_HERO_YPOS+60);
+			
+			shotBullets.add(currentBullet);
+			currentBulletNumber++;
+		} // end if
 		else{
-			bulletHolder = leftBullets[currentLeftBulletNumber % maxBulletNumber];
-			bulletHolder.setXPos(gs.getStartingHeroXPos());
-			shotBullets.add(bulletHolder);
-			currentLeftBulletNumber++;
-		}
-	}
+			currentBullet = bullets[currentBulletNumber % MAX_BULLET_NUMBER];
+			
+			currentBullet.setOrientation(gs.LEFT);
+			currentBullet.setXPos(gs.STARTING_HERO_XPOS);
+			currentBullet.setYPos(gs.STARTING_HERO_YPOS+60);
+			
+			shotBullets.add(currentBullet);
+			currentBulletNumber++;
+		} // end else
+	} // end shootBullet()
 	
-	/*
-	 * The method that updates the movements of the bullets and determines
-	 * if they need to disappear 
-	 * 
-	 * this method also attempts to determine the bullet collisions but it does
-	 * not work at the moment!!!
+	/**
+	 * Iterates through the array of Bullets to be drawn to the screen and calls the update function
+	 * 	for each Bullet. Also removes Bullets from the drawing array when they travel off of the viewable 
+	 * 	area.
 	 */
-	public void update()
-	{
+	public void update(){
 		bulletIter = shotBullets.iterator();
-		while(bulletIter.hasNext())
-		{
+		while(bulletIter.hasNext()){
 			currentBullet = bulletIter.next();
 			currentBullet.update();
-			if(currentBullet.getXPos() > Gdx.graphics.getWidth())
-			{
+			if(currentBullet.getXPos() > Gdx.graphics.getWidth()){
 				bulletIter.remove();
-			}
-			else if(currentBullet.getXPos() < 0)
-			{
+			} // end if
+			else if(currentBullet.getXPos() < 0){
 				bulletIter.remove();
-			}
-		}
-	}
+			} // end else if
+		} // end while
+	} // end update()
 	
-	/*
-	 * the method for drawing all of the bullet objects currently
-	 * being displayed.
+	/**
+	 * Iterates through the array of Bullets to be drawn to the screen and calls the draw function
+	 * 	for each Bullet.
 	 * 
-	 * batch - the SpriteBatch for drawing all of the objects on screen
+	 * @param batch - The SpriteBatch object which will draw the Bullet objects.
 	 */
-	public void draw(SpriteBatch batch)
-	{
+	public void draw(SpriteBatch batch){
 		bulletIter = shotBullets.iterator();
-		while(bulletIter.hasNext())
-		{
+		while(bulletIter.hasNext()){
 		  currentBullet = bulletIter.next();
+		  currentBullet.setPosition(currentBullet.getXPos(), currentBullet.getYPos());
 		  currentBullet.draw(batch);
-		}
-	}
-
-}
+		} // end while
+	} // end draw
+} // end BulletManager class

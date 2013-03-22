@@ -1,50 +1,72 @@
 // Package Declaration //
 package com.gamedev.decline;
 
-//Badlogic Imports // 
+// Java Package Support //
+// { Not Applicable }
+
+// Badlogic Package Support // 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-/*
- * The Enemy class for the game.
+/**
+ * 
+ * com/gamedev/decline/Enemy.java
+ * 
+ * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
+ * @version 	: 2.0
+ * Last Update	: 3/22/2013
+ * Update By	: Ian Middleton
+ * 
+ * Source code for the Enemy class. The Enemy class represents an Enemy object
+ * 	in the game. It extends and uses the Unit class.
+ *
  */
 public class Enemy extends Unit {
-	// the enemy's movement speed
+	
+	// Global Singleton //
+	private GlobalSingleton gs = GlobalSingleton.getInstance();
+	
+	// Constants for the Object
 	public static final int SPEED = 2;
 	public static final int WIDTH = 100;
 	public static final int HEIGHT = 100;
 	public static final int ENEMY_SPEED = 150;
+	
+	// Internal Variables //
+	// { Not Applicable }
 
-	/*
-	 * The enemy constructor that uses a texture
+	/**
+	 * Instantiates a new Enemy object by calling the super constructor (Unit), setting the xPos
+	 * to the edge of the screen, and setting the draw size.
 	 * 
-	 * texture - the image of the enemy
+	 * @param texture	: The image of the Enemy.
 	 */
 	public Enemy(Texture texture) {
 		super(texture, SPEED, 0, 0);
 		setXPos(Gdx.graphics.getWidth()-width/2);
 		setSize(WIDTH, HEIGHT);
-	}
+	} // end Enemy()
 	
-	/*
-	 * This method moves the enemies.
+	/**
+	 * The update function is called every global game update. Moves the enemy towards the hero at
+	 * 	the designated speed. Also takes into account whether the hero is moving and changes the 
+	 * 	speed of the enemy accordingly.
 	 */
 	public void update()
 	{
 		if(gs.getHeroOrientation() == GlobalSingleton.RIGHT){
 			if(speed <= ENEMY_SPEED){
 				speed = ENEMY_SPEED - (int)gs.getHeroMovement();
-			}
-		}
+			} // end if
+		} // end if
 		else if(gs.getHeroOrientation() == GlobalSingleton.LEFT){
 			if(speed >= ENEMY_SPEED){
 				speed = ENEMY_SPEED + (int)gs.getHeroMovement();
-			}
-		}
+			} // end if
+		} // end else if
 		else{
 			speed = ENEMY_SPEED;
-		}
+		} // end else
 		moveLeft();
-	}
+	} // end update()
 }
