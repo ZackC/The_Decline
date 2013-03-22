@@ -107,7 +107,6 @@ public class BulletManager {
 		bulletIter = shotBullets.iterator();
 		while(bulletIter.hasNext()){
 		  currentBullet = bulletIter.next();
-		  currentBullet.setPosition(currentBullet.getXPos(), currentBullet.getYPos());
 		  currentBullet.draw(batch);
 		} // end while
 	} // end draw

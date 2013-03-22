@@ -95,7 +95,7 @@ public class EnemyManager {
 	}
 	
 	/**
-	 * Iterates through the array of Enemies to be drawn to the screen, sets their draw position and calls 
+	 * Iterates through the array of Enemies to be drawn to the screen and calls 
 	 * 	the draw function for each Enemy.
 	 * 
 	 * @param batch - The SpriteBatch object which will draw the Enemy objects.
@@ -106,7 +106,6 @@ public class EnemyManager {
 		while(enemyIter.hasNext())
 		{
 			currentEnemy = enemyIter.next();
-			currentEnemy.setPosition(currentEnemy.getXPos(), currentEnemy.getYPos());
 			currentEnemy.draw(batch);
 		}
 	}

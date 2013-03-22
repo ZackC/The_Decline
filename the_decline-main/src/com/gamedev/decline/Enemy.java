@@ -27,10 +27,9 @@ public class Enemy extends Unit {
 	private GlobalSingleton gs = GlobalSingleton.getInstance();
 	
 	// Constants for the Object
-	public static final int SPEED = 2;
+	public static final int INITIAL_SPEED = 100;
 	public static final int WIDTH = 100;
 	public static final int HEIGHT = 100;
-	public static final int ENEMY_SPEED = 150;
 	
 	// Internal Variables //
 	// { Not Applicable }
@@ -42,7 +41,7 @@ public class Enemy extends Unit {
 	 * @param texture	: The image of the Enemy.
 	 */
 	public Enemy(Texture texture) {
-		super(texture, SPEED, 0, 0);
+		super(texture, INITIAL_SPEED, 0, 0);
 		setXPos(Gdx.graphics.getWidth()-width/2);
 		setSize(WIDTH, HEIGHT);
 	} // end Enemy()
@@ -54,18 +53,20 @@ public class Enemy extends Unit {
 	 */
 	public void update()
 	{
-		if(gs.getHeroOrientation() == GlobalSingleton.RIGHT){
-			if(speed <= ENEMY_SPEED){
-				speed = ENEMY_SPEED - (int)gs.getHeroMovement();
+		if(gs.getHeroMovement() != 0){
+			if(gs.getHeroOrientation() == GlobalSingleton.RIGHT){
+				if(speed <= INITIAL_SPEED){
+					speed = INITIAL_SPEED + (int)gs.getHeroMovement();
+				} // end if
 			} // end if
+			else if(gs.getHeroOrientation() == GlobalSingleton.LEFT){
+				if(speed >= INITIAL_SPEED){
+					speed = INITIAL_SPEED + (int)gs.getHeroMovement();
+				} // end if
+			} // end else if
 		} // end if
-		else if(gs.getHeroOrientation() == GlobalSingleton.LEFT){
-			if(speed >= ENEMY_SPEED){
-				speed = ENEMY_SPEED + (int)gs.getHeroMovement();
-			} // end if
-		} // end else if
 		else{
-			speed = ENEMY_SPEED;
+			speed = INITIAL_SPEED;
 		} // end else
 		moveLeft();
 	} // end update()

@@ -71,7 +71,7 @@ public class Bullet extends Unit
 		} // end if
 		else if(bulletOrientation == gs.LEFT){
 			if(speed >= INITIAL_SPEED){
-				speed = INITIAL_SPEED + (int)gs.getHeroMovement();
+				speed = INITIAL_SPEED - (int)gs.getHeroMovement();
 			} // end if
 			moveLeft();
 		} // end else if

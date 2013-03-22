@@ -100,7 +100,7 @@ public class Decline implements ApplicationListener {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		background.draw(batch,character.getXPos());
-		character.draw(batch);
+		character.draw(batch, gs.STARTING_HERO_XPOS, gs.STARTING_HERO_YPOS);
 		bm.draw(batch);
 		em.draw(batch);
 		batch.end();

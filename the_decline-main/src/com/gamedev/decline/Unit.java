@@ -1,10 +1,14 @@
 // Package Declaration //
 package com.gamedev.decline;
 
+// Java Package Support //
+// { Not Applicable }
+
 // Badlogic Package Support // 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * 
@@ -51,6 +55,30 @@ public abstract class Unit extends Sprite{
 		this.speed = speed;
 		this.xPos = xPos;
 		this.yPos = yPos;
+	}
+	
+	/**
+	 * Overrides the Sprite draw for Unit in order to allow for the setPosition function to be called before
+	 * 	the Sprite draw function is called.
+	 * 
+	 * @param batch	: The SpriteBatch which should draw the Unit.
+	 */
+	@Override
+	public void draw(SpriteBatch batch){
+		setPosition(xPos, yPos);
+		super.draw(batch);
+	}
+	
+	/**
+	 * A draw added to fix hero. Hope to not have to use this in the future but it is a quick fix.
+	 * 
+	 * @param batch	: The SpriteBatch which should draw the Unit.
+	 * @param drawX	: The xPos for drawing the sprite.
+	 * @param drawY	: The yPos for drawing the sprite.
+	 */
+	public void draw(SpriteBatch batch, int drawX, int drawY){
+		setPosition(drawX, drawY);
+		super.draw(batch);
 	}
 	
 	/**
