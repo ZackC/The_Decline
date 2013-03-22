@@ -19,6 +19,9 @@ public class GlobalSingleton {
 	private float heroXPos = startingHeroXPos;
 	// the amount the hero is currently moving
 	private float heroMovement = 0;
+	private int heroOrientation = 0;
+	public static final int RIGHT = 0;
+	public static final int LEFT = 1;
 
 	
 	/*
@@ -96,6 +99,11 @@ public class GlobalSingleton {
 	{
 		return heroMovement;
 	}
+	
+	public int getHeroOrientation(){
+		return heroOrientation;
+	}
+	
 	/*
 	 * returns the starting x position of the hero
 	 */
@@ -152,5 +160,8 @@ public class GlobalSingleton {
 		heroMovement = newHeroMovement;
 	}
 	
+	public void setHeroOrientation(int newHeroOrientation){
+		heroOrientation = newHeroOrientation;
+	}
 	
 }

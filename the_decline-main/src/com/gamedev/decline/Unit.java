@@ -5,10 +5,12 @@ package com.gamedev.decline;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public abstract class Unit extends Sprite{
 	
 	protected GlobalSingleton gs = GlobalSingleton.getInstance();
+	protected Texture texture;
 	protected float xPos;
 	protected float yPos;
 	protected int speed;
@@ -17,9 +19,12 @@ public abstract class Unit extends Sprite{
 	
 	public Unit(Texture texture, int speed, float xPos, float yPos){
 		super(texture);
+		this.texture = texture;
 		height = texture.getHeight();
 		width = texture.getWidth();
 		this.speed = speed;
+		this.xPos = xPos;
+		this.yPos = yPos;
 	}
 	
 	public void setSpeed(int newSpeed){
@@ -67,6 +72,10 @@ public abstract class Unit extends Sprite{
 	
 	public void jump(){
 		
+	}
+	
+	public void draw(SpriteBatch batch, int width, int height){
+		batch.draw(texture, xPos, yPos, width, height);
 	}
 	
 }

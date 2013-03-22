@@ -12,49 +12,35 @@ import com.badlogic.gdx.utils.Array;
  */
 public class BulletManager {
 
-	//the image of the bullet
-	private Texture texture;
+	private Bullet[] rightBullets = new Bullet[50];
+	private Bullet[] leftBullets = new Bullet[50];
 	//the number of bullets initialized at the beginning and the max number in
 	//the game
-	private int maxBulletNumber = 100;
-	//the array of all of the bullet objects
-	private Bullet[] bulletArray = new Bullet[maxBulletNumber];
+	private int maxBulletNumber = 50;
 	//the number of the current bullet fired; this number always increments
-	private int currentBulletNumber = 0;
+	private int currentRightBulletNumber = 0;
+	private int currentLeftBulletNumber = 0;
 	//the array that stores the bullets currently on the screen
 	private Array<Bullet> shotBullets = new Array<Bullet>();
 	//the iterator of the shotBullets array
 	private Iterator<Bullet> bulletIter;
 	//the object for the currentBullet being looked at
 	private Bullet currentBullet;
-	//the speed of the bullet objects
-	private int bulletSpeed = 10;
-	//the EnemyManager
-	private EnemyManager em;
-	//the iterator for currently displayed enemy objects
-	private Iterator<Enemy> enemyIter;
-	//the current enemey being looked at
-	private Enemy currentEnemy;
-	//the size of the bullets in the x direction
-	private int bulletXSize = 30;
-	//the size of the bullets in the y direction
-	private int bulletYSize = 30;
 	//the singleton that holds all of the global variables
 	private GlobalSingleton gs = GlobalSingleton.getInstance();
+	private Bullet bulletHolder;
 	
 	/*
 	 * The default constructor for the BulletManager class
 	 * 
 	 * newTexture - the image of the bullet
 	 */
-	public BulletManager(Texture newTexture) 
+	public BulletManager(Texture texture) 
 	{
-	   texture = newTexture;
-	   em = new EnemyManager(new Texture(Gdx.files.internal("data/enemy.gif")));
-       for(int i = 0; i < maxBulletNumber; i++)
-       {
-    	   bulletArray[i] = new Bullet();
-       }
+		for(int i = 0; i < 50; i++){
+			rightBullets[i] = new Bullet(texture, gs.RIGHT);
+		    leftBullets[i] = new Bullet(texture, gs.LEFT);
+		}
 	}
 	
 	/*
@@ -64,8 +50,18 @@ public class BulletManager {
 	 */
 	public void shootBullet()
 	{
-		shotBullets.add(bulletArray[currentBulletNumber % maxBulletNumber]);
-		currentBulletNumber++;
+		if(gs.getHeroOrientation() == gs.RIGHT){
+			bulletHolder = rightBullets[currentRightBulletNumber % maxBulletNumber];
+			bulletHolder.setXPos(gs.getStartingHeroXPos()+80);
+			shotBullets.add(bulletHolder);
+			currentRightBulletNumber++;
+		}
+		else{
+			bulletHolder = leftBullets[currentLeftBulletNumber % maxBulletNumber];
+			bulletHolder.setXPos(gs.getStartingHeroXPos());
+			shotBullets.add(bulletHolder);
+			currentLeftBulletNumber++;
+		}
 	}
 	
 	/*
@@ -81,35 +77,16 @@ public class BulletManager {
 		while(bulletIter.hasNext())
 		{
 			currentBullet = bulletIter.next();
-			currentBullet.setXPos(currentBullet.getXPos()+ bulletSpeed-gs.getHeroMovement());
-			enemyIter = em.getCurrentEnemiesIter();
-			while(enemyIter.hasNext())
-			{
-			  currentEnemy = enemyIter.next();
-			  //System.out.println("Checking for overlap");
-			  if(currentBullet.hasCollision(currentEnemy.getBoundingRectangle()));
-			  {
-				//System.out.println("Had overlap");  
-				enemyIter.remove();
-				currentBullet.setXPosToStart();
-				//System.out.println("shot bullets size: "+ shotBullets.size);
-				bulletIter.remove();
-				break;
-			  }
-		    }
+			currentBullet.update();
 			if(currentBullet.getXPos() > Gdx.graphics.getWidth())
 			{
-				currentBullet.setXPosToStart();
 				bulletIter.remove();
 			}
 			else if(currentBullet.getXPos() < 0)
 			{
-				currentBullet.setXPosToStart();
 				bulletIter.remove();
 			}
-			
 		}
-		em.update();
 	}
 	
 	/*
@@ -124,9 +101,8 @@ public class BulletManager {
 		while(bulletIter.hasNext())
 		{
 		  currentBullet = bulletIter.next();
-		  batch.draw(texture,currentBullet.getXPos(),currentBullet.getYPos(),bulletXSize,bulletYSize);
+		  currentBullet.draw(batch);
 		}
-		em.draw(batch);
 	}
 
 }

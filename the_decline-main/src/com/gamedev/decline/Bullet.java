@@ -1,82 +1,50 @@
 package com.gamedev.decline;
 
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 /*
  * The Bullet class that represents bullet objects
  */
-public class Bullet extends Rectangle
+public class Bullet extends Unit
 {
 	private GlobalSingleton gs = GlobalSingleton.getInstance();
-    private float xPos;
-    private int yPos;
+	private int bulletFacing;
+	private int bulletSpeed;
+	private static final int BULLET_WIDTH = 30;
+	private static final int BULLET_HEIGHT = 30;
 	
     /*
      * The default constructor for the class
      * Determines where the bullets start in the screen.
      */
-	public Bullet() 
+	public Bullet(Texture texture, int bulletFacing) 
 	{
-		//For some reason bullets are being created before the hero size is
-		//determined.  Will have to look into that later
-		//xPos = gs.getStartingHeroXPos() + gs.getHeroWidth() + 10;
-	    //yPos = gs.getStartingHeroYPos() + gs.getHeroHeight()/2;
-		
-		xPos = gs.getStartingHeroXPos() + 70;
-		yPos = gs.getStartingHeroYPos() + 50;
-	    
-	    //System.out.println("Starting bullet xPos: "+xPos);
-	    //System.out.println("Starting bullet yPos: "+yPos);
+		super(texture, 1000, 120, 70);
+		this.bulletFacing = bulletFacing;
+		bulletSpeed = 1000;
 	}
 	
-	/*
-	 * sets the x position of the bullet to newPos
-	 * 
-	 * newPos - the new x position of the bullet
-	 */
-	public void setXPos(float newPos)
-	{
-		xPos = newPos;
+	public void update(){
+		if(bulletFacing == gs.RIGHT){
+			if(speed <= bulletSpeed){
+				speed = bulletSpeed - (int)gs.getHeroMovement();
+			}
+			moveRight();
+		}
+		else if(bulletFacing == gs.LEFT){
+			if(speed >= bulletSpeed){
+				speed = bulletSpeed + (int)gs.getHeroMovement();
+			}
+			moveLeft();
+		}
+		else{
+			speed = bulletSpeed;
+		}
 	}
 	
-	/*
-	 * sets the x position of the bullet to its original starting position
-	 * needed for when a bullet disappears
-	 */
-	public void setXPosToStart()
-	{
-		xPos = gs.getStartingHeroXPos() + 70;
-	}
-
-	/*
-	 * returns the x position of the bullet
-	 */
-	public float getXPos()
-	{
-	  return xPos;
-	}
-	
-	/*
-	 * sets the y position of the bullet
-	 */
-	public void setYPos(int newPos)
-	{
-		yPos = newPos;
-	}
-
-    /*
-     * returns the y position of the bullet
-     */
-	int getYPos()
-	{
-		return yPos;
-	}
-	
-	/*
-	 * the function that checks if a bullet collides with an enemy
-	 * doesn't work at the moment!!!
-	 */
-	public boolean hasCollision(Rectangle rect)
-	{
-		return overlaps(rect);
+	@Override
+	public void draw(SpriteBatch batch){
+		super.draw(batch, BULLET_WIDTH, BULLET_HEIGHT);
 	}
 }

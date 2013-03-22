@@ -2,12 +2,9 @@ package com.gamedev.decline;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 /*
  * The main class of the game.
@@ -19,16 +16,10 @@ public class Decline implements ApplicationListener {
 	private SpriteBatch batch;
 	//the main character
 	private Hero character;
-	//the frames per second logger
-	private FPSLogger fps = new FPSLogger();
 	// the background of the game
 	private RepeatingBackground background;
 	//the singleton that holds the global variables for the game
 	private GlobalSingleton gs = GlobalSingleton.getInstance();
-	//the x position of the hero
-	private int heroXPos = gs.getStartingHeroXPos();
-	//the y position of the hero
-	private int heroYPos = gs.getStartingHeroYPos();
 	//the bullet manager of the game
 	private BulletManager bm;
 	// the manager of the ammo objects for the game
@@ -54,15 +45,12 @@ public class Decline implements ApplicationListener {
         
 		bm = new BulletManager(new Texture(Gdx.files.internal("data/bullet.jpg")));
 		
-		character = new Hero(new Texture(Gdx.files.internal("hero_weapon.png")),bm);
+		character = new Hero(new Texture(Gdx.files.internal("hero_weapon.png")),bm, gs.getStartingHeroXPos(), gs.getStartingHeroYPos());
 		character.setOrigin(character.getWidth()/2, character.getHeight()/2);
 		character.setPosition(gs.getStartingHeroXPos(), gs.getStartingHeroYPos());
-
-		Gdx.app.log("Character Width", String.valueOf(character.getWidth()));
-		Gdx.app.log("Character Height", String.valueOf(character.getHeight()));
 		
 		background = new RepeatingBackground(new Texture(Gdx.files.internal("data/cave.jpg")));
-        am = new AmmoManager(new Texture(Gdx.files.internal("data/ammo.jpg")));
+        //am = new AmmoManager(new Texture(Gdx.files.internal("data/ammo.jpg")));
 	}
 
 	/*
@@ -95,11 +83,10 @@ public class Decline implements ApplicationListener {
 		background.draw(batch,character.getXPos());
 		character.draw(batch);
 		bm.draw(batch);
-		am.draw(batch);
+		//am.draw(batch);
 		batch.end();
 
 		update();
-		//fps.log();
 		
 	}
 
@@ -109,7 +96,7 @@ public class Decline implements ApplicationListener {
 	private void update() {
 		
 		character.update();
-		am.update();
+		//am.update();
 		bm.update();
 	}
 
