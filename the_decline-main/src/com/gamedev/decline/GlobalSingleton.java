@@ -1,8 +1,5 @@
 package com.gamedev.decline;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-
 /*
  * The class that holds the global variables for the game
  */

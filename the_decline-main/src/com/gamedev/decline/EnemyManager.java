@@ -12,15 +12,10 @@ import java.util.Random;
  * The class that manages all of the enemies
  */
 public class EnemyManager {
-
-	// the maximum number of enemies at once
-	private int maxEnemyNumber = 15;
-	//the array that stores all of the enemy objects
-	private Enemy[] enemyArray = new Enemy[maxEnemyNumber];
+	// texture of enemy
+	private Texture texture;
 	//the array that stores all of the enemies currently on screen
 	private Array<Enemy> currentEnemies = new Array<Enemy>();
-	//the current enemy count; this number always increases
-	private int currentEnemyNumber = 0;
 	//an iterator over the currentEnemies
 	private Iterator<Enemy> enemyIter;
 	//the object representing the enemy being used at the moment
@@ -39,10 +34,7 @@ public class EnemyManager {
 	 */
 	public EnemyManager(Texture texture) 
 	{
-		for(int i = 0; i < maxEnemyNumber; i++)
-		{
-			enemyArray[i] = new Enemy(texture);
-		}
+		this.texture = texture;
 	}
 	
 	/*
@@ -53,8 +45,7 @@ public class EnemyManager {
 	 */
 	public void makeEnemyAppear()
 	{
-		currentEnemies.add(enemyArray[currentEnemyNumber % maxEnemyNumber]);
-		currentEnemyNumber++;
+		currentEnemies.add(new Enemy(texture));
 	}
 	
 	/*
@@ -63,7 +54,6 @@ public class EnemyManager {
 	 */
 	public void update()
 	{
-		//System.out.println("New Enemy Position: "+newEnemyXPosition);
 		if(gs.getHeroXPos() > newEnemyXPosition)
 		{
 			makeEnemyAppear();
@@ -103,5 +93,4 @@ public class EnemyManager {
 	{
 		return currentEnemies.iterator();
 	}
-
 }

@@ -3,8 +3,6 @@ package com.gamedev.decline;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 /*
  * The hero class;  this class controls the main character
  */
@@ -20,7 +18,7 @@ public class Hero extends Unit {
 	 * texture - the image for the hero
 	 * newBm - the bulletManager
 	 */
-	public Hero(Texture texture,BulletManager newBm) {
+	public Hero(Texture texture, BulletManager newBm) {
 		super(texture, SPEED, 0, 0);
 		bm = newBm;
 	}
