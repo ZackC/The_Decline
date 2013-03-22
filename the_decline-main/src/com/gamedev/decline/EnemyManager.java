@@ -14,6 +14,9 @@ import java.util.Random;
 public class EnemyManager {
 	// texture of enemy
 	private Texture texture;
+	private static final int MAX_ENEMIES = 15;
+	private Enemy[] enemies = new Enemy[MAX_ENEMIES];
+	private int currentEnemyNumber = 0;
 	//the array that stores all of the enemies currently on screen
 	private Array<Enemy> currentEnemies = new Array<Enemy>();
 	//an iterator over the currentEnemies
@@ -34,7 +37,10 @@ public class EnemyManager {
 	 */
 	public EnemyManager(Texture texture) 
 	{
-		this.texture = texture;
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			enemies[i] = new Enemy(texture);
+		}
 	}
 	
 	/*
@@ -45,7 +51,8 @@ public class EnemyManager {
 	 */
 	public void makeEnemyAppear()
 	{
-		currentEnemies.add(new Enemy(texture));
+		currentEnemies.add(enemies[currentEnemyNumber % MAX_ENEMIES]);
+		currentEnemyNumber++;
 	}
 	
 	/*
@@ -65,6 +72,10 @@ public class EnemyManager {
 			currentEnemy = enemyIter.next();
 			currentEnemy.update();
 			if(currentEnemy.getXPos() < -1 * currentEnemy.getWidth())
+			{
+				enemyIter.remove();
+			}
+			if(currentEnemy.getXPos() < 0)
 			{
 				enemyIter.remove();
 			}

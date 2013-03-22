@@ -17,17 +17,20 @@ public class Hero extends Unit {
 	private boolean shoot;
 	private boolean ableToShoot;
 	
+	private EnemyManager em;
+	
 	/*
 	 * The hero constructor using a texture
 	 * 
 	 * texture - the image for the hero
 	 * newBm - the bulletManager
 	 */
-	public Hero(Texture texture, BulletManager newBm, int xPos, int yPos) {
+	public Hero(Texture texture, BulletManager newBm, EnemyManager newEm) {
 		super(texture, SPEED, STARTINGHEROXPOS, STARTINGHEROYPOS);
 		bm = newBm;
 		shoot = false;
 		ableToShoot = true;
+		em = newEm;
 	}
 	
 	/*
@@ -74,6 +77,7 @@ public class Hero extends Unit {
 			ableToShoot = true;
 		}
 		
+		em.update();
 	}
 
 }

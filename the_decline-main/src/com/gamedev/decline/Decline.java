@@ -25,6 +25,8 @@ public class Decline implements ApplicationListener {
 	// the manager of the ammo objects for the game
 	private AmmoManager am;
 	
+	private EnemyManager em;
+	
 
 	/*
 	 * Creates the objects of the game and logs information.
@@ -42,10 +44,12 @@ public class Decline implements ApplicationListener {
 		camera = new OrthographicCamera(width, height);
 		camera.setToOrtho(false);
 		batch = new SpriteBatch();
-        
+		
 		bm = new BulletManager(new Texture(Gdx.files.internal("data/bullet.jpg")));
 		
-		character = new Hero(new Texture(Gdx.files.internal("hero_weapon.png")),bm, gs.getStartingHeroXPos(), gs.getStartingHeroYPos());
+		em = new EnemyManager(new Texture(Gdx.files.internal("data/enemy.gif")));
+		
+		character = new Hero(new Texture(Gdx.files.internal("hero_weapon.png")),bm, em);
 		character.setOrigin(character.getWidth()/2, character.getHeight()/2);
 		character.setPosition(gs.getStartingHeroXPos(), gs.getStartingHeroYPos());
 		
@@ -83,6 +87,7 @@ public class Decline implements ApplicationListener {
 		background.draw(batch,character.getXPos());
 		character.draw(batch);
 		bm.draw(batch);
+		em.draw(batch);
 		//am.draw(batch);
 		batch.end();
 
@@ -98,6 +103,7 @@ public class Decline implements ApplicationListener {
 		character.update();
 		//am.update();
 		bm.update();
+		em.update();
 	}
 
 	/*
