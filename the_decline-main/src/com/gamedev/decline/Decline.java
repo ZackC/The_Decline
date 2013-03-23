@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * 
@@ -154,11 +155,11 @@ public class Decline implements ApplicationListener {
 	}
 	
 	private void handleCollision(){
-		ArrayList<Bullet> activeBullets = bm.getActiveBullets();
-		ArrayList<Enemy> activeEnemies = em.getActiveEnemies();
+		Array<Bullet> activeBullets = bm.getActiveBullets();
+		Array<Enemy> activeEnemies = em.getActiveEnemies();
 		
-		for(int i = 0; i < activeBullets.size(); i++){
-			for(int j = 0; j < activeEnemies.size(); j++){
+		for(int i = 0; i < activeBullets.size; i++){
+			for(int j = 0; j < activeEnemies.size; j++){
 				if(activeBullets.get(i).collidesWith(activeEnemies.get(j))){
 					bm.removeActiveBullet(i);
 					em.removeActiveEnemy(j);

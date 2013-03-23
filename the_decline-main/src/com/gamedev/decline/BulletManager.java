@@ -2,13 +2,13 @@
 package com.gamedev.decline;
 
 //Java Package Support //
-import java.util.ArrayList;
 import java.util.Iterator;
 
 //Badlogic Package Support //
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * 
@@ -33,7 +33,7 @@ public class BulletManager {
 	
 	// Internal Variables //
 	private Bullet[] bullets = new Bullet[100];
-	private ArrayList<Bullet> shotBullets = new ArrayList<Bullet>();
+	private Array<Bullet> shotBullets = new Array<Bullet>();
 	private Iterator<Bullet> bulletIter;
 	private int currentBulletNumber = 0;
 	private Bullet currentBullet;
@@ -50,12 +50,12 @@ public class BulletManager {
 		} // end for
 	} // end BulletManager()
 	
-	public ArrayList<Bullet> getActiveBullets(){
+	public Array<Bullet> getActiveBullets(){
 		return shotBullets;
 	}
 	
 	public void removeActiveBullet(int index){
-		shotBullets.remove(index);
+		shotBullets.removeIndex(index);
 	}
 	
 	/**

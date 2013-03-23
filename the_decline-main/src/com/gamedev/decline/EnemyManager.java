@@ -2,7 +2,6 @@
 package com.gamedev.decline;
 
 // Java Package Support //
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -10,6 +9,7 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * 
@@ -34,7 +34,7 @@ public class EnemyManager {
 	
 	// Internal Variables //
 	private Enemy[] enemies = new Enemy[MAX_ENEMIES];
-	private ArrayList<Enemy> currentEnemies = new ArrayList<Enemy>();
+	private Array<Enemy> currentEnemies = new Array<Enemy>();
 	private Iterator<Enemy> enemyIter;
 	private Enemy currentEnemy;
 	private int currentEnemyNumber = 0;
@@ -54,12 +54,12 @@ public class EnemyManager {
 		} // end for
 	} // end EnemyManager
 	
-	public ArrayList<Enemy> getActiveEnemies(){
+	public Array<Enemy> getActiveEnemies(){
 		return currentEnemies;
 	}
 	
 	public void removeActiveEnemy(int index){
-		currentEnemies.remove(index);
+		currentEnemies.removeIndex(index);
 	}
 	
 	/**
