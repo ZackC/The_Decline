@@ -6,7 +6,6 @@ package com.gamedev.decline;
 
 // Badlogic Package Support //
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * 
@@ -63,13 +62,13 @@ public class Bullet extends Unit
 	 * 	the hero is moving and changes the speed of the bullet accordingly.
 	 */
 	public void update(){
-		if(bulletOrientation == gs.RIGHT){
+		if(bulletOrientation == GlobalSingleton.RIGHT){
 			if(speed <= INITIAL_SPEED){
 				speed = INITIAL_SPEED - (int)gs.getHeroMovement();
 			} // end if
 			moveRight();
 		} // end if
-		else if(bulletOrientation == gs.LEFT){
+		else if(bulletOrientation == GlobalSingleton.LEFT){
 			if(speed >= INITIAL_SPEED){
 				speed = INITIAL_SPEED - (int)gs.getHeroMovement();
 			} // end if

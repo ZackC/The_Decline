@@ -12,8 +12,6 @@ public class RepeatingBackground {
 	private int bpSize = 2;
 	//the array of the background panels
 	private BackgroundPanel[] bp  = new BackgroundPanel[bpSize];
-	//the singleton that holds the global variables
-	private GlobalSingleton gs = GlobalSingleton.getInstance();
 	
 	/*
 	 * The constructor for the class
@@ -42,7 +40,7 @@ public class RepeatingBackground {
 		//System.out.println("heroStaringPos: "+heroStartingPos);
 		
 		//for when hero is on left edge of background panel
-		if(heroPos % bp[0].getWidth() < gs.STARTING_HERO_XPOS)
+		if(heroPos % bp[0].getWidth() < GlobalSingleton.STARTING_HERO_XPOS)
 		{
 			//System.out.println("In 1!!");
 			

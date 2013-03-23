@@ -29,7 +29,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Decline implements ApplicationListener {
 	
 	// Global Singleton //
-	private GlobalSingleton gs = GlobalSingleton.getInstance();
+	// { Not Applicable }
 	
 	// Constants for the Objects //
 	// { Not Applicable }
@@ -41,6 +41,7 @@ public class Decline implements ApplicationListener {
 	private Hero character;
 	private BulletManager bm;
 	private EnemyManager em;
+	private AmmoManager am;
 	
 
 	/**
@@ -67,10 +68,10 @@ public class Decline implements ApplicationListener {
 		
 		character = new Hero(new Texture(Gdx.files.internal("hero_weapon.png")),bm, em);
 		character.setOrigin(character.getWidth()/2, character.getHeight()/2);
-		character.setPosition(gs.STARTING_HERO_XPOS, gs.STARTING_HERO_YPOS);
+		character.setPosition(GlobalSingleton.STARTING_HERO_XPOS, GlobalSingleton.STARTING_HERO_YPOS);
 		
 		background = new RepeatingBackground(new Texture(Gdx.files.internal("data/cave.jpg")));
-        //am = new AmmoManager(new Texture(Gdx.files.internal("data/ammo.jpg")));
+        am = new AmmoManager(new Texture(Gdx.files.internal("data/ammo.jpg")));
 	}
 
 	/**
@@ -100,9 +101,10 @@ public class Decline implements ApplicationListener {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		background.draw(batch,character.getXPos());
-		character.draw(batch, gs.STARTING_HERO_XPOS, gs.STARTING_HERO_YPOS);
+		character.draw(batch, GlobalSingleton.STARTING_HERO_XPOS, GlobalSingleton.STARTING_HERO_YPOS);
 		bm.draw(batch);
 		em.draw(batch);
+		am.draw(batch);
 		batch.end();
 
 		update();
@@ -116,6 +118,7 @@ public class Decline implements ApplicationListener {
 		character.update();
 		bm.update();
 		em.update();
+		am.update();
 	}
 
 	/**

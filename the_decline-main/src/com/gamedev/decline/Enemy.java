@@ -27,7 +27,7 @@ public class Enemy extends Unit {
 	private GlobalSingleton gs = GlobalSingleton.getInstance();
 	
 	// Constants for the Object
-	public static final int INITIAL_SPEED = 100;
+	public static final int INITIAL_SPEED = 125;
 	public static final int WIDTH = 100;
 	public static final int HEIGHT = 100;
 	
@@ -42,7 +42,7 @@ public class Enemy extends Unit {
 	 */
 	public Enemy(Texture texture) {
 		super(texture, INITIAL_SPEED, 0, 0);
-		setXPos(Gdx.graphics.getWidth()-width/2);
+		setXPos(Gdx.graphics.getWidth()-WIDTH/2);
 		setSize(WIDTH, HEIGHT);
 	} // end Enemy()
 	

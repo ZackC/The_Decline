@@ -8,7 +8,6 @@ package com.gamedev.decline;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * 
@@ -66,15 +65,15 @@ public class Hero extends Unit {
 	{
 		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
 			moveLeft();
-			if(gs.getHeroOrientation() == gs.RIGHT){
-				gs.setHeroOrientation(gs.LEFT);
+			if(gs.getHeroOrientation() == GlobalSingleton.RIGHT){
+				gs.setHeroOrientation(GlobalSingleton.LEFT);
 			}
 			gs.setHeroMovement(-speed);
 		}
 		else if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			moveRight();
-			if(gs.getHeroOrientation() == gs.LEFT){
-				gs.setHeroOrientation(gs.RIGHT);
+			if(gs.getHeroOrientation() == GlobalSingleton.LEFT){
+				gs.setHeroOrientation(GlobalSingleton.RIGHT);
 			}
 			gs.setHeroMovement(speed);
 		}

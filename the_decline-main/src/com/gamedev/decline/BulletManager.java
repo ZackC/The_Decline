@@ -56,12 +56,12 @@ public class BulletManager {
 	 * 	is then added to the array of Bullets that are to be drawn to the screen and updated.
 	 */
 	public void shootBullet(){
-		if(gs.getHeroOrientation() == gs.RIGHT){
+		if(gs.getHeroOrientation() == GlobalSingleton.RIGHT){
 			currentBullet = bullets[currentBulletNumber % MAX_BULLET_NUMBER];
 			
-			currentBullet.setOrientation(gs.RIGHT);
-			currentBullet.setXPos(gs.STARTING_HERO_XPOS+80);
-			currentBullet.setYPos(gs.STARTING_HERO_YPOS+60);
+			currentBullet.setOrientation(GlobalSingleton.RIGHT);
+			currentBullet.setXPos(GlobalSingleton.STARTING_HERO_XPOS+80);
+			currentBullet.setYPos(GlobalSingleton.STARTING_HERO_YPOS+60);
 			
 			shotBullets.add(currentBullet);
 			currentBulletNumber++;
@@ -69,9 +69,9 @@ public class BulletManager {
 		else{
 			currentBullet = bullets[currentBulletNumber % MAX_BULLET_NUMBER];
 			
-			currentBullet.setOrientation(gs.LEFT);
-			currentBullet.setXPos(gs.STARTING_HERO_XPOS);
-			currentBullet.setYPos(gs.STARTING_HERO_YPOS+60);
+			currentBullet.setOrientation(GlobalSingleton.LEFT);
+			currentBullet.setXPos(GlobalSingleton.STARTING_HERO_XPOS);
+			currentBullet.setYPos(GlobalSingleton.STARTING_HERO_YPOS+60);
 			
 			shotBullets.add(currentBullet);
 			currentBulletNumber++;

@@ -1,78 +1,91 @@
+// Package Declaration //
 package com.gamedev.decline;
 
+// Java Package Support //
+// { Not Applicable }
+
+// Badlogic Package Support //
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-/*
- * The class for the ammo objects that appear during the 
- * game
+
+/**
+ * 
+ * com/gamedev/decline/Ammo.java
+ * 
+ * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
+ * @version 	: 2.0
+ * Last Update	: 3/22/2013
+ * Update By	: Zach Ogle
+ * 
+ * Source code for the Ammo class. The Ammo class represents ammo objects
+ *  in the game.
+ * 
  */
 public class Ammo 
 {
-	// the texture of the ammo
-	Texture texture;
-	// the x position of the ammo object
-	float xPos;
-	// the global singleton reference for the object
+	// Global Singleton //
 	GlobalSingleton gs = GlobalSingleton.getInstance();
-	// the y position of the ammo object
-	float yPos = gs.getStartingHeroYPos(); 
-	//the starting position of the ammo objects on the screen
-	int startPosition;
-	//the amount of ammo stored in the container
-	int amountOfAmmoStored;
-	//the width of the ammo object on the screen
-	int ammoWidth;
 	
-	/*
-	 * the constructor for the class
+	// Constants of the Object //
+	public static final int AMMO_SIZE = 50;
+	
+	// Internal Variables //
+	Texture texture;
+	float xPos;
+	float yPos = Hero.STARTINGHEROYPOS;
+	int startPosition;
+	int amountOfAmmoStored;
+	
+	/**
+	 * Instantiates a new Ammo object by setting internal variables.
 	 * 
-	 * newTexture - the texture for the ammo object
-	 * newAmmoWidth - the width of the ammo object on the screen
+	 * @param texture	: The image to be used for the ammo.
 	 */
-	public Ammo(Texture newTexture, int newAmmoWidth)
+	public Ammo(Texture newTexture)
 	{
 		texture = newTexture;
-		ammoWidth = newAmmoWidth;
-		startPosition = Gdx.graphics.getWidth() - ammoWidth/2;
+		startPosition = Gdx.graphics.getWidth() - AMMO_SIZE/2;
 	}
 	
-	/*
-	 * returns the amount of ammo that the ammo object is 
-	 * holding
+	/**
+	 * Gets the amount of ammo stored.
+	 * 
+	 * @return	: Amount of ammo stored. 
 	 */
 	public int getAmountOfAmmoStored()
 	{
 		return amountOfAmmoStored;
 	}
 	
-	/*
-	 * sets the amount of ammo that the ammo object is holding
+	/**
+	 * Sets the amount of ammo stored.
 	 * 
-	 * newAmount - the new amount that the ammo is holding
+	 * @param newAmount	: Amount of ammo to be stored. 
 	 */
 	public void setAmountOfAmmoStored(int newAmount)
 	{
 		amountOfAmmoStored = newAmount;
 	}
 	
-	/*
-	 * Sets the ammo back to the original starting position 
-	 * of the object
+	/**
+	 * Sets the position of the ammo to its starting position. 
 	 */
 	public void setToStartPosition()
 	{
 		xPos = startPosition;
 	}
 	
-	/*
-	 * Updates the location of the ammo.  It returns true
-	 * if the ammo is still in the screen and false otherwise.
+	/**
+	 * The update function is called every global update. It updates the ammo's position
+	 *  according to the Hero's. It also checks whether the ammo is still on the screen.
+	 *  
+	 *  @return	: Whether or not the ammo is on the screen.
 	 */
 	public boolean update()
 	{
-		xPos -= gs.getHeroMovement();
-		if(xPos < -1 * ammoWidth || xPos > Gdx.graphics.getWidth() + ammoWidth)
+		xPos -= gs.getHeroMovement() * Gdx.graphics.getDeltaTime();
+		if(xPos < -1 * AMMO_SIZE || xPos > Gdx.graphics.getWidth() + AMMO_SIZE)
 		{
 			return false;
 		}
@@ -82,16 +95,13 @@ public class Ammo
 		}
 	}
 	
-	/*
-	 * Draws the ammo object to the specified size
+	/**
+	 * Draws the Ammo object.
 	 * 
-	 * batch - the drawing visitor object
-	 * xSize - the x dimension size of the object
-	 * ySize - the y dimension size of the object
+	 * @param batch - The SpriteBatch object which will draw the Ammo object.
 	 */
-	public void draw(SpriteBatch batch, int xSize, int ySize)
+	public void draw(SpriteBatch batch)
 	{
-		batch.draw(texture, xPos, yPos, xSize, ySize);
+		batch.draw(texture, xPos, yPos, AMMO_SIZE, AMMO_SIZE);
 	}
-	
 }
