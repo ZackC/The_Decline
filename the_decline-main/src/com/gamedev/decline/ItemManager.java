@@ -5,7 +5,6 @@ package com.gamedev.decline;
 import java.util.Random;
 import java.util.Iterator;
 
-import com.badlogic.gdx.Gdx;
 //Badlogic Package Support //
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

@@ -24,7 +24,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class Enemy extends Unit {
 	
 	// Global Singleton //
-	private GlobalSingleton gs = GlobalSingleton.getInstance();
+	// { Not Applicable }
 	
 	// Constants for the Object
 	public static final int INITIAL_SPEED = 125;
@@ -58,21 +58,6 @@ public class Enemy extends Unit {
 	 */
 	public void update()
 	{
-		if(gs.getHeroMovement() != 0){
-			if(gs.getHeroOrientation() == GlobalSingleton.RIGHT){
-				if(speed <= INITIAL_SPEED){
-					speed = INITIAL_SPEED + (int)gs.getHeroMovement();
-				} // end if
-			} // end if
-			else if(gs.getHeroOrientation() == GlobalSingleton.LEFT){
-				if(speed >= INITIAL_SPEED){
-					speed = INITIAL_SPEED + (int)gs.getHeroMovement();
-				} // end if
-			} // end else if
-		} // end if
-		else{
-			speed = INITIAL_SPEED;
-		} // end else
 		moveLeft();
 	} // end update()
 }

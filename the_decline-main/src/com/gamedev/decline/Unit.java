@@ -24,7 +24,7 @@ import com.badlogic.gdx.graphics.Texture;
 public abstract class Unit extends CollidableObject{
 	
 	// Global Singleton //
-	// { Not Applicable }
+	protected GlobalSingleton gs = GlobalSingleton.getInstance();
 	
 	// Constants of the Object //
 	// { Not Applicable }
@@ -77,7 +77,7 @@ public abstract class Unit extends CollidableObject{
 	public void moveRight(){
 		posChange = speed * Gdx.graphics.getDeltaTime();
 		setXPos(getXPos() + posChange);
-		setPosition(getX() + posChange, getY());
+		setPosition(getXPos() - gs.getWorldXPos(), getY());
 		if(isFlipX() == true)
 			flip(true, false);
 	}
@@ -88,8 +88,7 @@ public abstract class Unit extends CollidableObject{
 	public void moveLeft(){
 		posChange = -(speed * Gdx.graphics.getDeltaTime());
 		setXPos(getXPos() + posChange);
-		System.out.println(getXPos());
-		setPosition(getX() + posChange, getY());
+		setPosition(getXPos() - gs.getWorldXPos(), getY());
 		if(isFlipX() == false)
 			flip(true, false);
 	}

@@ -23,12 +23,12 @@ import com.badlogic.gdx.graphics.Texture;
 public class Bullet extends Unit
 {
 	// Global Singleton //
-	private GlobalSingleton gs = GlobalSingleton.getInstance();
+	// { Not Applicable }
 	
 	// Constants for the Object //
 	public static final int DRAW_WIDTH = 30;
 	public static final int DRAW_HEIGHT = 30;
-	public static final int INITIAL_SPEED = 100;
+	public static final int INITIAL_SPEED = 1000;
 	public static final int START_XDRAW = GlobalSingleton.HERO_XDRAW+80;
 	public static final int START_YDRAW = GlobalSingleton.HERO_YDRAW+60;
 	
@@ -47,7 +47,7 @@ public class Bullet extends Unit
 	} // end Bullet()
 	
 	public void setToInitialDrawPosition(){
-		if(bulletOrientation == gs.RIGHT){
+		if(bulletOrientation == GlobalSingleton.RIGHT){
 			setPosition(START_XDRAW, START_YDRAW);
 		}
 		else{
@@ -72,19 +72,10 @@ public class Bullet extends Unit
 	 */
 	public void update(){
 		if(bulletOrientation == GlobalSingleton.RIGHT){
-			if(speed <= INITIAL_SPEED){
-				speed = INITIAL_SPEED - (int)gs.getHeroMovement();
-			} // end if
 			moveRight();
 		} // end if
 		else if(bulletOrientation == GlobalSingleton.LEFT){
-			if(speed >= INITIAL_SPEED){
-				speed = INITIAL_SPEED - (int)gs.getHeroMovement();
-			} // end if
 			moveLeft();
 		} // end else if
-		else{
-			speed = INITIAL_SPEED;
-		} // end else
 	} // end update()
 } // end Bullet class
