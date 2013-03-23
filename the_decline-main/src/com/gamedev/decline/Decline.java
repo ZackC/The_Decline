@@ -5,8 +5,6 @@ package com.gamedev.decline;
 // { Not Applicable }
 
 // Badlogic Package Support //
-import java.util.ArrayList;
-
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;

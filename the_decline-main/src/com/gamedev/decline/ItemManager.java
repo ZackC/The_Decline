@@ -2,14 +2,13 @@
 package com.gamedev.decline;
 
 //Java Package Support //
-//{ Not Applicable }
+import java.util.Random;
+import java.util.Iterator;
 
 //Badlogic Package Support //
-import java.util.Random;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import java.util.ArrayList;
-import java.util.Iterator;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * 
@@ -36,8 +35,8 @@ public class ItemManager
 	// Internal Variables //
 	private Ammo[] ammoArray = new Ammo[MAX_AMMO];
 	private HealthPack[] healthArray = new HealthPack[MAX_HEALTH];
-	private ArrayList<Ammo> currentAmmo = new ArrayList<Ammo>();
-	private ArrayList<HealthPack> currentHealthPacks = new ArrayList<HealthPack>();
+	private Array<Ammo> currentAmmo = new Array<Ammo>();
+	private Array<HealthPack> currentHealthPacks = new Array<HealthPack>();
 	private Iterator<Ammo> ammoIter;
 	private Iterator<HealthPack> healthIter;
 	private Ammo ammo;
