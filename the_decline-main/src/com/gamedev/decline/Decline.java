@@ -5,8 +5,11 @@ package com.gamedev.decline;
 // { Not Applicable }
 
 // Badlogic Package Support //
+import java.util.ArrayList;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -29,7 +32,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Decline implements ApplicationListener {
 	
 	// Global Singleton //
-	// { Not Applicable }
+	private GlobalSingleton gs = GlobalSingleton.getInstance();
 	
 	// Constants for the Objects //
 	// { Not Applicable }
@@ -42,7 +45,8 @@ public class Decline implements ApplicationListener {
 	private BulletManager bm;
 	private EnemyManager em;
 	private AmmoManager am;
-	
+	boolean shoot = false;
+	boolean ableToShoot = true;	
 
 	/**
 	 * Function run when the game is started. Basically a high-level constructor for the game.
@@ -66,7 +70,7 @@ public class Decline implements ApplicationListener {
 		
 		em = new EnemyManager(new Texture(Gdx.files.internal("data/enemy.gif")));
 		
-		character = new Hero(new Texture(Gdx.files.internal("hero_weapon.png")),bm, em);
+		character = new Hero(new Texture(Gdx.files.internal("hero_weapon.png")));
 		character.setOrigin(character.getWidth()/2, character.getHeight()/2);
 		character.setPosition(GlobalSingleton.STARTING_HERO_XPOS, GlobalSingleton.STARTING_HERO_YPOS);
 		
@@ -94,7 +98,11 @@ public class Decline implements ApplicationListener {
 	 * @see com.badlogic.gdx.ApplicationListener#render()
 	 */
 	@Override
-	public void render() {		
+	public void render() {
+		handleEvent();
+		handleCollision();
+		update();
+		
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -106,9 +114,57 @@ public class Decline implements ApplicationListener {
 		em.draw(batch);
 		am.draw(batch);
 		batch.end();
-
-		update();
+	}
+	
+	private void handleEvent(){
 		
+		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
+			character.moveLeft();
+			if(gs.getHeroOrientation() == GlobalSingleton.RIGHT){
+				gs.setHeroOrientation(GlobalSingleton.LEFT);
+			}
+			gs.setHeroMovement(-character.SPEED);
+		}
+		else if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
+			character.moveRight();
+			if(gs.getHeroOrientation() == GlobalSingleton.LEFT){
+				gs.setHeroOrientation(GlobalSingleton.RIGHT);
+			}
+			gs.setHeroMovement(character.SPEED);
+		}
+		else
+		{
+			gs.setHeroMovement(0);
+		}
+		
+		if(Gdx.input.isKeyPressed(Keys.SPACE) && ableToShoot)
+		{
+			shoot = true;
+			ableToShoot = false;
+		}
+		
+		if(shoot == true){
+			bm.shootBullet();
+			shoot = false;
+		}
+		
+		if(!(Gdx.input.isKeyPressed(Keys.SPACE))){
+			ableToShoot = true;
+		}
+	}
+	
+	private void handleCollision(){
+		ArrayList<Bullet> activeBullets = bm.getActiveBullets();
+		ArrayList<Enemy> activeEnemies = em.getActiveEnemies();
+		
+		for(int i = 0; i < activeBullets.size(); i++){
+			for(int j = 0; j < activeEnemies.size(); j++){
+				if(activeBullets.get(i).collidesWith(activeEnemies.get(j))){
+					bm.removeActiveBullet(i);
+					em.removeActiveEnemy(j);
+				}
+			}
+		}
 	}
 
 	/**

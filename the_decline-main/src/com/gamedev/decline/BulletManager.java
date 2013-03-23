@@ -2,6 +2,7 @@
 package com.gamedev.decline;
 
 //Java Package Support //
+import java.util.ArrayList;
 import java.util.Iterator;
 
 //Badlogic Package Support //
@@ -33,7 +34,7 @@ public class BulletManager {
 	
 	// Internal Variables //
 	private Bullet[] bullets = new Bullet[100];
-	private Array<Bullet> shotBullets = new Array<Bullet>();
+	private ArrayList<Bullet> shotBullets = new ArrayList<Bullet>();
 	private Iterator<Bullet> bulletIter;
 	private int currentBulletNumber = 0;
 	private Bullet currentBullet;
@@ -50,6 +51,14 @@ public class BulletManager {
 		} // end for
 	} // end BulletManager()
 	
+	public ArrayList<Bullet> getActiveBullets(){
+		return shotBullets;
+	}
+	
+	public void removeActiveBullet(int index){
+		shotBullets.remove(index);
+	}
+	
 	/**
 	 * Grabs a Bullet from the Bullet buffer created when the manager was constructed. This Bullet is then 
 	 * 	given a direction and a starting position based on which way the Hero object is oriented. This Bullet 
@@ -60,8 +69,8 @@ public class BulletManager {
 			currentBullet = bullets[currentBulletNumber % MAX_BULLET_NUMBER];
 			
 			currentBullet.setOrientation(GlobalSingleton.RIGHT);
-			currentBullet.setXPos(GlobalSingleton.STARTING_HERO_XPOS+80);
-			currentBullet.setYPos(GlobalSingleton.STARTING_HERO_YPOS+60);
+			currentBullet.setXPos(Bullet.START_XPOS);
+			currentBullet.setYPos(Bullet.START_YPOS);
 			
 			shotBullets.add(currentBullet);
 			currentBulletNumber++;
@@ -70,8 +79,8 @@ public class BulletManager {
 			currentBullet = bullets[currentBulletNumber % MAX_BULLET_NUMBER];
 			
 			currentBullet.setOrientation(GlobalSingleton.LEFT);
-			currentBullet.setXPos(GlobalSingleton.STARTING_HERO_XPOS);
-			currentBullet.setYPos(GlobalSingleton.STARTING_HERO_YPOS+60);
+			currentBullet.setXPos(Bullet.START_XPOS);
+			currentBullet.setYPos(Bullet.START_YPOS);
 			
 			shotBullets.add(currentBullet);
 			currentBulletNumber++;

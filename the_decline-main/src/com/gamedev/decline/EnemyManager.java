@@ -2,6 +2,7 @@
 package com.gamedev.decline;
 
 // Java Package Support //
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -34,7 +35,7 @@ public class EnemyManager {
 	
 	// Internal Variables //
 	private Enemy[] enemies = new Enemy[MAX_ENEMIES];
-	private Array<Enemy> currentEnemies = new Array<Enemy>();
+	private ArrayList<Enemy> currentEnemies = new ArrayList<Enemy>();
 	private Iterator<Enemy> enemyIter;
 	private Enemy currentEnemy;
 	private int currentEnemyNumber = 0;
@@ -54,13 +55,23 @@ public class EnemyManager {
 		} // end for
 	} // end EnemyManager
 	
+	public ArrayList<Enemy> getActiveEnemies(){
+		return currentEnemies;
+	}
+	
+	public void removeActiveEnemy(int index){
+		currentEnemies.remove(index);
+	}
+	
 	/**
 	 * Grabs a Enemy from the Enemy buffer created when the manager was constructed. This Enemy 
 	 * 	is then added to the array of Enemy that are to be drawn to the screen and updated.
 	 */
 	public void makeEnemyAppear()
 	{
-		currentEnemies.add(enemies[currentEnemyNumber % MAX_ENEMIES]);
+		currentEnemy = enemies[currentEnemyNumber % MAX_ENEMIES];
+		currentEnemy.setXPos(Enemy.START_XPOS);
+		currentEnemies.add(currentEnemy);
 		currentEnemyNumber++;
 	}
 	

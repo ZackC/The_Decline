@@ -160,6 +160,13 @@ public abstract class Unit extends Sprite{
 			flip(true, false);
 	}
 	
+	public boolean collidesWith(Unit otherUnit){
+		if((xPos + width) >= otherUnit.getXPos()){
+			return true;
+		}		
+		return false;
+	}
+	
 	/**
 	 * Makes the Unit jump.
 	 * 

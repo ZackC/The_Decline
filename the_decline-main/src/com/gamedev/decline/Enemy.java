@@ -30,6 +30,7 @@ public class Enemy extends Unit {
 	public static final int INITIAL_SPEED = 125;
 	public static final int WIDTH = 100;
 	public static final int HEIGHT = 100;
+	public static final int START_XPOS = Gdx.graphics.getWidth()-WIDTH/2;
 	
 	// Internal Variables //
 	// { Not Applicable }
@@ -42,7 +43,7 @@ public class Enemy extends Unit {
 	 */
 	public Enemy(Texture texture) {
 		super(texture, INITIAL_SPEED, 0, 0);
-		setXPos(Gdx.graphics.getWidth()-WIDTH/2);
+		setXPos(START_XPOS);
 		setSize(WIDTH, HEIGHT);
 	} // end Enemy()
 	

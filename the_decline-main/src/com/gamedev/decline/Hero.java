@@ -5,8 +5,6 @@ package com.gamedev.decline;
 // { Not Applicable }
 
 // Badlogic Package Support //
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 
 /**
@@ -33,10 +31,7 @@ public class Hero extends Unit {
 	public final static int SPEED = 200;
 	
 	// Internal Variables //
-	private BulletManager bm;
-	private EnemyManager em;
-	private boolean shoot;
-	private boolean ableToShoot;
+	// { Not Applicable }
 	
 	/**
 	 * Instantiates a new Hero object by calling the super constructor (Unit) and
@@ -46,14 +41,8 @@ public class Hero extends Unit {
 	 * @param newBm		: The manager for the bullets.
 	 * @param newEm		: The manager for the enemies.
 	 */
-	public Hero(Texture texture, BulletManager newBm, EnemyManager newEm) {
+	public Hero(Texture texture) {
 		super(texture, SPEED, STARTINGHEROXPOS, STARTINGHEROYPOS);
-		
-		bm = newBm;
-		em = newEm;
-		
-		shoot = false;
-		ableToShoot = true;
 	}
 	
 	/**
@@ -61,45 +50,8 @@ public class Hero extends Unit {
 	 * 	accordingly. It then also updates the GlobalSingleton with new values if needed. Update functions
 	 * 	for the managers are also called here.
 	 */
-	public void update()
-	{
-		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
-			moveLeft();
-			if(gs.getHeroOrientation() == GlobalSingleton.RIGHT){
-				gs.setHeroOrientation(GlobalSingleton.LEFT);
-			}
-			gs.setHeroMovement(-speed);
-		}
-		else if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
-			moveRight();
-			if(gs.getHeroOrientation() == GlobalSingleton.LEFT){
-				gs.setHeroOrientation(GlobalSingleton.RIGHT);
-			}
-			gs.setHeroMovement(speed);
-		}
-		else
-		{
-			gs.setHeroMovement(0);
-		}
-		
+	public void update(){
 		gs.setHeroXPos(xPos);
-		
-		if(Gdx.input.isKeyPressed(Keys.SPACE) && ableToShoot)
-		{
-			shoot = true;
-			ableToShoot = false;
-		}
-		
-		if(shoot == true){
-			bm.shootBullet();
-			shoot = false;
-		}
-		
-		if(!(Gdx.input.isKeyPressed(Keys.SPACE))){
-			ableToShoot = true;
-		}
-		
-		em.update();
 	}
 
 }
