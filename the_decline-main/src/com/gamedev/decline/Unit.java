@@ -31,7 +31,9 @@ public abstract class Unit extends CollidableObject{
 	
 	// Internal Variables //
 	protected int speed;
-	private float posChange;
+	private float xPosChange;
+	private float yPosChange;
+	private int jumpSpeed;
 	
 	/**
 	 * Constructor for all Units in the game. Must be called by all classes extending Unit.
@@ -67,6 +69,24 @@ public abstract class Unit extends CollidableObject{
 	}
 	
 	/**
+	 * Sets the speed of the Unit.
+	 * 
+	 * @param newSpeed	: New speed of the Unit.
+	 */
+	public void setJumpSpeed(int newSpeed){
+		jumpSpeed = newSpeed;
+	}
+	
+	/**
+	 * Gets the speed of the Unit.
+	 * 
+	 * @return	: The speed of the unit.
+	 */
+	public int getJumpSpeed(){
+		return jumpSpeed;
+	}
+	
+	/**
 	 * Abstract method that must be implemented by all extending classes.
 	 */
 	public abstract void update();
@@ -75,8 +95,8 @@ public abstract class Unit extends CollidableObject{
 	 * Moves the unit right by the amount designated by speed.
 	 */
 	public void moveRight(){
-		posChange = speed * Gdx.graphics.getDeltaTime();
-		setXPos(getXPos() + posChange);
+		xPosChange = speed * Gdx.graphics.getDeltaTime();
+		setXPos(getXPos() + xPosChange);
 		setPosition(getXPos() - gs.getWorldXPos(), getY());
 		if(isFlipX() == true)
 			flip(true, false);
@@ -86,8 +106,8 @@ public abstract class Unit extends CollidableObject{
 	 * Moves the unit left by the amount designated by speed.
 	 */
 	public void moveLeft(){
-		posChange = -(speed * Gdx.graphics.getDeltaTime());
-		setXPos(getXPos() + posChange);
+		xPosChange = -(speed * Gdx.graphics.getDeltaTime());
+		setXPos(getXPos() + xPosChange);
 		setPosition(getXPos() - gs.getWorldXPos(), getY());
 		if(isFlipX() == false)
 			flip(true, false);
@@ -95,9 +115,15 @@ public abstract class Unit extends CollidableObject{
 	
 	/**
 	 * Makes the Unit jump.
-	 * 
-	 * *** INCOMPLETE ***
 	 */
 	public void jump(){
+		yPosChange = jumpSpeed * Gdx.graphics.getDeltaTime();
+		setYPos(getYPos() + yPosChange);
+		if (getYPos() >= Hero.JUMP_DISTANCE)
+		{
+			setYPos(Hero.JUMP_DISTANCE);
+			jumpSpeed = -Hero.JUMP_SPEED;
+		}
+		setPosition(getX(), getYPos());
 	}	
 }

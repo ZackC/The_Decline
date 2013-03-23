@@ -34,7 +34,8 @@ public class Decline implements ApplicationListener {
 	private GlobalSingleton gs = GlobalSingleton.getInstance();
 	
 	// Constants for the Objects //
-	// { Not Applicable }
+	public static final int HEALTH_PACK = 5;
+	public static final int ENEMY_DAMAGE = 10;
 	
 	// Internal Variables //
 	private OrthographicCamera camera;
@@ -135,7 +136,9 @@ public class Decline implements ApplicationListener {
 		{
 			gs.setHeroMovement(0);
 		}
-		
+		if(Gdx.input.isKeyPressed(Keys.UP)){
+			character.jump();
+		}		
 		if(Gdx.input.isKeyPressed(Keys.SPACE) && ableToShoot)
 		{
 			shoot = true;
@@ -144,10 +147,15 @@ public class Decline implements ApplicationListener {
 		
 		if(shoot == true){
 			bm.shootBullet();
+			character.setAmmo(character.getAmmo() - 1);
+			if (character.getAmmo() == 0)
+			{
+				ableToShoot = false;
+			}
 			shoot = false;
 		}
 		
-		if(!(Gdx.input.isKeyPressed(Keys.SPACE))){
+		if(!(Gdx.input.isKeyPressed(Keys.SPACE)) && character.getAmmo() != 0){
 			ableToShoot = true;
 		}
 	}
@@ -170,18 +178,34 @@ public class Decline implements ApplicationListener {
 		
 		for(int i=0; i < activeEnemies.size; i++){
 			if(character.collidesWith(activeEnemies.get(i))){
+				character.setHealth(character.getHealth() - ENEMY_DAMAGE);
+				if (character.getHealth() < 0)
+				{
+					character.setHealth(0);
+				}
 				em.removeActiveEnemy(i);
 			}
 		}
 		
 		for(int i=0; i < activeAmmo.size; i++){
 			if(character.collidesWith(activeAmmo.get(i))){
+				character.setAmmo(character.getAmmo() + im.getActiveAmmo().get(i).getAmountOfAmmoStored());
+				ableToShoot = true;
+				if (character.getAmmo() > Hero.MAX_AMMO)
+				{
+					character.setAmmo(Hero.MAX_AMMO);
+				}
 				im.removeActiveAmmo(i);
 			}
 		}
 		
 		for(int i=0; i < activeHealthPacks.size; i++){
 			if(character.collidesWith(activeHealthPacks.get(i))){
+				character.setHealth(character.getHealth() + HEALTH_PACK);
+				if (character.getHealth() > Hero.MAX_HEALTH)
+				{
+					character.setHealth(Hero.MAX_HEALTH);
+				}
 				im.removeActiveHealthPack(i);
 			}
 		}

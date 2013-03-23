@@ -29,10 +29,16 @@ public class Hero extends Unit {
 	// Constants of the Object //
 	public static final int START_XDRAW = 120;
 	public static final int START_YDRAW = 20;
-	public final static int SPEED = 200;
+	public static final int SPEED = 200;
+	public static final int JUMP_SPEED = 40;
+	public static final int JUMP_DISTANCE = 160;
+	public static final int MAX_AMMO = 50;
+	public static final int MAX_HEALTH = 100;
 	
 	// Internal Variables //
 	private float posChange = 0;
+	private int ammo = MAX_AMMO / 2;
+	private int health = MAX_HEALTH;
 	
 	/**
 	 * Instantiates a new Hero object by calling the super constructor (Unit) and
@@ -77,4 +83,43 @@ public class Hero extends Unit {
 			flip(true, false);
 	}
 
+	/**
+	 * Gets the hero's current ammo count.
+	 * 
+	 * @return	: The hero's current ammo count.
+	 */
+	public int getAmmo()
+	{
+		return ammo;
+	}
+	
+	/**
+	 * Gets the hero's current health.
+	 * 
+	 * @return	: The hero's current health.
+	 */
+	public int getHealth()
+	{
+		return health;
+	}
+	
+	/**
+	 * Sets the hero's current ammo count.
+	 * 
+	 * @param ammo	: The hero's new ammo count.
+	 */
+	public void setAmmo(int ammo)
+	{
+		this.ammo = ammo;
+	}
+	
+	/**
+	 * Sets the hero's current health.
+	 * 
+	 * @param health	: The hero's new health.
+	 */
+	public void setHealth(int health)
+	{
+		this.health = health;
+	}
 }

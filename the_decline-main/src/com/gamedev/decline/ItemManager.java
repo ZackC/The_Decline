@@ -93,6 +93,7 @@ public class ItemManager
 		ammo.setToInitialDrawPosition();
 		ammo.setXPos(gs.getWorldXPos() + Item.START_XDRAW);
 		ammo.setYPos(Item.START_YDRAW);
+		ammo.setAmountOfAmmoStored(rand.nextInt(10) * 5 + 5);
 		currentAmmo.add(ammo);
 		currentAmmoCount++;
 	}
