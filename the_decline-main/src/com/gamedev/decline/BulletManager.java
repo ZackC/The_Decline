@@ -68,8 +68,9 @@ public class BulletManager {
 			currentBullet = bullets[currentBulletNumber % MAX_BULLET_NUMBER];
 			
 			currentBullet.setOrientation(GlobalSingleton.RIGHT);
-			currentBullet.setXPos(Bullet.START_XPOS);
-			currentBullet.setYPos(Bullet.START_YPOS);
+			currentBullet.setToInitialDrawPosition();
+			currentBullet.setXPos(gs.getWorldXPos() + Bullet.START_XDRAW);
+			currentBullet.setYPos(Bullet.START_YDRAW);
 			
 			shotBullets.add(currentBullet);
 			currentBulletNumber++;
@@ -78,8 +79,9 @@ public class BulletManager {
 			currentBullet = bullets[currentBulletNumber % MAX_BULLET_NUMBER];
 			
 			currentBullet.setOrientation(GlobalSingleton.LEFT);
-			currentBullet.setXPos(Bullet.START_XPOS);
-			currentBullet.setYPos(Bullet.START_YPOS);
+			currentBullet.setToInitialDrawPosition();
+			currentBullet.setXPos(gs.getWorldXPos() + Bullet.START_XDRAW - 80);
+			currentBullet.setYPos(Bullet.START_YDRAW);
 			
 			shotBullets.add(currentBullet);
 			currentBulletNumber++;
@@ -96,10 +98,10 @@ public class BulletManager {
 		while(bulletIter.hasNext()){
 			currentBullet = bulletIter.next();
 			currentBullet.update();
-			if(currentBullet.getXPos() > Gdx.graphics.getWidth()){
+			if(currentBullet.getX() > Gdx.graphics.getWidth()){
 				bulletIter.remove();
 			} // end if
-			else if(currentBullet.getXPos() < 0){
+			else if(currentBullet.getX() < 0){
 				bulletIter.remove();
 			} // end else if
 		} // end while

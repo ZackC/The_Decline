@@ -26,15 +26,16 @@ public class GlobalSingleton {
     private static GlobalSingleton instance = null;
     
     // Constants of the Object //
-    public static final int STARTING_HERO_XPOS = 120;
-    public static final int STARTING_HERO_YPOS = 20;
+    public static final int HERO_XDRAW = 120;
+    public static final int HERO_YDRAW = 20;
 	public static final int RIGHT = 0;
 	public static final int LEFT = 1;
     
     // Internal Variables //
 	private int heroWidth;
 	private int heroHeight;
-	private float heroXPos = STARTING_HERO_XPOS;
+	private float heroXPos = HERO_XDRAW;
+	private float worldXPos = 0;
 	private float heroMovement = 0;
 	private int heroOrientation = 0;
 
@@ -105,6 +106,10 @@ public class GlobalSingleton {
 		return heroOrientation;
 	} // end getHeroOrientation()
 	
+	public float getWorldXPos(){
+		return worldXPos;
+	}
+	
 	/**
 	 * Sets the width of the hero.
 	 * 
@@ -150,4 +155,7 @@ public class GlobalSingleton {
 		heroOrientation = newHeroOrientation;
 	} // end setHeroOrientation()
 	
+	public void setWorldXPos(float newWorldXPos){
+		worldXPos = newWorldXPos;
+	}
 }

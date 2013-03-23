@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.Array;
  * 
  * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
  * @version 	: 2.0
- * Last Update	: 3/22/2013
+ * Last Update	: 3/23/2013
  * Update By	: Ian Middleton
  * 
  * Source code for the Decline class. The Decline class takes care of essentially
@@ -71,7 +71,7 @@ public class Decline implements ApplicationListener {
 		
 		character = new Hero(new Texture(Gdx.files.internal("hero_weapon.png")));
 		character.setOrigin(character.getWidth()/2, character.getHeight()/2);
-		character.setPosition(GlobalSingleton.STARTING_HERO_XPOS, GlobalSingleton.STARTING_HERO_YPOS);
+		character.setToInitialDrawPosition();
 		
 		background = new RepeatingBackground(new Texture(Gdx.files.internal("data/cave.jpg")));
         im = new ItemManager(new Texture(Gdx.files.internal("data/ammo.jpg")), new Texture(Gdx.files.internal("data/healthpack.jpg")));
@@ -108,7 +108,7 @@ public class Decline implements ApplicationListener {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		background.draw(batch,character.getXPos());
-		character.draw(batch, GlobalSingleton.STARTING_HERO_XPOS, GlobalSingleton.STARTING_HERO_YPOS);
+		character.draw(batch);
 		bm.draw(batch);
 		em.draw(batch);
 		im.draw(batch);
@@ -155,13 +155,34 @@ public class Decline implements ApplicationListener {
 	private void handleCollision(){
 		Array<Bullet> activeBullets = bm.getActiveBullets();
 		Array<Enemy> activeEnemies = em.getActiveEnemies();
+		Array<Ammo> activeAmmo = im.getActiveAmmo();
+		Array<HealthPack> activeHealthPacks = im.getActiveHealthPacks();
 		
 		for(int i = 0; i < activeBullets.size; i++){
 			for(int j = 0; j < activeEnemies.size; j++){
 				if(activeBullets.get(i).collidesWith(activeEnemies.get(j))){
 					bm.removeActiveBullet(i);
 					em.removeActiveEnemy(j);
+					break;
 				}
+			}
+		}
+		
+		for(int i=0; i < activeEnemies.size; i++){
+			if(character.collidesWith(activeEnemies.get(i))){
+				em.removeActiveEnemy(i);
+			}
+		}
+		
+		for(int i=0; i < activeAmmo.size; i++){
+			if(character.collidesWith(activeAmmo.get(i))){
+				im.removeActiveAmmo(i);
+			}
+		}
+		
+		for(int i=0; i < activeHealthPacks.size; i++){
+			if(character.collidesWith(activeHealthPacks.get(i))){
+				im.removeActiveHealthPack(i);
 			}
 		}
 	}

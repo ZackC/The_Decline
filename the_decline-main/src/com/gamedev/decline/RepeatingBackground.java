@@ -40,7 +40,7 @@ public class RepeatingBackground {
 		//System.out.println("heroStaringPos: "+heroStartingPos);
 		
 		//for when hero is on left edge of background panel
-		if(heroPos % bp[0].getWidth() < GlobalSingleton.STARTING_HERO_XPOS)
+		if(heroPos % bp[0].getWidth() < GlobalSingleton.HERO_XDRAW)
 		{
 			//System.out.println("In 1!!");
 			

@@ -5,6 +5,7 @@ package com.gamedev.decline;
 import java.util.Random;
 import java.util.Iterator;
 
+import com.badlogic.gdx.Gdx;
 //Badlogic Package Support //
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,8 +17,8 @@ import com.badlogic.gdx.utils.Array;
  * 
  * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
  * @version 	: 2.0
- * Last Update	: 3/22/2013
- * Update By	: Zach Ogle
+ * Last Update	: 3/23/2013
+ * Update By	: Ian Middleton
  * 
  * Source code for the ItemManager class. The ItemManager class takes care of updating,
  *  drawing, and placing Item objects (HealthPack and Ammo).
@@ -67,6 +68,22 @@ public class ItemManager
 		}
 	}
 	
+	public Array<Ammo> getActiveAmmo(){
+		return currentAmmo;
+	}
+	
+	public Array<HealthPack> getActiveHealthPacks(){
+		return currentHealthPacks;
+	}
+	
+	public void removeActiveAmmo(int index){
+		currentAmmo.removeIndex(index);
+	}
+	
+	public void removeActiveHealthPack(int index){
+		currentHealthPacks.removeIndex(index);
+	}
+	
 	/**
 	 * Grabs an Ammo from the Ammo buffer created when the manager was constructed. This Ammo 
 	 * 	is then added to the array of Ammo that are to be drawn to the screen and updated.
@@ -74,7 +91,9 @@ public class ItemManager
 	public void makeAmmoAppear()
 	{
 		ammo = ammoArray[currentAmmoCount % MAX_AMMO];
-		ammo.setXPos(Item.START_XPOS);
+		ammo.setToInitialDrawPosition();
+		ammo.setXPos(gs.getWorldXPos() + Item.START_XDRAW);
+		ammo.setYPos(Item.START_YDRAW);
 		currentAmmo.add(ammo);
 		currentAmmoCount++;
 	}
@@ -87,7 +106,9 @@ public class ItemManager
 	public void makeHealthAppear()
 	{
 		pack = healthArray[currentHealthCount % MAX_HEALTH];
-		pack.setXPos(Item.START_XPOS);
+		pack.setToInitialDrawPosition();
+		pack.setXPos(gs.getWorldXPos() + Item.START_XDRAW);
+		pack.setYPos(Item.START_YDRAW);
 		currentHealthPacks.add(pack);
 		currentHealthCount++;
 	}
@@ -109,11 +130,11 @@ public class ItemManager
 		{
 			ammo = ammoIter.next();
 			ammo.update();
-			if(ammo.getXPos() < -1 * ammo.getWidth())
+			if(ammo.getX() < -1 * ammo.getWidth())
 			{
 				ammoIter.remove();
 			}
-			if(ammo.getXPos() < 0)
+			if(ammo.getX() < 0)
 			{
 				ammoIter.remove();
 			}
@@ -128,11 +149,11 @@ public class ItemManager
 		{
 			pack = healthIter.next();
 			pack.update();
-			if(pack.getXPos() < -1 * pack.getWidth())
+			if(pack.getX() < -1 * pack.getWidth())
 			{
 				healthIter.remove();
 			}
-			if(pack.getXPos() < 0)
+			if(pack.getX() < 0)
 			{
 				healthIter.remove();
 			}

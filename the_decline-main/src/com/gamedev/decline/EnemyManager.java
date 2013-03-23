@@ -69,7 +69,9 @@ public class EnemyManager {
 	public void makeEnemyAppear()
 	{
 		currentEnemy = enemies[currentEnemyNumber % MAX_ENEMIES];
-		currentEnemy.setXPos(Enemy.START_XPOS);
+		currentEnemy.setToInitialDrawPosition();
+		currentEnemy.setXPos(gs.getWorldXPos() + Enemy.START_XDRAW);
+		currentEnemy.setYPos(Enemy.START_YDRAW);
 		currentEnemies.add(currentEnemy);
 		currentEnemyNumber++;
 	}
@@ -92,11 +94,11 @@ public class EnemyManager {
 		{
 			currentEnemy = enemyIter.next();
 			currentEnemy.update();
-			if(currentEnemy.getXPos() < -1 * currentEnemy.getWidth())
+			if(currentEnemy.getX() < -1 * currentEnemy.getWidth())
 			{
 				enemyIter.remove();
 			}
-			if(currentEnemy.getXPos() < 0)
+			if(currentEnemy.getX() < 0)
 			{
 				enemyIter.remove();
 			}

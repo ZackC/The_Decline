@@ -7,8 +7,6 @@ package com.gamedev.decline;
 // Badlogic Package Support // 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * 
@@ -16,14 +14,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * 
  * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
  * @version 	: 1.0
- * Last Update	: 3/22/2013
+ * Last Update	: 3/23/2013
  * Update By	: Ian Middleton
  * 
  * Source code for the Unit class. The Unit class is an abstract class that is meant to be 
  * 	extended for specific Units within the game.
  *
  */
-public abstract class Unit extends Sprite{
+public abstract class Unit extends CollidableObject{
 	
 	// Global Singleton //
 	// { Not Applicable }
@@ -32,12 +30,8 @@ public abstract class Unit extends Sprite{
 	// { Not Applicable }
 	
 	// Internal Variables //
-	protected Texture texture;
-	protected float xPos;
-	protected float yPos;
 	protected int speed;
-	protected int height;
-	protected int width;
+	private float posChange;
 	
 	/**
 	 * Constructor for all Units in the game. Must be called by all classes extending Unit.
@@ -48,38 +42,11 @@ public abstract class Unit extends Sprite{
 	 * @param yPos		: The yPos of this specific Unit.
 	 */
 	public Unit(Texture texture, int speed, float xPos, float yPos){
-		super(texture);
-		this.texture = texture;
-		height = texture.getHeight();
-		width = texture.getWidth();
+		super(texture, xPos, yPos);
 		this.speed = speed;
-		this.xPos = xPos;
-		this.yPos = yPos;
 	}
 	
-	/**
-	 * Overrides the Sprite draw for Unit in order to allow for the setPosition function to be called before
-	 * 	the Sprite draw function is called.
-	 * 
-	 * @param batch	: The SpriteBatch which should draw the Unit.
-	 */
-	@Override
-	public void draw(SpriteBatch batch){
-		setPosition(xPos, yPos);
-		super.draw(batch);
-	}
-	
-	/**
-	 * A draw added to fix hero. Hope to not have to use this in the future but it is a quick fix.
-	 * 
-	 * @param batch	: The SpriteBatch which should draw the Unit.
-	 * @param drawX	: The xPos for drawing the sprite.
-	 * @param drawY	: The yPos for drawing the sprite.
-	 */
-	public void draw(SpriteBatch batch, int drawX, int drawY){
-		setPosition(drawX, drawY);
-		super.draw(batch);
-	}
+	public abstract void setToInitialDrawPosition();
 	
 	/**
 	 * Sets the speed of the Unit.
@@ -100,44 +67,6 @@ public abstract class Unit extends Sprite{
 	}
 	
 	/**
-	 * Sets the x position of the Unit.
-	 * 
-	 * @param newXPos	: The new x position of the Unit.
-	 */
-	public void setXPos(float newXPos)
-	{
-		xPos = newXPos;
-	}
-	
-	/**
-	 * Gets the x position of the Unit.
-	 * 
-	 * @return	: The x position of the Unit.
-	 */
-	public float getXPos()
-	{
-		return xPos;
-	}
-	
-	/**
-	 * Sets the y position of the Unit.
-	 * 
-	 * @param newYPos	: The new y position of the Unit.
-	 */
-	public void setYPos(float newYPos){
-		yPos = newYPos;
-	}
-	
-	/**
-	 * Gets the y position of the Unit.
-	 * 
-	 * @return	: The y position of the Unit.
-	 */
-	public float getYPos(){
-		return yPos;
-	}
-	
-	/**
 	 * Abstract method that must be implemented by all extending classes.
 	 */
 	public abstract void update();
@@ -146,7 +75,9 @@ public abstract class Unit extends Sprite{
 	 * Moves the unit right by the amount designated by speed.
 	 */
 	public void moveRight(){
-		setXPos(getXPos() + speed * Gdx.graphics.getDeltaTime());
+		posChange = speed * Gdx.graphics.getDeltaTime();
+		setXPos(getXPos() + posChange);
+		setPosition(getX() + posChange, getY());
 		if(isFlipX() == true)
 			flip(true, false);
 	}
@@ -155,16 +86,12 @@ public abstract class Unit extends Sprite{
 	 * Moves the unit left by the amount designated by speed.
 	 */
 	public void moveLeft(){
-		setXPos(getXPos() - speed * Gdx.graphics.getDeltaTime());
+		posChange = -(speed * Gdx.graphics.getDeltaTime());
+		setXPos(getXPos() + posChange);
+		System.out.println(getXPos());
+		setPosition(getX() + posChange, getY());
 		if(isFlipX() == false)
 			flip(true, false);
-	}
-	
-	public boolean collidesWith(Unit otherUnit){
-		if((xPos + width) >= otherUnit.getXPos()){
-			return true;
-		}		
-		return false;
 	}
 	
 	/**
@@ -173,6 +100,5 @@ public abstract class Unit extends Sprite{
 	 * *** INCOMPLETE ***
 	 */
 	public void jump(){
-		
 	}	
 }

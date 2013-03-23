@@ -28,9 +28,9 @@ public class Bullet extends Unit
 	// Constants for the Object //
 	public static final int DRAW_WIDTH = 30;
 	public static final int DRAW_HEIGHT = 30;
-	public static final int INITIAL_SPEED = 1000;
-	public static final int START_XPOS = GlobalSingleton.STARTING_HERO_XPOS+80;
-	public static final int START_YPOS = GlobalSingleton.STARTING_HERO_YPOS+60;
+	public static final int INITIAL_SPEED = 100;
+	public static final int START_XDRAW = GlobalSingleton.HERO_XDRAW+80;
+	public static final int START_YDRAW = GlobalSingleton.HERO_YDRAW+60;
 	
 	// Internal Variables //
 	private int bulletOrientation;
@@ -42,11 +42,18 @@ public class Bullet extends Unit
      * @param texture		: The image of the Bullet.
      */
 	public Bullet(Texture texture) {
-		super(texture, INITIAL_SPEED, START_XPOS, START_YPOS);
+		super(texture, INITIAL_SPEED, 0, 0);
 		setSize(DRAW_WIDTH, DRAW_HEIGHT);
-		width = DRAW_WIDTH;
-		height = DRAW_HEIGHT;
 	} // end Bullet()
+	
+	public void setToInitialDrawPosition(){
+		if(bulletOrientation == gs.RIGHT){
+			setPosition(START_XDRAW, START_YDRAW);
+		}
+		else{
+			setPosition(START_XDRAW-80, START_YDRAW);
+		}
+	}
 	
 	/**
 	 * Used to set the orientation of the bullet and which direction it should fly.

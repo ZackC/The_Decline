@@ -4,6 +4,7 @@ package com.gamedev.decline;
 // Java Package Support //
 // { Not Applicable }
 
+import com.badlogic.gdx.Gdx;
 // Badlogic Package Support //
 import com.badlogic.gdx.graphics.Texture;
 
@@ -26,12 +27,12 @@ public class Hero extends Unit {
 	private GlobalSingleton gs = GlobalSingleton.getInstance();
 	
 	// Constants of the Object //
-	public static final int STARTINGHEROXPOS = 120;
-	public static final int STARTINGHEROYPOS = 20;
+	public static final int START_XDRAW = 120;
+	public static final int START_YDRAW = 20;
 	public final static int SPEED = 200;
 	
 	// Internal Variables //
-	// { Not Applicable }
+	private float posChange = 0;
 	
 	/**
 	 * Instantiates a new Hero object by calling the super constructor (Unit) and
@@ -42,7 +43,11 @@ public class Hero extends Unit {
 	 * @param newEm		: The manager for the enemies.
 	 */
 	public Hero(Texture texture) {
-		super(texture, SPEED, STARTINGHEROXPOS, STARTINGHEROYPOS);
+		super(texture, SPEED, START_XDRAW, START_YDRAW);
+	}
+	
+	public void setToInitialDrawPosition(){
+		setPosition(START_XDRAW, START_YDRAW);
 	}
 	
 	/**
@@ -52,6 +57,24 @@ public class Hero extends Unit {
 	 */
 	public void update(){
 		gs.setHeroXPos(xPos);
+	}
+	
+	@Override
+	public void moveRight(){
+		posChange = speed * Gdx.graphics.getDeltaTime();
+		setXPos(getXPos() + posChange);
+		gs.setWorldXPos(gs.getWorldXPos() + posChange);
+		if(isFlipX() == true)
+			flip(true, false);
+	}
+	
+	@Override
+	public void moveLeft(){
+		posChange = -(speed * Gdx.graphics.getDeltaTime());
+		setXPos(getXPos() + posChange);
+		gs.setWorldXPos(gs.getWorldXPos() + posChange);
+		if(isFlipX() == false)
+			flip(true, false);
 	}
 
 }
