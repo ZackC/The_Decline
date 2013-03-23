@@ -5,9 +5,7 @@ package com.gamedev.decline;
 // { Not Applicable }
 
 // Badlogic Package Support //
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * 
@@ -22,30 +20,26 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  *  in the game.
  * 
  */
-public class Ammo 
+public class Ammo extends Item
 {
 	// Global Singleton //
 	GlobalSingleton gs = GlobalSingleton.getInstance();
 	
 	// Constants of the Object //
-	public static final int AMMO_SIZE = 50;
+	// { Not Applicable }
 	
 	// Internal Variables //
-	Texture texture;
-	float xPos;
-	float yPos = Hero.STARTINGHEROYPOS;
-	int startPosition;
 	int amountOfAmmoStored;
 	
 	/**
-	 * Instantiates a new Ammo object by setting internal variables.
+	 * Instantiates a new Ammo object by calling the super constructor (Item) and setting
+	 *  the start position.
 	 * 
 	 * @param texture	: The image to be used for the ammo.
 	 */
-	public Ammo(Texture newTexture)
+	public Ammo(Texture texture)
 	{
-		texture = newTexture;
-		startPosition = Gdx.graphics.getWidth() - AMMO_SIZE/2;
+		super(texture, 0, 0);
 	}
 	
 	/**
@@ -66,42 +60,5 @@ public class Ammo
 	public void setAmountOfAmmoStored(int newAmount)
 	{
 		amountOfAmmoStored = newAmount;
-	}
-	
-	/**
-	 * Sets the position of the ammo to its starting position. 
-	 */
-	public void setToStartPosition()
-	{
-		xPos = startPosition;
-	}
-	
-	/**
-	 * The update function is called every global update. It updates the ammo's position
-	 *  according to the Hero's. It also checks whether the ammo is still on the screen.
-	 *  
-	 *  @return	: Whether or not the ammo is on the screen.
-	 */
-	public boolean update()
-	{
-		xPos -= gs.getHeroMovement() * Gdx.graphics.getDeltaTime();
-		if(xPos < -1 * AMMO_SIZE || xPos > Gdx.graphics.getWidth() + AMMO_SIZE)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
-	
-	/**
-	 * Draws the Ammo object.
-	 * 
-	 * @param batch - The SpriteBatch object which will draw the Ammo object.
-	 */
-	public void draw(SpriteBatch batch)
-	{
-		batch.draw(texture, xPos, yPos, AMMO_SIZE, AMMO_SIZE);
 	}
 }

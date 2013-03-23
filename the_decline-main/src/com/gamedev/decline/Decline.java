@@ -44,7 +44,7 @@ public class Decline implements ApplicationListener {
 	private Hero character;
 	private BulletManager bm;
 	private EnemyManager em;
-	private AmmoManager am;
+	private ItemManager im;
 	boolean shoot = false;
 	boolean ableToShoot = true;	
 
@@ -75,7 +75,7 @@ public class Decline implements ApplicationListener {
 		character.setPosition(GlobalSingleton.STARTING_HERO_XPOS, GlobalSingleton.STARTING_HERO_YPOS);
 		
 		background = new RepeatingBackground(new Texture(Gdx.files.internal("data/cave.jpg")));
-        am = new AmmoManager(new Texture(Gdx.files.internal("data/ammo.jpg")));
+        im = new ItemManager(new Texture(Gdx.files.internal("data/ammo.jpg")), new Texture(Gdx.files.internal("data/healthpack.jpg")));
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class Decline implements ApplicationListener {
 		character.draw(batch, GlobalSingleton.STARTING_HERO_XPOS, GlobalSingleton.STARTING_HERO_YPOS);
 		bm.draw(batch);
 		em.draw(batch);
-		am.draw(batch);
+		im.draw(batch);
 		batch.end();
 	}
 	
@@ -123,14 +123,14 @@ public class Decline implements ApplicationListener {
 			if(gs.getHeroOrientation() == GlobalSingleton.RIGHT){
 				gs.setHeroOrientation(GlobalSingleton.LEFT);
 			}
-			gs.setHeroMovement(-character.SPEED);
+			gs.setHeroMovement(-Hero.SPEED);
 		}
 		else if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			character.moveRight();
 			if(gs.getHeroOrientation() == GlobalSingleton.LEFT){
 				gs.setHeroOrientation(GlobalSingleton.RIGHT);
 			}
-			gs.setHeroMovement(character.SPEED);
+			gs.setHeroMovement(Hero.SPEED);
 		}
 		else
 		{
@@ -174,7 +174,7 @@ public class Decline implements ApplicationListener {
 		character.update();
 		bm.update();
 		em.update();
-		am.update();
+		im.update();
 	}
 
 	/**
