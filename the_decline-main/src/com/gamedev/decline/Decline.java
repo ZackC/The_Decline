@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.Array;
  * 
  * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
  * @version 	: 2.0
- * Last Update	: 3/23/2013
+ * Last Update	: 3/25/2013
  * Update By	: Ian Middleton
  * 
  * Source code for the Decline class. The Decline class takes care of essentially
@@ -33,7 +33,7 @@ public class Decline implements ApplicationListener {
 	// Global Singleton //
 	private GlobalSingleton gs = GlobalSingleton.getInstance();
 	
-	// Constants for the Objects //
+	// Constants //
 	public static final int HEALTH_PACK = 5;
 	public static final int ENEMY_DAMAGE = 10;
 	
@@ -90,7 +90,7 @@ public class Decline implements ApplicationListener {
 	@Override
 	public void dispose() {
 		batch.dispose();
-	}
+	}// end setHealth()
 
 	/**
 	 * Calls the draw functions for all objects and then calls the update function. 
@@ -115,8 +115,11 @@ public class Decline implements ApplicationListener {
 		em.draw(batch);
 		im.draw(batch);
 		batch.end();
-	}
+	}// end setHealth()
 	
+    /**
+	 * Handles all keyboard events in the game.
+	 */
 	private void handleEvent(){
 		//if hero is hiding
 		if(gs.getIsHeroHiding())
@@ -183,8 +186,11 @@ public class Decline implements ApplicationListener {
 		if(!(Gdx.input.isKeyPressed(Keys.SPACE)) && hero.getAmmo() != 0){
 			ableToShoot = true;
 		}
-	}
-	
+	}// end handleEvent()
+
+    /**
+	 * Handles all collisions between CollidableObjects.
+	 */	
 	private void handleCollision(){
 		Array<Bullet> activeBullets = bm.getActiveBullets();
 		Array<Enemy> activeEnemies = em.getActiveEnemies();
@@ -197,9 +203,9 @@ public class Decline implements ApplicationListener {
 					bm.removeActiveBullet(i);
 					em.removeActiveEnemy(j);
 					break;
-				}
-			}
-		}
+				}// end if
+			}// end for
+		}// end for
 		if(!gs.getIsHeroHiding())
 		{	
 		  for(int i=0; i < activeEnemies.size; i++){
@@ -208,10 +214,10 @@ public class Decline implements ApplicationListener {
 				  if (hero.getHealth() < 0)
 				  {
 					  hero.setHealth(0);
-				  }
+				  }// end if
 				  em.removeActiveEnemy(i);
-			  }
-		  }
+			  }// end if
+		  }// end for
 		}
 		
 		for(int i=0; i < activeAmmo.size; i++){
@@ -221,10 +227,10 @@ public class Decline implements ApplicationListener {
 				if (hero.getAmmo() > Hero.MAX_AMMO)
 				{
 					hero.setAmmo(Hero.MAX_AMMO);
-				}
+				}// end if
 				im.removeActiveAmmo(i);
-			}
-		}
+			}// end if
+		}// end for
 		
 		for(int i=0; i < activeHealthPacks.size; i++){
 			if(hero.collidesWith(activeHealthPacks.get(i))){
@@ -246,7 +252,7 @@ public class Decline implements ApplicationListener {
 		bm.update();
 		em.update();
 		im.update();
-	}
+	}// end update()
 
 	/**
 	 * Function used for resizing of the game.
@@ -258,7 +264,7 @@ public class Decline implements ApplicationListener {
 	 */
 	@Override
 	public void resize(int width, int height) {
-	}
+	}// end resize()
 
 	/**
 	 * Function used for pausing of the game.
@@ -270,7 +276,7 @@ public class Decline implements ApplicationListener {
 	 */
 	@Override
 	public void pause() {
-	}
+	}// end pause()
 
 	/**
 	 * Function used for resuming of the game
@@ -282,5 +288,5 @@ public class Decline implements ApplicationListener {
 	 */
 	@Override
 	public void resume() {
-	}
-}
+	}// end resume()
+}// end Decline class

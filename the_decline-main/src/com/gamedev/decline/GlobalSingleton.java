@@ -158,7 +158,7 @@ public class GlobalSingleton {
 	} // end setHeroOrientation()
 	
 	public void setWorldXPos(float newWorldXPos){
-		worldXPos = newWorldXPos;
+		worldXPos = newWorldXPos; // end setWorldXPos()
 	}
 	
 	public boolean getIsHeroHiding()

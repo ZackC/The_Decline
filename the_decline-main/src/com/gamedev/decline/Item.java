@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.Texture;
  * Source code for the Item class. The Item class is an abstract class that is meant to be
  *  extended for specific Items within the game.
  * 
+ * ***START HERE*** ian
  */
 public abstract class Item extends CollidableObject{
 	// Global Singleton //

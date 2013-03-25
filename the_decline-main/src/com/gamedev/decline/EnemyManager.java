@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.Array;
  * 
  * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
  * @version 	: 2.0
- * Last Update	: 3/22/2013
+ * Last Update	: 3/25/2013
  * Update By	: Ian Middleton
  * 
  * Source code for the EnemyManager class. The EnemyManager class takes care of creating,
@@ -54,17 +54,28 @@ public class EnemyManager {
 		} // end for
 	} // end EnemyManager
 	
+	/**
+	 * Gets all currently active Enemies.
+	 * 
+	 * @return	: A badlogic array of all the active Enemies.
+	 */
 	public Array<Enemy> getActiveEnemies(){
 		return currentEnemies;
-	}
-	
-	public void removeActiveEnemy(int index){
-		currentEnemies.removeIndex(index);
-	}
+	}// end getActiveEnemies()
 	
 	/**
-	 * Grabs a Enemy from the Enemy buffer created when the manager was constructed. This Enemy 
-	 * 	is then added to the array of Enemy that are to be drawn to the screen and updated.
+	 * Removes a specific active Enemy from the group of active Enemies.
+	 * 
+	 * @param index	: The index of the active Enemy to be removed.
+	 */
+	public void removeActiveEnemy(int index){
+		currentEnemies.removeIndex(index);
+	}// end removeActiveEnemy()
+	
+	/**
+	 * Grabs a Enemy from the Enemy buffer created when the manager was constructed. Sets the
+	 * 	initial values for this specific Enemy. This Enemy is then added to the array of Enemy 
+	 * 	that are to be drawn to the screen and updated.
 	 */
 	public void makeEnemyAppear()
 	{
@@ -74,7 +85,7 @@ public class EnemyManager {
 		currentEnemy.setYPos(Enemy.START_YDRAW);
 		currentEnemies.add(currentEnemy);
 		currentEnemyNumber++;
-	}
+	}// end makeEnemyAppear()
 	
 	/**
 	 * Checks to see if the hero has moved farther than the random amount required for a new enemy to be spawned.
@@ -88,7 +99,7 @@ public class EnemyManager {
 		{
 			makeEnemyAppear();
 			newEnemyXPosition += rand.nextInt(400)+50;
-		}
+		}// end if
 		enemyIter = currentEnemies.iterator();
 		while(enemyIter.hasNext())
 		{
@@ -97,14 +108,14 @@ public class EnemyManager {
 			if(currentEnemy.getX() < -1 * currentEnemy.getWidth())
 			{
 				enemyIter.remove();
-			}
+			}// end if
 			if(currentEnemy.getX() < 0)
 			{
 				enemyIter.remove();
-			}
-		}
+			}// end if
+		}// end while
 		
-	}
+	}// end update()
 	
 	/**
 	 * Iterates through the array of Enemies to be drawn to the screen and calls 
@@ -119,6 +130,6 @@ public class EnemyManager {
 		{
 			currentEnemy = enemyIter.next();
 			currentEnemy.draw(batch);
-		}
-	}
-}
+		}// end while()
+	}// end draw()
+}// end EnemyManager class

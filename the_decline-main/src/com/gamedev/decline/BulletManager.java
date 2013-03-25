@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.Array;
  * 
  * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
  * @version 	: 2.0
- * Last Update	: 3/22/2013
+ * Last Update	: 3/25/2013
  * Update By	: Ian Middleton
  * 
  * Source code for the BulletManager class. The BulletManager class takes care of creating,
@@ -28,7 +28,7 @@ public class BulletManager {
 	// Global Singleton //
 	private GlobalSingleton gs = GlobalSingleton.getInstance();
 	
-	// Constants for the Object //
+	// Constants //
 	public static final int MAX_BULLET_NUMBER = 100;
 	
 	// Internal Variables //
@@ -50,18 +50,28 @@ public class BulletManager {
 		} // end for
 	} // end BulletManager()
 	
+	/**
+	 * Returns the active Bullet objects in the game.
+	 * 
+	 * @return	: A Badlogic Array of the Bullet objects.
+	 */
 	public Array<Bullet> getActiveBullets(){
 		return shotBullets;
-	}
+	}// end getActiveBullets()
 	
+	/**
+	 * Removes the active Bullet located at the specified index.
+	 * 
+	 * @param index	: The index of the Bullet to be removed.
+	 */
 	public void removeActiveBullet(int index){
 		shotBullets.removeIndex(index);
-	}
+	}// end removeActiveBullet
 	
 	/**
 	 * Grabs a Bullet from the Bullet buffer created when the manager was constructed. This Bullet is then 
 	 * 	given a direction and a starting position based on which way the Hero object is oriented. This Bullet 
-	 * 	is then added to the array of Bullets that are to be drawn to the screen and updated.
+	 * 	is then added to the array of active Bullets that are to be drawn to the screen and updated.
 	 */
 	public void shootBullet(){
 		if(gs.getHeroOrientation() == GlobalSingleton.RIGHT){
@@ -90,7 +100,7 @@ public class BulletManager {
 	
 	/**
 	 * Iterates through the array of Bullets to be drawn to the screen and calls the update function
-	 * 	for each Bullet. Also removes Bullets from the drawing array when they travel off of the viewable 
+	 * 	for each Bullet. Also removes Bullets from the active array when they travel off of the viewable 
 	 * 	area.
 	 */
 	public void update(){

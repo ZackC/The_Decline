@@ -4,8 +4,8 @@ package com.gamedev.decline;
 // Java Package Support //
 // { Not Applicable }
 
-import com.badlogic.gdx.Gdx;
 // Badlogic Package Support //
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
 /**
@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.Texture;
  * 
  * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
  * @version 	: 2.0
- * Last Update	: 3/22/2013
+ * Last Update	: 3/25/2013
  * Update By	: Ian Middleton
  * 
  * Source code for the Hero class. The Hero class represents the Hero object
@@ -43,12 +43,9 @@ public class Hero extends Unit {
 	private int health = MAX_HEALTH;
 	
 	/**
-	 * Instantiates a new Hero object by calling the super constructor (Unit) and
-	 * 	setting the managers up in addition to other internal variables.
+	 * Instantiates a new Hero object by calling the super constructor (Unit)
 	 * 
 	 * @param texture	: The image to be used for the hero.
-	 * @param newBm		: The manager for the bullets.
-	 * @param newEm		: The manager for the enemies.
 	 */
 	public Hero(Texture newStandingTexture, Texture newHidingTexture) {
 		super(newStandingTexture, SPEED, START_XDRAW, START_YDRAW);
@@ -56,16 +53,16 @@ public class Hero extends Unit {
 		hidingTexture = newHidingTexture;
 		setJumpSpeed(JUMP_SPEED);
 		
-	}
+	}// end Hero()
 	
 	public void setToInitialDrawPosition(){
 		setPosition(START_XDRAW, START_YDRAW);
-	}
+	}// end setToInitialDrawPosition()
 	
 	/**
-	 * The update function is called every global update. It checks for key presses and updates the hero
-	 * 	accordingly. It then also updates the GlobalSingleton with new values if needed. Update functions
-	 * 	for the managers are also called here.
+	 * The update function is called every global update. 
+     *
+     * ***PROBLEM*** duplicate problem
 	 */
 	public void update(){
 		gs.setHeroXPos(xPos);
@@ -73,8 +70,11 @@ public class Hero extends Unit {
 		{
 			jump();
 		}
-	}
+	} // end update()
 	
+	/**
+	 * Overrides the moveRight function of Unit to add special functionality for Hero.
+	 */
 	@Override
 	public void moveRight(){
 		posChange = speed * Gdx.graphics.getDeltaTime();
@@ -82,8 +82,11 @@ public class Hero extends Unit {
 		gs.setWorldXPos(gs.getWorldXPos() + posChange);
 		if(isFlipX() == true)
 			flip(true, false);
-	}
+	} // end moveRight()
 	
+    /**
+	 * Overrides the moveLeft function of Unit to add special functionality for Hero.
+	 */
 	@Override
 	public void moveLeft(){
 		posChange = -(speed * Gdx.graphics.getDeltaTime());
@@ -91,7 +94,7 @@ public class Hero extends Unit {
 		gs.setWorldXPos(gs.getWorldXPos() + posChange);
 		if(isFlipX() == false)
 			flip(true, false);
-	}
+	}// end moveLeft()
 
 	/**
 	 * Gets the hero's current ammo count.
@@ -101,7 +104,7 @@ public class Hero extends Unit {
 	public int getAmmo()
 	{
 		return ammo;
-	}
+	} // end getAmmo()
 	
 	/**
 	 * Gets the hero's current health.
@@ -111,7 +114,7 @@ public class Hero extends Unit {
 	public int getHealth()
 	{
 		return health;
-	}
+	}// end getHealth()
 	
 	/**
 	 * Sets the hero's current ammo count.
@@ -121,7 +124,7 @@ public class Hero extends Unit {
 	public void setAmmo(int ammo)
 	{
 		this.ammo = ammo;
-	}
+	}// end setAmmo()
 	
 	/**
 	 * Sets the hero's current health.
@@ -131,7 +134,7 @@ public class Hero extends Unit {
 	public void setHealth(int health)
 	{
 		this.health = health;
-	}
+	}// end setHealth()
 	
 	/***
 	 * The function to make the hero hide.
