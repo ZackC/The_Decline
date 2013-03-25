@@ -76,7 +76,7 @@ public class Decline implements ApplicationListener {
 		hero.setToInitialDrawPosition();
 		
 		background = new RepeatingBackground(new Texture(Gdx.files.internal("data/cave.jpg")));
-        im = new ItemManager(new Texture(Gdx.files.internal("data/ammo.jpg")), new Texture(Gdx.files.internal("data/healthpack.jpg")));
+        im = new ItemManager(new Texture(Gdx.files.internal("ammoBox.png")), new Texture(Gdx.files.internal("data/healthpack.jpg")));
 	}
 
 	/**
@@ -118,36 +118,52 @@ public class Decline implements ApplicationListener {
 	}
 	
 	private void handleEvent(){
-		
-		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
-			hero.moveLeft();
-			if(gs.getHeroOrientation() == GlobalSingleton.RIGHT){
-				gs.setHeroOrientation(GlobalSingleton.LEFT);
+		//if hero is hiding
+		if(gs.getIsHeroHiding())
+		{
+			//and the user is not trying to hide
+			//make the hero stand up
+			if(!Gdx.input.isKeyPressed(Keys.DOWN))
+			{
+			  hero.stand();
 			}
-			gs.setHeroMovement(-Hero.SPEED);
+			//else set the hero movement to zero
+			else
+			{
+				gs.setHeroMovement(0);	
+			} 
 		}
-		else if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
-			hero.moveRight();
-			if(gs.getHeroOrientation() == GlobalSingleton.LEFT){
-				gs.setHeroOrientation(GlobalSingleton.RIGHT);
-			}
-			gs.setHeroMovement(Hero.SPEED);
-		}
+		//if the hero is not hiding
 		else
 		{
-			gs.setHeroMovement(0);
+		  //if left is pressed move left	
+		  if(Gdx.input.isKeyPressed(Keys.LEFT)) {
+			hero.moveLeft();
+			  if(gs.getHeroOrientation() == GlobalSingleton.RIGHT){
+			  	gs.setHeroOrientation(GlobalSingleton.LEFT);
+			  }
+			  gs.setHeroMovement(-Hero.SPEED);
+		  }
+		  else if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
+		 	  hero.moveRight();
+			  if(gs.getHeroOrientation() == GlobalSingleton.LEFT){
+				  gs.setHeroOrientation(GlobalSingleton.RIGHT);
+			  }
+			  gs.setHeroMovement(Hero.SPEED);
+		  }
+		  else
+		  {
+			  gs.setHeroMovement(0);
+		  }
+		  if(Gdx.input.isKeyPressed(Keys.UP) && !gs.getIsHeroJumping()){
+			  gs.setIsHeroJumping(true);
+		  }
+		  if(Gdx.input.isKeyPressed(Keys.DOWN))
+		  {
+			  hero.hide();
+		  }
 		}
-		if(Gdx.input.isKeyPressed(Keys.UP)){
-			hero.jump();
-		}
-		if(Gdx.input.isKeyPressed(Keys.DOWN))
-		{
-			hero.hide();
-		}
-		else if(gs.getIsHeroHiding())
-		{
-			hero.stand();
-		}
+		
 		if(Gdx.input.isKeyPressed(Keys.SPACE) && ableToShoot)
 		{
 			shoot = true;

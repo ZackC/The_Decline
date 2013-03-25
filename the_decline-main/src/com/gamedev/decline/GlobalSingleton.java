@@ -39,6 +39,7 @@ public class GlobalSingleton {
 	private float heroMovement = 0;
 	private int heroOrientation = 0;
 	private boolean isHeroHiding = false;
+	private boolean isHeroJumping = false;
 
 	
 	private GlobalSingleton() {
@@ -170,4 +171,13 @@ public class GlobalSingleton {
 		isHeroHiding = newHeroHidingValue;
 	}
 	
+	public boolean getIsHeroJumping()
+	{
+		return isHeroJumping;
+	}
+	
+	public void setIsHeroJumping(boolean newHeroJumpingValue)
+	{
+		isHeroJumping = newHeroJumpingValue;
+	}
 }

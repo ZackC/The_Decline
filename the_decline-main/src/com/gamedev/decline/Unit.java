@@ -118,15 +118,18 @@ public abstract class Unit extends CollidableObject{
 	 */
 	public void jump(){
 		
-		yPosChange = jumpSpeed * Gdx.graphics.getDeltaTime();
-		System.out.println("Delta Time = "+Gdx.graphics.getDeltaTime());
-		System.out.println("Jump Speed = "+jumpSpeed);
-		System.out.println("Y pos Change = "+yPosChange);
+		yPosChange = jumpSpeed; // * Gdx.graphics.getDeltaTime();
 		setYPos(getYPos() + yPosChange);
 		if (getYPos() >= Hero.JUMP_DISTANCE)
 		{
 			setYPos(Hero.JUMP_DISTANCE);
 			jumpSpeed = -Hero.JUMP_SPEED;
+		}
+		else if(getYPos() < Hero.START_YDRAW)
+		{
+			setYPos(Hero.START_YDRAW);
+			gs.setIsHeroJumping(false);
+			jumpSpeed = Hero.JUMP_SPEED;
 		}
 		setPosition(getX(), getYPos());
 	}	

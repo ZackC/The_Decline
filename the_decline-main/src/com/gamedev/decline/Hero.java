@@ -30,7 +30,7 @@ public class Hero extends Unit {
 	public static final int START_XDRAW = 120;
 	public static final int START_YDRAW = 20;
 	public static final int SPEED = 200;
-	public static final int JUMP_SPEED = 40;
+	public static final int JUMP_SPEED = 5;
 	public static final int JUMP_DISTANCE = 160;
 	public static final int MAX_AMMO = 50;
 	public static final int MAX_HEALTH = 100;
@@ -69,6 +69,10 @@ public class Hero extends Unit {
 	 */
 	public void update(){
 		gs.setHeroXPos(xPos);
+		if(gs.getIsHeroJumping())
+		{
+			jump();
+		}
 	}
 	
 	@Override
@@ -129,17 +133,24 @@ public class Hero extends Unit {
 		this.health = health;
 	}
 	
-	
+	/***
+	 * The function to make the hero hide.
+	 */
 	public void hide()
 	{
 		gs.setIsHeroHiding(true);
 		setTexture(hidingTexture);
+		setSize(hidingTexture.getWidth(), hidingTexture.getHeight());
 	}	
 	
+	/***
+	 * The function to make hero stand. 
+	 */
 	public void stand()
 	{
 		gs.setIsHeroHiding(false);
 		setTexture(standingTexture);
+		setSize(standingTexture.getWidth(), standingTexture.getHeight());
 	}
 	
 }
