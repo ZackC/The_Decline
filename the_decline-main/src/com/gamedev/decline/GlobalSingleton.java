@@ -158,35 +158,70 @@ public class GlobalSingleton {
 		heroOrientation = newHeroOrientation;
 	} // end setHeroOrientation()
 	
+	/***
+	 * Sets the x position in the work of the hero
+	 * 
+	 * @param newWorldXPos : the x position in the world of the hero
+	 */
 	public void setWorldXPos(float newWorldXPos){
 		worldXPos = newWorldXPos; // end setWorldXPos()
 	}
 	
+	/***
+	 * Returns the boolean for if the hero is hiding
+	 * 
+	 * @return: true if the hero is hiding, false otherwise
+	 */
 	public boolean getIsHeroHiding()
 	{
 		return isHeroHiding;
 	}
 	
+	/***
+	 * Sets the boolean for if the hero is hiding
+	 * 
+	 * @param newHeroHidingValue: the new boolean for the hiding state of the hero
+	 */
 	public void setIsHeroHiding(boolean newHeroHidingValue)
 	{
 		isHeroHiding = newHeroHidingValue;
 	}
 	
+	/***
+	 * 
+	 * @return: true if the hero is jumping; false otherwise
+	 */
 	public boolean getIsHeroJumping()
 	{
 		return isHeroJumping;
 	}
 	
+	/***
+	 * 
+	 * Sets the boolean for if the hero is jumping
+	 * 
+	 * @param newHeroJumpingValue - the boolean for if the hero is jumping
+	 */
 	public void setIsHeroJumping(boolean newHeroJumpingValue)
 	{
 		isHeroJumping = newHeroJumpingValue;
 	}
 	
+	/***
+	 * Returns the boolean for if the hero is alive
+	 * 
+	 * @return : true if the hero is alive; false otherwise
+	 */
 	public boolean getIsHeroAlive()
 	{
 		return isHeroAlive;
 	}
 	
+	/***
+	 * The method that sets the varaiable for if the hero is alive or not
+	 * 
+	 * @param newHeroLivingValue - the new boolean that states if the hero is alive
+	 */
 	public void setIsHeroAlive(boolean newHeroLivingValue)
 	{
 		isHeroAlive = newHeroLivingValue;

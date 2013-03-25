@@ -45,7 +45,8 @@ public class Hero extends Unit {
 	/**
 	 * Instantiates a new Hero object by calling the super constructor (Unit)
 	 * 
-	 * @param texture	: The image to be used for the hero.
+	 * @param newStandingTexture	: The image to be used for when the hero is standing.
+	 * @param newHidingTexture  	: The image to be used for when the hero is hiding; 
 	 */
 	public Hero(Texture newStandingTexture, Texture newHidingTexture) {
 		super(newStandingTexture, SPEED, START_XDRAW, START_YDRAW);
@@ -151,7 +152,7 @@ public class Hero extends Unit {
 	}	
 	
 	/***
-	 * The function to make hero stand. 
+	 * The function to make the hero stand. 
 	 */
 	public void stand()
 	{

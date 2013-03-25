@@ -114,7 +114,9 @@ public abstract class Unit extends CollidableObject{
 	}
 	
 	/**
-	 * Makes the Unit jump.
+	 * Makes the Unit jump.  At the moment, this is only implemented
+	 * for the hero.  So we will have to refactor if we want it for
+	 * other units.
 	 */
 	public void jump(){
 		
