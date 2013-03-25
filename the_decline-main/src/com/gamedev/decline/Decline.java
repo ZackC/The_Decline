@@ -41,7 +41,7 @@ public class Decline implements ApplicationListener {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private RepeatingBackground background;
-	private Hero character;
+	private Hero hero;
 	private BulletManager bm;
 	private EnemyManager em;
 	private ItemManager im;
@@ -70,9 +70,10 @@ public class Decline implements ApplicationListener {
 		
 		em = new EnemyManager(new Texture(Gdx.files.internal("data/enemy.gif")));
 		
-		character = new Hero(new Texture(Gdx.files.internal("hero_weapon.png")));
-		character.setOrigin(character.getWidth()/2, character.getHeight()/2);
-		character.setToInitialDrawPosition();
+		hero = new Hero(new Texture(Gdx.files.internal("hero_weapon.png")), 
+				new Texture(Gdx.files.internal("hero_crouch.png")));
+		hero.setOrigin(hero.getWidth()/2, hero.getHeight()/2);
+		hero.setToInitialDrawPosition();
 		
 		background = new RepeatingBackground(new Texture(Gdx.files.internal("data/cave.jpg")));
         im = new ItemManager(new Texture(Gdx.files.internal("data/ammo.jpg")), new Texture(Gdx.files.internal("data/healthpack.jpg")));
@@ -108,8 +109,8 @@ public class Decline implements ApplicationListener {
 
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		background.draw(batch,character.getXPos());
-		character.draw(batch);
+		background.draw(batch,hero.getXPos());
+		hero.draw(batch);
 		bm.draw(batch);
 		em.draw(batch);
 		im.draw(batch);
@@ -119,14 +120,14 @@ public class Decline implements ApplicationListener {
 	private void handleEvent(){
 		
 		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
-			character.moveLeft();
+			hero.moveLeft();
 			if(gs.getHeroOrientation() == GlobalSingleton.RIGHT){
 				gs.setHeroOrientation(GlobalSingleton.LEFT);
 			}
 			gs.setHeroMovement(-Hero.SPEED);
 		}
 		else if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
-			character.moveRight();
+			hero.moveRight();
 			if(gs.getHeroOrientation() == GlobalSingleton.LEFT){
 				gs.setHeroOrientation(GlobalSingleton.RIGHT);
 			}
@@ -137,8 +138,16 @@ public class Decline implements ApplicationListener {
 			gs.setHeroMovement(0);
 		}
 		if(Gdx.input.isKeyPressed(Keys.UP)){
-			character.jump();
-		}		
+			hero.jump();
+		}
+		if(Gdx.input.isKeyPressed(Keys.DOWN))
+		{
+			hero.hide();
+		}
+		else if(gs.getIsHeroHiding())
+		{
+			hero.stand();
+		}
 		if(Gdx.input.isKeyPressed(Keys.SPACE) && ableToShoot)
 		{
 			shoot = true;
@@ -147,15 +156,15 @@ public class Decline implements ApplicationListener {
 		
 		if(shoot == true){
 			bm.shootBullet();
-			character.setAmmo(character.getAmmo() - 1);
-			if (character.getAmmo() == 0)
+			hero.setAmmo(hero.getAmmo() - 1);
+			if (hero.getAmmo() == 0)
 			{
 				ableToShoot = false;
 			}
 			shoot = false;
 		}
 		
-		if(!(Gdx.input.isKeyPressed(Keys.SPACE)) && character.getAmmo() != 0){
+		if(!(Gdx.input.isKeyPressed(Keys.SPACE)) && hero.getAmmo() != 0){
 			ableToShoot = true;
 		}
 	}
@@ -175,36 +184,38 @@ public class Decline implements ApplicationListener {
 				}
 			}
 		}
-		
-		for(int i=0; i < activeEnemies.size; i++){
-			if(character.collidesWith(activeEnemies.get(i))){
-				character.setHealth(character.getHealth() - ENEMY_DAMAGE);
-				if (character.getHealth() < 0)
-				{
-					character.setHealth(0);
-				}
-				em.removeActiveEnemy(i);
-			}
+		if(!gs.getIsHeroHiding())
+		{	
+		  for(int i=0; i < activeEnemies.size; i++){
+			  if(hero.collidesWith(activeEnemies.get(i))){
+				  hero.setHealth(hero.getHealth() - ENEMY_DAMAGE);
+				  if (hero.getHealth() < 0)
+				  {
+					  hero.setHealth(0);
+				  }
+				  em.removeActiveEnemy(i);
+			  }
+		  }
 		}
 		
 		for(int i=0; i < activeAmmo.size; i++){
-			if(character.collidesWith(activeAmmo.get(i))){
-				character.setAmmo(character.getAmmo() + im.getActiveAmmo().get(i).getAmountOfAmmoStored());
+			if(hero.collidesWith(activeAmmo.get(i))){
+				hero.setAmmo(hero.getAmmo() + im.getActiveAmmo().get(i).getAmountOfAmmoStored());
 				ableToShoot = true;
-				if (character.getAmmo() > Hero.MAX_AMMO)
+				if (hero.getAmmo() > Hero.MAX_AMMO)
 				{
-					character.setAmmo(Hero.MAX_AMMO);
+					hero.setAmmo(Hero.MAX_AMMO);
 				}
 				im.removeActiveAmmo(i);
 			}
 		}
 		
 		for(int i=0; i < activeHealthPacks.size; i++){
-			if(character.collidesWith(activeHealthPacks.get(i))){
-				character.setHealth(character.getHealth() + HEALTH_PACK);
-				if (character.getHealth() > Hero.MAX_HEALTH)
+			if(hero.collidesWith(activeHealthPacks.get(i))){
+				hero.setHealth(hero.getHealth() + HEALTH_PACK);
+				if (hero.getHealth() > Hero.MAX_HEALTH)
 				{
-					character.setHealth(Hero.MAX_HEALTH);
+					hero.setHealth(Hero.MAX_HEALTH);
 				}
 				im.removeActiveHealthPack(i);
 			}
@@ -215,7 +226,7 @@ public class Decline implements ApplicationListener {
 	 * Calls the update functions for all objects.
 	 */
 	private void update() {
-		character.update();
+		hero.update();
 		bm.update();
 		em.update();
 		im.update();

@@ -38,6 +38,7 @@ public class GlobalSingleton {
 	private float worldXPos = 0;
 	private float heroMovement = 0;
 	private int heroOrientation = 0;
+	private boolean isHeroHiding = false;
 
 	
 	private GlobalSingleton() {
@@ -158,4 +159,15 @@ public class GlobalSingleton {
 	public void setWorldXPos(float newWorldXPos){
 		worldXPos = newWorldXPos;
 	}
+	
+	public boolean getIsHeroHiding()
+	{
+		return isHeroHiding;
+	}
+	
+	public void setIsHeroHiding(boolean newHeroHidingValue)
+	{
+		isHeroHiding = newHeroHidingValue;
+	}
+	
 }

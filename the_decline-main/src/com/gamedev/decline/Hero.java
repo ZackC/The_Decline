@@ -34,6 +34,8 @@ public class Hero extends Unit {
 	public static final int JUMP_DISTANCE = 160;
 	public static final int MAX_AMMO = 50;
 	public static final int MAX_HEALTH = 100;
+	final Texture standingTexture;
+	final Texture hidingTexture;
 	
 	// Internal Variables //
 	private float posChange = 0;
@@ -48,8 +50,11 @@ public class Hero extends Unit {
 	 * @param newBm		: The manager for the bullets.
 	 * @param newEm		: The manager for the enemies.
 	 */
-	public Hero(Texture texture) {
-		super(texture, SPEED, START_XDRAW, START_YDRAW);
+	public Hero(Texture newStandingTexture, Texture newHidingTexture) {
+		super(newStandingTexture, SPEED, START_XDRAW, START_YDRAW);
+		standingTexture = newStandingTexture;
+		hidingTexture = newHidingTexture;
+		
 	}
 	
 	public void setToInitialDrawPosition(){
@@ -122,4 +127,18 @@ public class Hero extends Unit {
 	{
 		this.health = health;
 	}
+	
+	
+	public void hide()
+	{
+		gs.setIsHeroHiding(true);
+		setTexture(hidingTexture);
+	}	
+	
+	public void stand()
+	{
+		gs.setIsHeroHiding(false);
+		setTexture(standingTexture);
+	}
+	
 }
