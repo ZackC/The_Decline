@@ -117,7 +117,11 @@ public abstract class Unit extends CollidableObject{
 	 * Makes the Unit jump.
 	 */
 	public void jump(){
+		
 		yPosChange = jumpSpeed * Gdx.graphics.getDeltaTime();
+		System.out.println("Delta Time = "+Gdx.graphics.getDeltaTime());
+		System.out.println("Jump Speed = "+jumpSpeed);
+		System.out.println("Y pos Change = "+yPosChange);
 		setYPos(getYPos() + yPosChange);
 		if (getYPos() >= Hero.JUMP_DISTANCE)
 		{

@@ -54,6 +54,7 @@ public class Hero extends Unit {
 		super(newStandingTexture, SPEED, START_XDRAW, START_YDRAW);
 		standingTexture = newStandingTexture;
 		hidingTexture = newHidingTexture;
+		setJumpSpeed(JUMP_SPEED);
 		
 	}
 	
