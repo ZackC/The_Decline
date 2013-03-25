@@ -113,7 +113,6 @@ public class Decline implements ApplicationListener {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		background.draw(batch,hero.getXPos());
-		System.out.println("Is hero alive: "+gs.getIsHeroAlive());
 		if(gs.getIsHeroAlive())
 		{
 	 	  hero.draw(batch);
