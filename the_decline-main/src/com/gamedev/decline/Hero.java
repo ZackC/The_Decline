@@ -131,9 +131,13 @@ public class Hero extends Unit {
 	 * 
 	 * @param health	: The hero's new health.
 	 */
-	public void setHealth(int health)
+	public void setHealth(int newHealth)
 	{
-		this.health = health;
+		health = newHealth;
+		if(health < 1)
+		{
+			gs.setIsHeroAlive(false);
+		}
 	}// end setHealth()
 	
 	/***

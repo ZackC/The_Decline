@@ -38,15 +38,17 @@ public class Decline implements ApplicationListener {
 	public static final int ENEMY_DAMAGE = 10;
 	
 	// Internal Variables //
-	private OrthographicCamera camera;
-	private SpriteBatch batch;
-	private RepeatingBackground background;
-	private Hero hero;
-	private BulletManager bm;
-	private EnemyManager em;
-	private ItemManager im;
+	OrthographicCamera camera;
+	SpriteBatch batch;
+	RepeatingBackground background;
+	Hero hero;
+	BulletManager bm;
+	EnemyManager em;
+	ItemManager im;
 	boolean shoot = false;
 	boolean ableToShoot = true;	
+	HealthBar healthBar;
+    AmmoCountDisplay ammoDisplay;
 
 	/**
 	 * Function run when the game is started. Basically a high-level constructor for the game.
@@ -74,7 +76,8 @@ public class Decline implements ApplicationListener {
 				new Texture(Gdx.files.internal("hero_crouch.png")));
 		hero.setOrigin(hero.getWidth()/2, hero.getHeight()/2);
 		hero.setToInitialDrawPosition();
-		
+		healthBar = new HealthBar(hero);
+		ammoDisplay = new AmmoCountDisplay(hero);
 		background = new RepeatingBackground(new Texture(Gdx.files.internal("data/cave.jpg")));
         im = new ItemManager(new Texture(Gdx.files.internal("ammoBox.png")), new Texture(Gdx.files.internal("data/healthpack.jpg")));
 	}
@@ -110,11 +113,17 @@ public class Decline implements ApplicationListener {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		background.draw(batch,hero.getXPos());
-		hero.draw(batch);
+		System.out.println("Is hero alive: "+gs.getIsHeroAlive());
+		if(gs.getIsHeroAlive())
+		{
+	 	  hero.draw(batch);
+		}
 		bm.draw(batch);
 		em.draw(batch);
 		im.draw(batch);
+		ammoDisplay.draw(batch);
 		batch.end();
+		healthBar.draw();
 	}// end setHealth()
 	
     /**

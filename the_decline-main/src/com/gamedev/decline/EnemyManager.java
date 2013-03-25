@@ -109,10 +109,7 @@ public class EnemyManager {
 			{
 				enemyIter.remove();
 			}// end if
-			if(currentEnemy.getX() < 0)
-			{
-				enemyIter.remove();
-			}// end if
+
 		}// end while
 		
 	}// end update()

@@ -40,6 +40,7 @@ public class GlobalSingleton {
 	private int heroOrientation = 0;
 	private boolean isHeroHiding = false;
 	private boolean isHeroJumping = false;
+	private boolean isHeroAlive = true;
 
 	
 	private GlobalSingleton() {
@@ -179,5 +180,15 @@ public class GlobalSingleton {
 	public void setIsHeroJumping(boolean newHeroJumpingValue)
 	{
 		isHeroJumping = newHeroJumpingValue;
+	}
+	
+	public boolean getIsHeroAlive()
+	{
+		return isHeroAlive;
+	}
+	
+	public void setIsHeroAlive(boolean newHeroLivingValue)
+	{
+		isHeroAlive = newHeroLivingValue;
 	}
 }

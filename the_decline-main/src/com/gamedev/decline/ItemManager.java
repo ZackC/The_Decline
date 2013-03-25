@@ -134,10 +134,6 @@ public class ItemManager
 			{
 				ammoIter.remove();
 			}
-			if(ammo.getX() < 0)
-			{
-				ammoIter.remove();
-			}
 		}
 		if(gs.getHeroXPos() > newHealthPackPosition)
 		{
