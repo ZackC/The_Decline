@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.Texture;
  * 
  * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
  * @version 	: 2.0
- * Last Update	: 3/22/2013
+ * Last Update	: 3/25/2013
  * Update By	: Ian Middleton
  * 
  * Source code for the Bullet class. The Bullet class represents a Bullet object
@@ -25,7 +25,7 @@ public class Bullet extends Unit
 	// Global Singleton //
 	// { Not Applicable }
 	
-	// Constants for the Object //
+	// Constants //
 	public static final int DRAW_WIDTH = 30;
 	public static final int DRAW_HEIGHT = 30;
 	public static final int INITIAL_SPEED = 1000;
@@ -46,14 +46,20 @@ public class Bullet extends Unit
 		setSize(DRAW_WIDTH, DRAW_HEIGHT);
 	} // end Bullet()
 	
+	/**
+	 * Sets the Bullet object to its initial start position based on whether it is
+	 * 	a right or left facing bullet.
+	 * 
+	 * ***NOTE*** This will need to be changed when jumping is integrated.
+	 */
 	public void setToInitialDrawPosition(){
 		if(bulletOrientation == GlobalSingleton.RIGHT){
 			setPosition(START_XDRAW, START_YDRAW);
-		}
+		}// end if
 		else{
 			setPosition(START_XDRAW-80, START_YDRAW);
-		}
-	}
+		} // end else
+	}// end setToInitialDrawPosition()
 	
 	/**
 	 * Used to set the orientation of the bullet and which direction it should fly.
@@ -67,8 +73,8 @@ public class Bullet extends Unit
 	
 	/**
 	 * The update function is called every global game update. Uses the orientation of the bullet 
-	 * 	to determine which direction the bullet should move. Also takes into account whether 
-	 * 	the hero is moving and changes the speed of the bullet accordingly.
+	 * 	to determine which direction the bullet should move. GlobalSingleton values for left and right
+	 * 	are used.
 	 */
 	public void update(){
 		if(bulletOrientation == GlobalSingleton.RIGHT){

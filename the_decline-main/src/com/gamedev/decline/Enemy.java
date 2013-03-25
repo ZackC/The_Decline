@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.Texture;
  * 
  * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
  * @version 	: 2.0
- * Last Update	: 3/22/2013
+ * Last Update	: 3/25/2013
  * Update By	: Ian Middleton
  * 
  * Source code for the Enemy class. The Enemy class represents an Enemy object
@@ -26,7 +26,7 @@ public class Enemy extends Unit {
 	// Global Singleton //
 	// { Not Applicable }
 	
-	// Constants for the Object
+	// Constants //
 	public static final int INITIAL_SPEED = 125;
 	public static final int WIDTH = 100;
 	public static final int HEIGHT = 100;
@@ -37,8 +37,8 @@ public class Enemy extends Unit {
 	// { Not Applicable }
 
 	/**
-	 * Instantiates a new Enemy object by calling the super constructor (Unit), setting the xPos
-	 * to the edge of the screen, and setting the draw size.
+	 * Instantiates a new Enemy object by calling the super constructor (Unit) 
+	 * 	and setting the draw size.
 	 * 
 	 * @param texture	: The image of the Enemy.
 	 */
@@ -47,17 +47,19 @@ public class Enemy extends Unit {
 		setSize(WIDTH, HEIGHT);
 	} // end Enemy()
 	
+	/**
+	 * Sets the Enemy's draw position to the right edge of the screen.
+	 */
 	public void setToInitialDrawPosition(){
 		setPosition(START_XDRAW, START_YDRAW);
-	}
+	}// end setToInitialDrawPosition()
 	
 	/**
 	 * The update function is called every global game update. Moves the enemy towards the hero at
-	 * 	the designated speed. Also takes into account whether the hero is moving and changes the 
-	 * 	speed of the enemy accordingly.
+	 * 	the designated speed.
 	 */
 	public void update()
 	{
 		moveLeft();
 	} // end update()
-}
+}// end Enemy class

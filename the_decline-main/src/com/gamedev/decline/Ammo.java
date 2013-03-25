@@ -13,8 +13,8 @@ import com.badlogic.gdx.graphics.Texture;
  * 
  * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
  * @version 	: 2.0
- * Last Update	: 3/22/2013
- * Update By	: Zach Ogle
+ * Last Update	: 3/25/2013
+ * Update By	: Ian Middleton
  * 
  * Source code for the Ammo class. The Ammo class represents ammo objects
  *  in the game.
@@ -25,7 +25,7 @@ public class Ammo extends Item
 	// Global Singleton //
 	GlobalSingleton gs = GlobalSingleton.getInstance();
 	
-	// Constants of the Object //
+	// Constants //
 	// { Not Applicable }
 	
 	// Internal Variables //
@@ -40,7 +40,7 @@ public class Ammo extends Item
 	public Ammo(Texture texture)
 	{
 		super(texture, 0, 0);
-	}
+	}// end Ammo()
 	
 	/**
 	 * Gets the amount of ammo stored.
@@ -50,7 +50,7 @@ public class Ammo extends Item
 	public int getAmountOfAmmoStored()
 	{
 		return amountOfAmmoStored;
-	}
+	}// end getAmountOfAmmoStored()
 	
 	/**
 	 * Sets the amount of ammo stored.
@@ -60,5 +60,5 @@ public class Ammo extends Item
 	public void setAmountOfAmmoStored(int newAmount)
 	{
 		amountOfAmmoStored = newAmount;
-	}
-}
+	}// end setAmountOfAmmoStored()
+}// end Ammo class

@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.Array;
  * 
  * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
  * @version 	: 2.0
- * Last Update	: 3/23/2013
+ * Last Update	: 3/25/2013
  * Update By	: Ian Middleton
  * 
  * Source code for the Decline class. The Decline class takes care of essentially
@@ -33,7 +33,7 @@ public class Decline implements ApplicationListener {
 	// Global Singleton //
 	private GlobalSingleton gs = GlobalSingleton.getInstance();
 	
-	// Constants for the Objects //
+	// Constants //
 	public static final int HEALTH_PACK = 5;
 	public static final int ENEMY_DAMAGE = 10;
 	
@@ -76,7 +76,7 @@ public class Decline implements ApplicationListener {
 		
 		background = new RepeatingBackground(new Texture(Gdx.files.internal("data/cave.jpg")));
         im = new ItemManager(new Texture(Gdx.files.internal("data/ammo.jpg")), new Texture(Gdx.files.internal("data/healthpack.jpg")));
-	}
+	}// end create()
 
 	/**
 	 * Cleans up all resources when the game is closed.
@@ -89,7 +89,7 @@ public class Decline implements ApplicationListener {
 	@Override
 	public void dispose() {
 		batch.dispose();
-	}
+	}// end dispose()
 
 	/**
 	 * Calls the draw functions for all objects and then calls the update function. 
@@ -114,36 +114,39 @@ public class Decline implements ApplicationListener {
 		em.draw(batch);
 		im.draw(batch);
 		batch.end();
-	}
+	}// end render()
 	
+	/**
+	 * Handles all keyboard events in the game.
+	 */
 	private void handleEvent(){
 		
 		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
 			character.moveLeft();
 			if(gs.getHeroOrientation() == GlobalSingleton.RIGHT){
 				gs.setHeroOrientation(GlobalSingleton.LEFT);
-			}
+			}// end if
 			gs.setHeroMovement(-Hero.SPEED);
-		}
+		}// end if
 		else if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			character.moveRight();
 			if(gs.getHeroOrientation() == GlobalSingleton.LEFT){
 				gs.setHeroOrientation(GlobalSingleton.RIGHT);
-			}
+			}// end if
 			gs.setHeroMovement(Hero.SPEED);
-		}
+		}// end else if
 		else
 		{
 			gs.setHeroMovement(0);
-		}
+		}// end else
 		if(Gdx.input.isKeyPressed(Keys.UP)){
 			character.jump();
-		}		
+		}// end if		
 		if(Gdx.input.isKeyPressed(Keys.SPACE) && ableToShoot)
 		{
 			shoot = true;
 			ableToShoot = false;
-		}
+		}// end if
 		
 		if(shoot == true){
 			bm.shootBullet();
@@ -151,15 +154,18 @@ public class Decline implements ApplicationListener {
 			if (character.getAmmo() == 0)
 			{
 				ableToShoot = false;
-			}
+			}// end if
 			shoot = false;
-		}
+		}// end if
 		
 		if(!(Gdx.input.isKeyPressed(Keys.SPACE)) && character.getAmmo() != 0){
 			ableToShoot = true;
-		}
-	}
+		}// end if
+	}// end handleEvent()
 	
+	/**
+	 * Handles all collisions between CollidableObjects.
+	 */
 	private void handleCollision(){
 		Array<Bullet> activeBullets = bm.getActiveBullets();
 		Array<Enemy> activeEnemies = em.getActiveEnemies();
@@ -172,9 +178,9 @@ public class Decline implements ApplicationListener {
 					bm.removeActiveBullet(i);
 					em.removeActiveEnemy(j);
 					break;
-				}
-			}
-		}
+				}// end if
+			}// end for
+		}// end for
 		
 		for(int i=0; i < activeEnemies.size; i++){
 			if(character.collidesWith(activeEnemies.get(i))){
@@ -182,10 +188,10 @@ public class Decline implements ApplicationListener {
 				if (character.getHealth() < 0)
 				{
 					character.setHealth(0);
-				}
+				}// end if
 				em.removeActiveEnemy(i);
-			}
-		}
+			}// end if
+		}// end for
 		
 		for(int i=0; i < activeAmmo.size; i++){
 			if(character.collidesWith(activeAmmo.get(i))){
@@ -194,10 +200,10 @@ public class Decline implements ApplicationListener {
 				if (character.getAmmo() > Hero.MAX_AMMO)
 				{
 					character.setAmmo(Hero.MAX_AMMO);
-				}
+				}// end if
 				im.removeActiveAmmo(i);
-			}
-		}
+			}// end if
+		}// end for
 		
 		for(int i=0; i < activeHealthPacks.size; i++){
 			if(character.collidesWith(activeHealthPacks.get(i))){
@@ -205,11 +211,11 @@ public class Decline implements ApplicationListener {
 				if (character.getHealth() > Hero.MAX_HEALTH)
 				{
 					character.setHealth(Hero.MAX_HEALTH);
-				}
+				}// end if
 				im.removeActiveHealthPack(i);
-			}
-		}
-	}
+			}// end if
+		}// end for
+	}// end handleCollision()
 
 	/**
 	 * Calls the update functions for all objects.
@@ -219,7 +225,7 @@ public class Decline implements ApplicationListener {
 		bm.update();
 		em.update();
 		im.update();
-	}
+	}// end update()
 
 	/**
 	 * Function used for resizing of the game.
@@ -231,7 +237,7 @@ public class Decline implements ApplicationListener {
 	 */
 	@Override
 	public void resize(int width, int height) {
-	}
+	}// end resize()
 
 	/**
 	 * Function used for pausing of the game.
@@ -243,7 +249,7 @@ public class Decline implements ApplicationListener {
 	 */
 	@Override
 	public void pause() {
-	}
+	}// end pause()
 
 	/**
 	 * Function used for resuming of the game
@@ -255,5 +261,5 @@ public class Decline implements ApplicationListener {
 	 */
 	@Override
 	public void resume() {
-	}
-}
+	}// end resume()
+}// end Decline class

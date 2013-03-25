@@ -13,11 +13,13 @@ package com.gamedev.decline;
  * 
  * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
  * @version 	: 2.0
- * Last Update	: 3/22/2013
+ * Last Update	: 3/25/2013
  * Update By	: Ian Middleton
  * 
  * Source code for the GlobalSingleton class. The GlobalSingleton class holds information that will need
  * 	to be accessed across the game.
+ * 
+ * ***PROBLEM*** XPos and WorldXPos may be doing the same thing. Need to look into it.
  *
  */
 public class GlobalSingleton {
@@ -25,7 +27,7 @@ public class GlobalSingleton {
 	// Global Singleton //
     private static GlobalSingleton instance = null;
     
-    // Constants of the Object //
+    // Constants //
     public static final int HERO_XDRAW = 120;
     public static final int HERO_YDRAW = 20;
 	public static final int RIGHT = 0;
@@ -106,9 +108,14 @@ public class GlobalSingleton {
 		return heroOrientation;
 	} // end getHeroOrientation()
 	
+	/**
+	 * Gets the x position of the hero in world coordinates.
+	 * 
+	 * @return	: The world x position.
+	 */
 	public float getWorldXPos(){
 		return worldXPos;
-	}
+	}// end getWorldXPos
 	
 	/**
 	 * Sets the width of the hero.
@@ -155,7 +162,12 @@ public class GlobalSingleton {
 		heroOrientation = newHeroOrientation;
 	} // end setHeroOrientation()
 	
+	/**
+	 * Sets the current x position of the hero in world coordinates.
+	 * 
+	 * @param newWorldXPos	: New world x position.
+	 */
 	public void setWorldXPos(float newWorldXPos){
 		worldXPos = newWorldXPos;
-	}
-}
+	}// end setWorldXPos()
+}// end GlobalSingleton class
