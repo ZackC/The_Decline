@@ -29,8 +29,9 @@ public class Bullet extends Unit
 	public static final int DRAW_WIDTH = 30;
 	public static final int DRAW_HEIGHT = 30;
 	public static final int INITIAL_SPEED = 1000;
-	public static final int START_XDRAW = GlobalSingleton.HERO_XDRAW + GlobalSingleton.getInstance().getHeroWidth()/2;
-	public static final int START_YDRAW = GlobalSingleton.HERO_YDRAW + GlobalSingleton.getInstance().getHeroHeight()/2;
+	public static final float START_XDRAW = (float) (GlobalSingleton.HERO_XDRAW);
+	public static final float START_YDRAW =  /*(GlobalSingleton.HERO_YDRAW +*/ (GlobalSingleton.getInstance().getHeroHeight()/2 - 
+			GlobalSingleton.getInstance().getHeroHeight()/7);
 	
 	// Internal Variables //
 	private int bulletOrientation;
@@ -50,14 +51,21 @@ public class Bullet extends Unit
 	 * Sets the Bullet object to its initial start position based on whether it is
 	 * 	a right or left facing bullet.
 	 * 
-	 * ***NOTE*** This will need to be changed when jumping is integrated.
+	 * 
 	 */
 	public void setToInitialDrawPosition(){
 		if(bulletOrientation == GlobalSingleton.RIGHT){
-			setPosition(START_XDRAW, START_YDRAW);
+			//System.out.println("Start y draw: "+START_YDRAW);
+			//System.out.println("Get hero y pos: "+GlobalSingleton.getInstance().getHeroYPos());
+			//System.out.println("bullet y Pos"+yPos);
+			setXPos(START_XDRAW + GlobalSingleton.getInstance().getWorldXPos() + GlobalSingleton.getInstance().getHeroWidth() - 
+					GlobalSingleton.getInstance().getHeroWidth()/6);
+			setYPos(START_YDRAW + GlobalSingleton.getInstance().getHeroYPos());
 		}// end if
 		else{
-			setPosition(START_XDRAW, START_YDRAW);
+			//setPosition(START_XDRAW, yPos);
+			setXPos(START_XDRAW + GlobalSingleton.getInstance().getWorldXPos() );
+			setYPos(START_YDRAW + GlobalSingleton.getInstance().getHeroYPos());
 		} // end else
 	}// end setToInitialDrawPosition()
 	

@@ -36,8 +36,8 @@ public class Hero extends Unit {
 	public static final int JUMP_DISTANCE = 160;
 	public static final int MAX_AMMO = 50;
 	public static final int MAX_HEALTH = 100;
-	public static final int X_POSITION = 30;
-	public static final int Y_POSITION = Gdx.graphics.getHeight() - 50;
+	public static final int AMMO_DISPLAY_X_POSITION = 30;
+	public static final int AMMO_DISPLAY_Y_POSITION = Gdx.graphics.getHeight() - 50;
 	final Texture standingTexture;
 	final Texture hidingTexture;
 	
@@ -57,9 +57,15 @@ public class Hero extends Unit {
 		standingTexture = newStandingTexture;
 		hidingTexture = newHidingTexture;
 		setJumpSpeed(JUMP_SPEED);
+		gs.setHeroHeight(getHeight());
+		gs.setHeroWidth(getWidth());
+		gs.setHeroYPos(START_YDRAW);
 		
 	}// end Hero()
 	
+	/***
+	 * Sets the hero to the initial draw position.
+	 */
 	public void setToInitialDrawPosition(){
 		setPosition(START_XDRAW, START_YDRAW);
 	}// end setToInitialDrawPosition()
@@ -172,6 +178,6 @@ public class Hero extends Unit {
 	{
 		BitmapFont font = new BitmapFont();
 		font.draw(batch,"Ammo Left: "+new Integer(getAmmo()).toString(), 
-				X_POSITION, Y_POSITION);
+				AMMO_DISPLAY_X_POSITION, AMMO_DISPLAY_Y_POSITION);
 	}
 }

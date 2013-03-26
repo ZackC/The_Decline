@@ -48,6 +48,9 @@ public abstract class Unit extends CollidableObject{
 		this.speed = speed;
 	}
 	
+	/***
+	 * Sets the unit to the initial draw position
+	 */
 	public abstract void setToInitialDrawPosition();
 	
 	/**
@@ -97,7 +100,7 @@ public abstract class Unit extends CollidableObject{
 	public void moveRight(){
 		xPosChange = speed * Gdx.graphics.getDeltaTime();
 		setXPos(getXPos() + xPosChange);
-		setPosition(getXPos() - gs.getWorldXPos(), getY());
+		setPosition(getXPos() - gs.getWorldXPos(), getYPos());
 		if(isFlipX() == true)
 			flip(true, false);
 	}
@@ -108,7 +111,7 @@ public abstract class Unit extends CollidableObject{
 	public void moveLeft(){
 		xPosChange = -(speed * Gdx.graphics.getDeltaTime());
 		setXPos(getXPos() + xPosChange);
-		setPosition(getXPos() - gs.getWorldXPos(), getY());
+		setPosition(getXPos() - gs.getWorldXPos(), getYPos());
 		if(isFlipX() == false)
 			flip(true, false);
 	}

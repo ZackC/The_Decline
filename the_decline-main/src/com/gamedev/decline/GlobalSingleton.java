@@ -32,8 +32,8 @@ public class GlobalSingleton {
 	public static final int LEFT = 1;
     
     // Internal Variables //
-	private int heroWidth;
-	private int heroHeight;
+	private float heroWidth;
+	private float heroHeight;
 	private float heroXPos = HERO_XDRAW;
 	private float heroYPos = HERO_XDRAW;
 	private float worldXPos = 0;
@@ -68,7 +68,7 @@ public class GlobalSingleton {
 	 * 
 	 * @return	: Width of the hero. 
 	 */
-	public int getHeroWidth(){
+	public float getHeroWidth(){
 		return heroWidth;
 	} // end getHeroWidth()
 	
@@ -77,7 +77,7 @@ public class GlobalSingleton {
 	 * 
 	 * @return	: Height of the hero.
 	 */
-	public int getHeroHeight(){
+	public float getHeroHeight(){
 		return heroHeight;
 	} // end getHeroHeight()
 	
@@ -117,19 +117,19 @@ public class GlobalSingleton {
 	/**
 	 * Sets the width of the hero.
 	 * 
-	 * @param newWidth	: The new width of the hero. 
+	 * @param f	: The new width of the hero. 
 	 */
-	public void setHeroWidth(int newWidth){
-		heroWidth = newWidth;
+	public void setHeroWidth(float f){
+		heroWidth = f;
 	} // end setHeroWidth()
 	
 	/**
 	 * Sets the height of the hero.
 	 * 
-	 * @param newHeight	: The new height of the hero.
+	 * @param f	: The new height of the hero.
 	 */
-	public void setHeroHeight(int newHeight){
-		heroHeight = newHeight;
+	public void setHeroHeight(float f){
+		heroHeight = f;
 	} // end setHeroHeight()
 	
 	/**
@@ -228,13 +228,22 @@ public class GlobalSingleton {
 		isHeroAlive = newHeroLivingValue;
 	}
 	
-	
+	/***
+	 * Sets the global variable for the y position of the hero in the world and the screen
+	 * 
+	 * @param newHeroYPos: the new y position of the hero
+	 */
 	public void setHeroYPos(float newHeroYPos)
 	{
 		heroYPos = newHeroYPos;
 	}
 	
-	
+	/***
+	 * Returns the global variable of the y position of the hero in the world and 
+	 * the screen
+	 * 
+	 * @return: the y position of the hero.
+	 */
 	public float getHeroYPos()
 	{
 		return heroYPos;

@@ -85,14 +85,17 @@ public class Decline implements ApplicationListener {
 	    
 		batch = new SpriteBatch();
 		
-		bm = new BulletManager(new Texture(Gdx.files.internal("bullets.png")));
-		
-		em = new EnemyManager(new Texture(Gdx.files.internal("enemy.png")));
-		
 		hero = new Hero(new Texture(Gdx.files.internal("hero_weapon.png")), 
 				new Texture(Gdx.files.internal("hero_crouch.png")));
 		hero.setOrigin(hero.getWidth()/2, hero.getHeight()/2);
 		hero.setToInitialDrawPosition();
+		
+		
+		bm = new BulletManager(new Texture(Gdx.files.internal("bullets.png")));
+		
+		em = new EnemyManager(new Texture(Gdx.files.internal("enemy.png")));
+		
+		
 		healthBar = new HealthBar(hero);
 		ammoDisplay = new AmmoCountDisplay(hero);
 		background = new RepeatingBackground(new Texture(Gdx.files.internal("background.png")));

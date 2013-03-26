@@ -79,8 +79,7 @@ public class BulletManager {
 			
 			currentBullet.setOrientation(GlobalSingleton.RIGHT);
 			currentBullet.setToInitialDrawPosition();
-			currentBullet.setXPos(gs.getWorldXPos() + Bullet.START_XDRAW);
-			currentBullet.setYPos(Bullet.START_YDRAW);
+			
 			
 			shotBullets.add(currentBullet);
 			currentBulletNumber++;
@@ -90,8 +89,6 @@ public class BulletManager {
 			
 			currentBullet.setOrientation(GlobalSingleton.LEFT);
 			currentBullet.setToInitialDrawPosition();
-			currentBullet.setXPos(gs.getWorldXPos() + Bullet.START_XDRAW - 80);
-			currentBullet.setYPos(Bullet.START_YDRAW);
 			
 			shotBullets.add(currentBullet);
 			currentBulletNumber++;
