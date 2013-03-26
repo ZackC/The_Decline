@@ -35,6 +35,7 @@ public class GlobalSingleton {
 	private int heroWidth;
 	private int heroHeight;
 	private float heroXPos = HERO_XDRAW;
+	private float heroYPos = HERO_XDRAW;
 	private float worldXPos = 0;
 	private float heroMovement = 0;
 	private int heroOrientation = 0;
@@ -218,7 +219,7 @@ public class GlobalSingleton {
 	}
 	
 	/***
-	 * The method that sets the varaiable for if the hero is alive or not
+	 * The method that sets the variable for if the hero is alive or not
 	 * 
 	 * @param newHeroLivingValue - the new boolean that states if the hero is alive
 	 */
@@ -226,4 +227,17 @@ public class GlobalSingleton {
 	{
 		isHeroAlive = newHeroLivingValue;
 	}
+	
+	
+	public void setHeroYPos(float newHeroYPos)
+	{
+		heroYPos = newHeroYPos;
+	}
+	
+	
+	public float getHeroYPos()
+	{
+		return heroYPos;
+	}
+	
 }

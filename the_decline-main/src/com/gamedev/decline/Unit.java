@@ -133,6 +133,7 @@ public abstract class Unit extends CollidableObject{
 			gs.setIsHeroJumping(false);
 			jumpSpeed = Hero.JUMP_SPEED;
 		}
+		gs.setHeroYPos(getYPos());
 		setPosition(getX(), getYPos());
 	}	
 }

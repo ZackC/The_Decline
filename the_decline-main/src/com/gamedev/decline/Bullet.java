@@ -29,8 +29,8 @@ public class Bullet extends Unit
 	public static final int DRAW_WIDTH = 30;
 	public static final int DRAW_HEIGHT = 30;
 	public static final int INITIAL_SPEED = 1000;
-	public static final int START_XDRAW = GlobalSingleton.HERO_XDRAW+80;
-	public static final int START_YDRAW = GlobalSingleton.HERO_YDRAW+60;
+	public static final int START_XDRAW = GlobalSingleton.HERO_XDRAW + GlobalSingleton.getInstance().getHeroWidth()/2;
+	public static final int START_YDRAW = GlobalSingleton.HERO_YDRAW + GlobalSingleton.getInstance().getHeroHeight()/2;
 	
 	// Internal Variables //
 	private int bulletOrientation;
@@ -54,10 +54,10 @@ public class Bullet extends Unit
 	 */
 	public void setToInitialDrawPosition(){
 		if(bulletOrientation == GlobalSingleton.RIGHT){
-			setPosition(START_XDRAW, START_YDRAW);
+			setPosition(START_XDRAW, gs.getHeroYPos() + gs.getHeroHeight()/2);
 		}// end if
 		else{
-			setPosition(START_XDRAW-80, START_YDRAW);
+			setPosition(START_XDRAW-gs.getHeroWidth(), gs.getHeroYPos() + gs.getHeroHeight()/2);
 		} // end else
 	}// end setToInitialDrawPosition()
 	
