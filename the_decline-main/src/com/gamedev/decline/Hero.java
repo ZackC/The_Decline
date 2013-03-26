@@ -7,6 +7,8 @@ package com.gamedev.decline;
 // Badlogic Package Support //
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * 
@@ -34,6 +36,8 @@ public class Hero extends Unit {
 	public static final int JUMP_DISTANCE = 160;
 	public static final int MAX_AMMO = 50;
 	public static final int MAX_HEALTH = 100;
+	public static final int X_POSITION = 30;
+	public static final int Y_POSITION = Gdx.graphics.getHeight() - 50;
 	final Texture standingTexture;
 	final Texture hidingTexture;
 	
@@ -161,4 +165,13 @@ public class Hero extends Unit {
 		setSize(standingTexture.getWidth(), standingTexture.getHeight());
 	}
 	
+	/**
+	 * The function to display the ammo count
+	 */
+	public void drawAmmoCount(SpriteBatch batch)
+	{
+		BitmapFont font = new BitmapFont();
+		font.draw(batch,"Ammo Left: "+new Integer(getAmmo()).toString(), 
+				X_POSITION, Y_POSITION);
+	}
 }

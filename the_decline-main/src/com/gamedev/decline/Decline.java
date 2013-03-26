@@ -78,7 +78,7 @@ public class Decline implements ApplicationListener {
 		hero.setToInitialDrawPosition();
 		healthBar = new HealthBar(hero);
 		ammoDisplay = new AmmoCountDisplay(hero);
-		background = new RepeatingBackground(new Texture(Gdx.files.internal("data/cave.jpg")));
+		background = new RepeatingBackground(new Texture(Gdx.files.internal("background.png")));
         im = new ItemManager(new Texture(Gdx.files.internal("ammoBox.png")), new Texture(Gdx.files.internal("healthKit.png")));
 	}
 
@@ -120,7 +120,7 @@ public class Decline implements ApplicationListener {
 		bm.draw(batch);
 		em.draw(batch);
 		im.draw(batch);
-		ammoDisplay.draw(batch);
+		hero.drawAmmoCount(batch);
 		batch.end();
 		healthBar.draw();
 	}// end setHealth()

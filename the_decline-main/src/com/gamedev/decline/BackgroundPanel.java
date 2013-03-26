@@ -27,7 +27,8 @@ public class BackgroundPanel {
 	// { Not Applicable }
 	
 	// Constants //
-	// { Not Applicable }
+	public static final int HEIGHT = 600;
+	public static final int WIDTH = 1000;
 	
 	// Internal Variables //
 	private Texture texture;
@@ -69,7 +70,8 @@ public class BackgroundPanel {
 	 */
 	public void draw(SpriteBatch batch)
 	{
-		batch.draw(texture, xPos, 0);
+		System.out.println(xPos);
+		batch.draw(texture, xPos, 0, WIDTH, HEIGHT);
 	}// end draw()
 	
 	/**
@@ -79,6 +81,11 @@ public class BackgroundPanel {
 	 */
 	public int getWidth()
 	{
-		return texture.getWidth();
+		return WIDTH;
 	}// end getWidth()
+	
+	public int getHeight()
+	{
+		return HEIGHT;
+	}
 }// end BackgroundPanel class
