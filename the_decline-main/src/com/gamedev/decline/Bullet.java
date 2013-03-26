@@ -54,10 +54,10 @@ public class Bullet extends Unit
 	 */
 	public void setToInitialDrawPosition(){
 		if(bulletOrientation == GlobalSingleton.RIGHT){
-			setPosition(START_XDRAW, gs.getHeroYPos() + gs.getHeroHeight()/2);
+			setPosition(START_XDRAW, START_YDRAW);
 		}// end if
 		else{
-			setPosition(START_XDRAW-gs.getHeroWidth(), gs.getHeroYPos() + gs.getHeroHeight()/2);
+			setPosition(START_XDRAW, START_YDRAW);
 		} // end else
 	}// end setToInitialDrawPosition()
 	
