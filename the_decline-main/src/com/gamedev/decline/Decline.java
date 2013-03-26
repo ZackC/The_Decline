@@ -8,6 +8,8 @@ package com.gamedev.decline;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -49,6 +51,11 @@ public class Decline implements ApplicationListener {
 	boolean ableToShoot = true;	
 	HealthBar healthBar;
     AmmoCountDisplay ammoDisplay;
+    Music jungleMusic;
+    //Sound heroHitSound;
+    Sound enemyHitSound;
+    Sound bulletShotSound;
+    Sound itemPickUpSound;
 
 	/**
 	 * Function run when the game is started. Basically a high-level constructor for the game.
@@ -66,11 +73,21 @@ public class Decline implements ApplicationListener {
 
 		camera = new OrthographicCamera(width, height);
 		camera.setToOrtho(false);
+		
+		jungleMusic = Gdx.audio.newMusic(Gdx.files.internal("jungle_noise.mp3"));
+		jungleMusic.setLooping(true);
+	    jungleMusic.play();
+		
+		//heroHitSound = Gdx.audio.newSound(Gdx.files.internal("hero_hit.wav"));
+	    enemyHitSound = Gdx.audio.newSound(Gdx.files.internal("enemy_hit.wav"));
+	    bulletShotSound = Gdx.audio.newSound(Gdx.files.internal("shotgun.wav"));
+		itemPickUpSound = Gdx.audio.newSound(Gdx.files.internal("bloop.wav"));
+	    
 		batch = new SpriteBatch();
 		
-		bm = new BulletManager(new Texture(Gdx.files.internal("data/bullet.jpg")));
+		bm = new BulletManager(new Texture(Gdx.files.internal("bullets.png")));
 		
-		em = new EnemyManager(new Texture(Gdx.files.internal("data/enemy.gif")));
+		em = new EnemyManager(new Texture(Gdx.files.internal("enemy.png")));
 		
 		hero = new Hero(new Texture(Gdx.files.internal("hero_weapon.png")), 
 				new Texture(Gdx.files.internal("hero_crouch.png")));
@@ -183,6 +200,7 @@ public class Decline implements ApplicationListener {
 		
 		if(shoot == true){
 			bm.shootBullet();
+			bulletShotSound.play();
 			hero.setAmmo(hero.getAmmo() - 1);
 			if (hero.getAmmo() == 0)
 			{
@@ -210,6 +228,7 @@ public class Decline implements ApplicationListener {
 				if(activeBullets.get(i).collidesWith(activeEnemies.get(j))){
 					bm.removeActiveBullet(i);
 					em.removeActiveEnemy(j);
+					enemyHitSound.play();
 					break;
 				}// end if
 			}// end for
@@ -224,6 +243,7 @@ public class Decline implements ApplicationListener {
 					  hero.setHealth(0);
 				  }// end if
 				  em.removeActiveEnemy(i);
+				  //heroHitSound.play();
 			  }// end if
 		  }// end for
 		}
@@ -237,6 +257,7 @@ public class Decline implements ApplicationListener {
 					hero.setAmmo(Hero.MAX_AMMO);
 				}// end if
 				im.removeActiveAmmo(i);
+				itemPickUpSound.play();
 			}// end if
 		}// end for
 		
@@ -248,6 +269,7 @@ public class Decline implements ApplicationListener {
 					hero.setHealth(Hero.MAX_HEALTH);
 				}
 				im.removeActiveHealthPack(i);
+				itemPickUpSound.play();
 			}
 		}
 	}

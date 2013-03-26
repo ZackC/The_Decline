@@ -28,8 +28,8 @@ public class Enemy extends Unit {
 	
 	// Constants //
 	public static final int INITIAL_SPEED = 125;
-	public static final int WIDTH = 100;
-	public static final int HEIGHT = 100;
+	public static final int WIDTH = 72;
+	public static final int HEIGHT = 135;
 	public static final int START_XDRAW = Gdx.graphics.getWidth()-WIDTH/2;
 	public static final int START_YDRAW = 20;
 	

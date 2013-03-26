@@ -70,7 +70,7 @@ public class BackgroundPanel {
 	 */
 	public void draw(SpriteBatch batch)
 	{
-		System.out.println(xPos);
+		//System.out.println(xPos);
 		batch.draw(texture, xPos, 0, WIDTH, HEIGHT);
 	}// end draw()
 	
