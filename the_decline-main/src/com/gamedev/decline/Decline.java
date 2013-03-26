@@ -52,7 +52,7 @@ public class Decline implements ApplicationListener {
 	HealthBar healthBar;
     AmmoCountDisplay ammoDisplay;
     Music jungleMusic;
-    //Sound heroHitSound;
+    Sound heroHitSound;
     Sound enemyHitSound;
     Sound bulletShotSound;
     Sound itemPickUpSound;
@@ -78,7 +78,7 @@ public class Decline implements ApplicationListener {
 		jungleMusic.setLooping(true);
 	    jungleMusic.play();
 		
-		//heroHitSound = Gdx.audio.newSound(Gdx.files.internal("hero_hit.wav"));
+		heroHitSound = Gdx.audio.newSound(Gdx.files.internal("hero_hit.mp3"));
 	    enemyHitSound = Gdx.audio.newSound(Gdx.files.internal("enemy_hit.wav"));
 	    bulletShotSound = Gdx.audio.newSound(Gdx.files.internal("shotgun.wav"));
 		itemPickUpSound = Gdx.audio.newSound(Gdx.files.internal("bloop.wav"));
@@ -243,7 +243,7 @@ public class Decline implements ApplicationListener {
 					  hero.setHealth(0);
 				  }// end if
 				  em.removeActiveEnemy(i);
-				  //heroHitSound.play();
+				  heroHitSound.play();
 			  }// end if
 		  }// end for
 		}
