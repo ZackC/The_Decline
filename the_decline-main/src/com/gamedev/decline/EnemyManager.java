@@ -15,23 +15,21 @@ import com.badlogic.gdx.utils.Array;
  * 
  * com/gamedev/decline/EnemyManager.java
  * 
- * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
- * @version 	: 2.0
- * Last Update	: 3/25/2013
- * Update By	: Ian Middleton
+ * @author(s) : Ian Middleton, Zach Coker, Zach Ogle
+ * @version : 2.0 Last Update : 3/25/2013 Update By : Ian Middleton
  * 
- * Source code for the EnemyManager class. The EnemyManager class takes care of creating,
- * 	updating, drawing, and reallocating Enemy objects.
- *
+ *          Source code for the EnemyManager class. The EnemyManager class takes
+ *          care of creating, updating, drawing, and reallocating Enemy objects.
+ * 
  */
 public class EnemyManager {
-	
+
 	// Global Singleton //
 	private GlobalSingleton gs = GlobalSingleton.getInstance();
-	
+
 	// Constants for the Object //
 	public static final int MAX_ENEMIES = 15;
-	
+
 	// Internal Variables //
 	private Enemy[] enemies = new Enemy[MAX_ENEMIES];
 	private Array<Enemy> currentEnemies = new Array<Enemy>();
@@ -39,46 +37,49 @@ public class EnemyManager {
 	private Enemy currentEnemy;
 	private int currentEnemyNumber = 0;
 	private Random rand = new Random();
-	private int newEnemyXPosition = Gdx.graphics.getWidth()/2 + rand.nextInt(100);
+	private int newEnemyXPosition = Gdx.graphics.getWidth() / 2
+			+ rand.nextInt(100);
 
-	
 	/**
-	 * Instantiates a new EnemyManager object. The EnemyManager fills an array of new Enemy objects
-	 * 	with the given Texture to be used in the game. This is done to create a buffer of Enemy objects.
+	 * Instantiates a new EnemyManager object. The EnemyManager fills an array
+	 * of new Enemy objects with the given Texture to be used in the game. This
+	 * is done to create a buffer of Enemy objects.
 	 * 
-	 * @param texture	: The image to be used for the Enemy objects.
+	 * @param texture
+	 *            : The image to be used for the Enemy objects.
 	 */
 	public EnemyManager(Texture texture) {
-		for (int i = 0; i < MAX_ENEMIES; i++){
+		for (int i = 0; i < MAX_ENEMIES; i++) {
 			enemies[i] = new Enemy(texture);
 		} // end for
 	} // end EnemyManager
-	
+
 	/**
 	 * Gets all currently active Enemies.
 	 * 
-	 * @return	: A badlogic array of all the active Enemies.
+	 * @return : A badlogic array of all the active Enemies.
 	 */
-	public Array<Enemy> getActiveEnemies(){
+	public Array<Enemy> getActiveEnemies() {
 		return currentEnemies;
 	}// end getActiveEnemies()
-	
+
 	/**
 	 * Removes a specific active Enemy from the group of active Enemies.
 	 * 
-	 * @param index	: The index of the active Enemy to be removed.
+	 * @param index
+	 *            : The index of the active Enemy to be removed.
 	 */
-	public void removeActiveEnemy(int index){
+	public void removeActiveEnemy(int index) {
 		currentEnemies.removeIndex(index);
 	}// end removeActiveEnemy()
-	
+
 	/**
-	 * Grabs a Enemy from the Enemy buffer created when the manager was constructed. Sets the
-	 * 	initial values for this specific Enemy. This Enemy is then added to the array of Enemy 
-	 * 	that are to be drawn to the screen and updated.
+	 * Grabs a Enemy from the Enemy buffer created when the manager was
+	 * constructed. Sets the initial values for this specific Enemy. This Enemy
+	 * is then added to the array of Enemy that are to be drawn to the screen
+	 * and updated.
 	 */
-	public void makeEnemyAppear()
-	{
+	public void makeEnemyAppear() {
 		currentEnemy = enemies[currentEnemyNumber % MAX_ENEMIES];
 		currentEnemy.setToInitialDrawPosition();
 		currentEnemy.setXPos(gs.getWorldXPos() + Enemy.START_XDRAW);
@@ -86,45 +87,41 @@ public class EnemyManager {
 		currentEnemies.add(currentEnemy);
 		currentEnemyNumber++;
 	}// end makeEnemyAppear()
-	
+
 	/**
-	 * Checks to see if the hero has moved farther than the random amount required for a new enemy to be spawned.
-	 * 	If the hero has moved this distance than a new enemy is created. Afterwards, the function iterates through
-	 * 	all Enemies on the screen and calls their update method. If an Enemy has traveled off screen after updating
-	 * 	then that Enemy is removed.
+	 * Checks to see if the hero has moved farther than the random amount
+	 * required for a new enemy to be spawned. If the hero has moved this
+	 * distance than a new enemy is created. Afterwards, the function iterates
+	 * through all Enemies on the screen and calls their update method. If an
+	 * Enemy has traveled off screen after updating then that Enemy is removed.
 	 */
-	public void update()
-	{
-		if(gs.getHeroXPos() > newEnemyXPosition)
-		{
+	public void update() {
+		if (gs.getHeroXPos() > newEnemyXPosition) {
 			makeEnemyAppear();
-			newEnemyXPosition += rand.nextInt(400)+50;
+			newEnemyXPosition += rand.nextInt(400) + 50;
 		}// end if
 		enemyIter = currentEnemies.iterator();
-		while(enemyIter.hasNext())
-		{
+		while (enemyIter.hasNext()) {
 			currentEnemy = enemyIter.next();
 			currentEnemy.update();
-			if(currentEnemy.getX() < -1 * currentEnemy.getWidth())
-			{
+			if (currentEnemy.getX() < -1 * currentEnemy.getWidth()) {
 				enemyIter.remove();
 			}// end if
 
 		}// end while
-		
+
 	}// end update()
-	
+
 	/**
-	 * Iterates through the array of Enemies to be drawn to the screen and calls 
-	 * 	the draw function for each Enemy.
+	 * Iterates through the array of Enemies to be drawn to the screen and calls
+	 * the draw function for each Enemy.
 	 * 
-	 * @param batch - The SpriteBatch object which will draw the Enemy objects.
+	 * @param batch
+	 *            - The SpriteBatch object which will draw the Enemy objects.
 	 */
-	public void draw(SpriteBatch batch)
-	{
+	public void draw(SpriteBatch batch) {
 		enemyIter = currentEnemies.iterator();
-		while(enemyIter.hasNext())
-		{
+		while (enemyIter.hasNext()) {
 			currentEnemy = enemyIter.next();
 			currentEnemy.draw(batch);
 		}// end while()

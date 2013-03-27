@@ -14,117 +14,121 @@ import com.badlogic.gdx.utils.Array;
  * 
  * com/gamedev/decline/BulletManager.java
  * 
- * @author(s) 	: Ian Middleton, Zach Coker, Zach Ogle
- * @version 	: 2.0
- * Last Update	: 3/25/2013
- * Update By	: Ian Middleton
+ * @author(s) : Ian Middleton, Zach Coker, Zach Ogle
+ * @version : 2.0 Last Update : 3/25/2013 Update By : Ian Middleton
  * 
- * Source code for the BulletManager class. The BulletManager class takes care of creating,
- * 	updating, drawing, and reallocating Bullet objects.
- *
+ *          Source code for the BulletManager class. The BulletManager class
+ *          takes care of creating, updating, drawing, and reallocating Bullet
+ *          objects.
+ * 
  */
 public class BulletManager {
 
 	// Global Singleton //
 	private GlobalSingleton gs = GlobalSingleton.getInstance();
-	
+
 	// Constants //
 	public static final int MAX_BULLET_NUMBER = 100;
-	
+
 	// Internal Variables //
 	private Bullet[] bullets = new Bullet[100];
 	private Array<Bullet> shotBullets = new Array<Bullet>();
 	private Iterator<Bullet> bulletIter;
 	private int currentBulletNumber = 0;
 	private Bullet currentBullet;
-	
+
 	/**
-	 * Instantiates a new BulletManager object. The BulletManager fills an array of new Bullet objects
-	 * 	with the given Texture to be used in the game. This is done to create a buffer of Bullet objects.
+	 * Instantiates a new BulletManager object. The BulletManager fills an array
+	 * of new Bullet objects with the given Texture to be used in the game. This
+	 * is done to create a buffer of Bullet objects.
 	 * 
-	 * @param texture	: The image to be used for the Bullet objects.
+	 * @param texture
+	 *            : The image to be used for the Bullet objects.
 	 */
 	public BulletManager(Texture texture) {
-		for(int i = 0; i < 100; i++){
+		for (int i = 0; i < 100; i++) {
 			bullets[i] = new Bullet(texture);
 		} // end for
 	} // end BulletManager()
-	
+
 	/**
 	 * Returns the active Bullet objects in the game.
 	 * 
-	 * @return	: A Badlogic Array of the Bullet objects.
+	 * @return : A Badlogic Array of the Bullet objects.
 	 */
-	public Array<Bullet> getActiveBullets(){
+	public Array<Bullet> getActiveBullets() {
 		return shotBullets;
 	}// end getActiveBullets()
-	
+
 	/**
 	 * Removes the active Bullet located at the specified index.
 	 * 
-	 * @param index	: The index of the Bullet to be removed.
+	 * @param index
+	 *            : The index of the Bullet to be removed.
 	 */
-	public void removeActiveBullet(int index){
+	public void removeActiveBullet(int index) {
 		shotBullets.removeIndex(index);
 	}// end removeActiveBullet
-	
+
 	/**
-	 * Grabs a Bullet from the Bullet buffer created when the manager was constructed. This Bullet is then 
-	 * 	given a direction and a starting position based on which way the Hero object is oriented. This Bullet 
-	 * 	is then added to the array of active Bullets that are to be drawn to the screen and updated.
+	 * Grabs a Bullet from the Bullet buffer created when the manager was
+	 * constructed. This Bullet is then given a direction and a starting
+	 * position based on which way the Hero object is oriented. This Bullet is
+	 * then added to the array of active Bullets that are to be drawn to the
+	 * screen and updated.
 	 */
-	public void shootBullet(){
-		if(gs.getHeroOrientation() == GlobalSingleton.RIGHT){
+	public void shootBullet() {
+		if (gs.getHeroOrientation() == GlobalSingleton.RIGHT) {
 			currentBullet = bullets[currentBulletNumber % MAX_BULLET_NUMBER];
-			
+
 			currentBullet.setOrientation(GlobalSingleton.RIGHT);
 			currentBullet.setToInitialDrawPosition();
-			
-			
+
 			shotBullets.add(currentBullet);
 			currentBulletNumber++;
 		} // end if
-		else{
+		else {
 			currentBullet = bullets[currentBulletNumber % MAX_BULLET_NUMBER];
-			
+
 			currentBullet.setOrientation(GlobalSingleton.LEFT);
 			currentBullet.setToInitialDrawPosition();
-			
+
 			shotBullets.add(currentBullet);
 			currentBulletNumber++;
 		} // end else
 	} // end shootBullet()
-	
+
 	/**
-	 * Iterates through the array of Bullets to be drawn to the screen and calls the update function
-	 * 	for each Bullet. Also removes Bullets from the active array when they travel off of the viewable 
-	 * 	area.
+	 * Iterates through the array of Bullets to be drawn to the screen and calls
+	 * the update function for each Bullet. Also removes Bullets from the active
+	 * array when they travel off of the viewable area.
 	 */
-	public void update(){
+	public void update() {
 		bulletIter = shotBullets.iterator();
-		while(bulletIter.hasNext()){
+		while (bulletIter.hasNext()) {
 			currentBullet = bulletIter.next();
 			currentBullet.update();
-			if(currentBullet.getX() > Gdx.graphics.getWidth()){
+			if (currentBullet.getX() > Gdx.graphics.getWidth()) {
 				bulletIter.remove();
 			} // end if
-			else if(currentBullet.getX() < 0){
+			else if (currentBullet.getX() < 0) {
 				bulletIter.remove();
 			} // end else if
 		} // end while
 	} // end update()
-	
+
 	/**
-	 * Iterates through the array of Bullets to be drawn to the screen and calls the draw function
-	 * 	for each Bullet.
+	 * Iterates through the array of Bullets to be drawn to the screen and calls
+	 * the draw function for each Bullet.
 	 * 
-	 * @param batch - The SpriteBatch object which will draw the Bullet objects.
+	 * @param batch
+	 *            - The SpriteBatch object which will draw the Bullet objects.
 	 */
-	public void draw(SpriteBatch batch){
+	public void draw(SpriteBatch batch) {
 		bulletIter = shotBullets.iterator();
-		while(bulletIter.hasNext()){
-		  currentBullet = bulletIter.next();
-		  currentBullet.draw(batch);
+		while (bulletIter.hasNext()) {
+			currentBullet = bulletIter.next();
+			currentBullet.draw(batch);
 		} // end while
 	} // end draw
 } // end BulletManager class

@@ -3,25 +3,24 @@ package com.gamedev.decline;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 /*
  * The class that creates the repeating background
  */
 public class RepeatingBackground {
 
-	//the number of background panels
+	// the number of background panels
 	private int bpSize = 2;
-	//the array of the background panels
-	private BackgroundPanel[] bp  = new BackgroundPanel[bpSize];
-	
+	// the array of the background panels
+	private BackgroundPanel[] bp = new BackgroundPanel[bpSize];
+
 	/*
 	 * The constructor for the class
 	 * 
 	 * newTexture - the images for the background panels
 	 */
-	public RepeatingBackground(Texture newTexture) 
-	{
-		for(int i = 0; i < bpSize; i++)
-		{
+	public RepeatingBackground(Texture newTexture) {
+		for (int i = 0; i < bpSize; i++) {
 			bp[i] = new BackgroundPanel(newTexture);
 		}
 	}
@@ -29,41 +28,37 @@ public class RepeatingBackground {
 	/*
 	 * The method that handles drawing the background panels
 	 * 
-	 * batch - the drawing object
-	 * heroPos - the x position of the hero
+	 * batch - the drawing object heroPos - the x position of the hero
 	 */
-	public void draw(SpriteBatch batch, float heroPos)
-	{
+	public void draw(SpriteBatch batch, float heroPos) {
 		float heroPosInBackground = heroPos % bp[0].getWidth();
-		//System.out.println("HeroPos: "+ heroPos);
-		//System.out.println("bp.width: "+bp[0].getWidth());
-		//System.out.println("heroStaringPos: "+heroStartingPos);
-		//System.out.println("graphics.width: " + Gdx.graphics.getWidth());
-		
-		//for when hero is on left edge of background panel
-		if(heroPos % bp[0].getWidth() < GlobalSingleton.HERO_XDRAW)
-		{
-			//System.out.println("In 1!!");
-			
+		// System.out.println("HeroPos: "+ heroPos);
+		// System.out.println("bp.width: "+bp[0].getWidth());
+		// System.out.println("heroStaringPos: "+heroStartingPos);
+		// System.out.println("graphics.width: " + Gdx.graphics.getWidth());
+
+		// for when hero is on left edge of background panel
+		if (heroPos % bp[0].getWidth() < GlobalSingleton.HERO_XDRAW) {
+			// System.out.println("In 1!!");
+
 			bp[0].setXPos(-1 * (heroPosInBackground));
 			bp[1].setXPos(-1 * heroPosInBackground - bp[0].getWidth());
 			bp[0].draw(batch);
 			bp[1].draw(batch);
-			
+
 		}
-		//when hero is on right edge of background panel
-		else if(heroPos % bp[0].getWidth() > bp[0].getWidth() - Gdx.graphics.getWidth())
-		{
-			//System.out.println("In 2!!");
+		// when hero is on right edge of background panel
+		else if (heroPos % bp[0].getWidth() > bp[0].getWidth()
+				- Gdx.graphics.getWidth()) {
+			// System.out.println("In 2!!");
 			bp[0].setXPos(-1 * heroPosInBackground);
-			bp[1].setXPos(-1 * heroPosInBackground  + bp[0].getWidth());
+			bp[1].setXPos(-1 * heroPosInBackground + bp[0].getWidth());
 			bp[0].draw(batch);
 			bp[1].draw(batch);
 		}
-		//when hero is in the center of the background panel
-		else
-		{
-			//System.out.println("In 3!!");
+		// when hero is in the center of the background panel
+		else {
+			// System.out.println("In 3!!");
 			bp[0].setXPos(-1 * (heroPosInBackground % bp[0].getWidth()));
 			bp[0].draw(batch);
 		}
