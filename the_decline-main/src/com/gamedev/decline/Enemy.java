@@ -30,6 +30,7 @@ public class Enemy extends Unit {
 	public static final int HEIGHT = 135;
 	public static final int START_XDRAW = Gdx.graphics.getWidth() - WIDTH / 2;
 	public static final int START_YDRAW = 20;
+	public static final int MAX_HEALTH = 30;
 
 	// Internal Variables //
 	// { Not Applicable }
@@ -60,4 +61,23 @@ public class Enemy extends Unit {
 	public void update() {
 		moveLeft();
 	} // end update()
+
+	/***
+	 * Returns the max health of the enemy
+	 * @return: the max health
+	 */
+	@Override
+	public int getMaxHealth()
+	{
+	  return MAX_HEALTH;
+	}
+
+	/***
+	 * Handles the enemy dying
+	 */
+	@Override
+	public void die()
+	{
+	  setIsAlive(false);
+	}
 }// end Enemy class

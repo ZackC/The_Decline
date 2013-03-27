@@ -38,6 +38,7 @@ public class Decline implements ApplicationListener {
 	// Constants //
 	public static final int HEALTH_PACK = 5;
 	public static final int ENEMY_DAMAGE = 10;
+	int enemyShotDamage = 10;
 
 	// Internal Variables //
 	OrthographicCamera camera;
@@ -49,7 +50,6 @@ public class Decline implements ApplicationListener {
 	ItemManager im;
 	boolean shoot = false;
 	boolean ableToShoot = true;
-	HealthBar healthBar;
 	AmmoCountDisplay ammoDisplay;
 	Music jungleMusic;
 	Sound heroHitSound;
@@ -98,12 +98,14 @@ public class Decline implements ApplicationListener {
 
 		em = new EnemyManager(new Texture(Gdx.files.internal("enemy.png")));
 
-		healthBar = new HealthBar(hero);
+		
 		ammoDisplay = new AmmoCountDisplay(hero);
 		background = new RepeatingBackground(new Texture(
 				Gdx.files.internal("background.png")));
 		im = new ItemManager(new Texture(Gdx.files.internal("ammoBox.png")),
 				new Texture(Gdx.files.internal("healthKit.png")));
+		gs.setHealthBarManager(new HealthBarManager());
+		gs.getHealthBarManager().add(hero);
 	}
 
 	/**
@@ -149,7 +151,7 @@ public class Decline implements ApplicationListener {
 		hero.drawAmmoCount(batch);
 		hero.drawLives(batch);
 		batch.end();
-		healthBar.draw();
+		gs.getHealthBarManager().draw();
 	}// end setHealth()
 
 	/**
@@ -228,7 +230,7 @@ public class Decline implements ApplicationListener {
 			for (int j = 0; j < activeEnemies.size; j++) {
 				if (activeBullets.get(i).collidesWith(activeEnemies.get(j))) {
 					bm.removeActiveBullet(i);
-					em.removeActiveEnemy(j);
+					em.enemyDamagedEvent(j, enemyShotDamage);
 					enemyHitSound.play();
 					break;
 				}// end if
@@ -280,6 +282,7 @@ public class Decline implements ApplicationListener {
 		bm.update();
 		em.update();
 		im.update();
+		gs.getHealthBarManager().update();
 	}// end update()
 
 	/**

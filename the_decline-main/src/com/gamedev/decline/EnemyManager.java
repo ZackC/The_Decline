@@ -63,6 +63,23 @@ public class EnemyManager {
 		return currentEnemies;
 	}// end getActiveEnemies()
 
+	/***
+	 * Handles an enemy being damaged
+	 * @param index - the index of the enemy in the displayed enemy
+	 *       array
+	 * @param damage - the amount that the enemy was damaged
+	 */
+	public void enemyDamagedEvent(int index, int damage)
+	{
+	  currentEnemy = currentEnemies.get(index);
+	  currentEnemy.setHealth(currentEnemy.getHealth() - damage);
+	  gs.getHealthBarManager().add(currentEnemy);
+	  if(!currentEnemy.getIsAlive())
+	  {
+	    removeActiveEnemy(index);
+	  }
+	}
+	
 	/**
 	 * Removes a specific active Enemy from the group of active Enemies.
 	 * 
@@ -82,6 +99,7 @@ public class EnemyManager {
 	public void makeEnemyAppear() {
 		currentEnemy = enemies[currentEnemyNumber % MAX_ENEMIES];
 		currentEnemy.setToInitialDrawPosition();
+		currentEnemy.setIsAlive(true);
 		currentEnemy.setXPos(gs.getWorldXPos() + Enemy.START_XDRAW);
 		currentEnemy.setYPos(Enemy.START_YDRAW);
 		currentEnemies.add(currentEnemy);
@@ -104,10 +122,14 @@ public class EnemyManager {
 		while (enemyIter.hasNext()) {
 			currentEnemy = enemyIter.next();
 			currentEnemy.update();
-			if (currentEnemy.getX() < -1 * currentEnemy.getWidth()) {
-				enemyIter.remove();
+			if (currentEnemy.getX() < -1 * currentEnemy.getWidth()) 
+			{
+			   currentEnemy.setIsAlive(false);
 			}// end if
-
+                        if(!currentEnemy.getIsAlive())
+                        {
+                            enemyIter.remove();                          
+                        }
 		}// end while
 
 	}// end update()

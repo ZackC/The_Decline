@@ -49,7 +49,6 @@ public class Hero extends Unit {
 	// Internal Variables //
 	private float posChange = 0;
 	private int ammo = MAX_AMMO / 2;
-	private int health = MAX_HEALTH;
 
 	/**
 	 * Instantiates a new Hero object by calling the super constructor (Unit)
@@ -67,6 +66,7 @@ public class Hero extends Unit {
 		gs.setHeroHeight(getHeight());
 		gs.setHeroWidth(getWidth());
 		gs.setHeroYPos(START_YDRAW);
+		setIsAlive(true);
 		heartTexture = newHeartTexture;
 
 	}// end Hero()
@@ -144,24 +144,7 @@ public class Hero extends Unit {
 		this.ammo = ammo;
 	}// end setAmmo()
 
-	/**
-	 * Sets the hero's current health.
-	 * 
-	 * @param health
-	 *            : The hero's new health.
-	 */
-	public void setHealth(int newHealth) {
-		health = newHealth;
-		if (health < 1) 
-		{
-		  health = MAX_HEALTH;
-		  if(lives < 1)
-		  {
-			gs.setIsHeroAlive(false);
-		  }
-		  lives--;
-		}
-	}// end setHealth()
+	
 
 	/***
 	 * The function to make the hero hide.
@@ -202,5 +185,31 @@ public class Hero extends Unit {
 	    batch.draw(heartTexture,LIVES_DISPLAY_X_POSITION + i * LIVES_IMAGE_SIZE,LIVES_DISPLAY_Y_POSITION,
 		LIVES_IMAGE_SIZE,LIVES_IMAGE_SIZE);
 	  }
+	}
+	
+	/***
+	 * Returns the max health of the hero
+	 * 
+	 * @return: the hero's max health
+	 */
+	@Override
+	public int getMaxHealth()
+	{
+	  return MAX_HEALTH;
+	}
+	
+	/***
+	 * Handles the hero dying. 
+	 */
+	@Override
+	public void die()
+	{
+	  health = getMaxHealth();
+	  if(lives < 1)
+	  {
+	        setIsAlive(false);
+		gs.setIsHeroAlive(false);
+	  }
+	  lives--;
 	}
 }

@@ -30,6 +30,8 @@ public class Bullet extends Unit {
 	public static final float START_YDRAW = /* (GlobalSingleton.HERO_YDRAW + */(GlobalSingleton
 			.getInstance().getHeroHeight() / 2 - GlobalSingleton.getInstance()
 			.getHeroHeight() / 7);
+	public static final int MAX_HEALTH = 1;
+	public static final int COLLISION_DAMAGE_TO_SELF = 1;
 
 	// Internal Variables //
 	private int bulletOrientation;
@@ -94,4 +96,26 @@ public class Bullet extends Unit {
 			moveLeft();
 		} // end else if
 	} // end update()
+
+	/***
+	 * Returns the max health of the bullet
+	 * 
+	 * @return: the max health of the bullet
+	 */
+	@Override
+	public int getMaxHealth()
+	{
+	  return MAX_HEALTH;
+	}
+
+	/***
+	 * Handles the bullet dying
+	 */
+	@Override
+	public void die()
+	{
+	  setIsAlive(false);
+	  
+	}
+	
 } // end Bullet class

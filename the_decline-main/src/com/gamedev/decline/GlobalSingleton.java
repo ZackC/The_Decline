@@ -40,6 +40,7 @@ public class GlobalSingleton {
 	private boolean isHeroHiding = false;
 	private boolean isHeroJumping = false;
 	private boolean isHeroAlive = true;
+	HealthBarManager hbm;
 
 	private GlobalSingleton() {
 
@@ -250,6 +251,24 @@ public class GlobalSingleton {
 	 */
 	public float getHeroYPos() {
 		return heroYPos;
+	}
+	
+	/***
+	 * Returns the health bar manager of the game
+	 * @return: the health bar manager for the game
+	 */
+	public HealthBarManager getHealthBarManager()
+	{
+	  return hbm;
+	}
+	
+	/***
+	 * Sets the games health bar manager to the new health bar manager
+	 * @param newHBM: the new Health Bar Manager for the game
+	 */
+	public void setHealthBarManager(HealthBarManager newHBM)
+	{
+	  hbm = newHBM;
 	}
 
 }

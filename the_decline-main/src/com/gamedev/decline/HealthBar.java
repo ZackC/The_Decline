@@ -20,8 +20,8 @@ public class HealthBar {
 	// only implemented for the hero since the hero is
 	// the only one that has health at this point in
 	// the game.
-	Hero hero;
-	ShapeRenderer shapeRender = new ShapeRenderer();
+	Unit unit;
+	
 
 	final int MAX_WIDTH = 50;
 	final int MAX_HEIGHT = 5;
@@ -30,29 +30,44 @@ public class HealthBar {
 
 	/***
 	 * The constructor for the health bar class
-	 * 
-	 * @param newHero
-	 *            - the hero object that the health bar is representing
 	 */
-	public HealthBar(Hero newHero) {
-		hero = newHero;
+	public HealthBar() {
+		
 	}
 
 	/***
 	 * The function that draws the health bar
 	 */
-	public void draw() {
-		shapeRender.begin(ShapeType.FilledRectangle);
+	public void draw(ShapeRenderer shapeRender) {
+		
 		shapeRender.setColor(Color.RED);
-		shapeRender.filledRect(hero.getX() + DISTANCE_FROM_SIDE_OF_OBJECT,
-				hero.getYPos() + hero.getHeight() + DISTANCE_OVER_OBBJECT,
+		shapeRender.filledRect(unit.getX() + DISTANCE_FROM_SIDE_OF_OBJECT,
+				unit.getYPos() + unit.getHeight() + DISTANCE_OVER_OBBJECT,
 				MAX_WIDTH, MAX_HEIGHT);
 		shapeRender.setColor(Color.GREEN);
-		shapeRender.filledRect(hero.getX() + DISTANCE_FROM_SIDE_OF_OBJECT,
-				hero.getYPos() + hero.getHeight() + DISTANCE_OVER_OBBJECT,
-				(float) hero.getHealth() / Hero.MAX_HEALTH * MAX_WIDTH,
+		shapeRender.filledRect(unit.getX() + DISTANCE_FROM_SIDE_OF_OBJECT,
+				unit.getYPos() + unit.getHeight() + DISTANCE_OVER_OBBJECT,
+				(float) unit.getHealth() / unit.getMaxHealth() * MAX_WIDTH,
 				MAX_HEIGHT);
-		shapeRender.end();
+	}
+	
+	/***
+	 * Updates the health bar manager by letting it know if the health bar 
+	 * should be drawn and is necessary.
+	 * @return: returns true if the health bar is still in the game and false otherwise
+	 */
+	public boolean update()
+	{
+	  return unit.getIsAlive();
+	}
+	
+	/***
+	 * Sets the unit for the health bar
+	 * @param newUnit: the unit that the health bar is representing
+	 */
+	public void setUnit(Unit newUnit)
+	{
+	  unit = newUnit;
 	}
 
 }

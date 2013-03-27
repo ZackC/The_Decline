@@ -32,6 +32,8 @@ public abstract class Unit extends CollidableObject {
 	private float xPosChange;
 	private float yPosChange;
 	private int jumpSpeed;
+	protected int health = getMaxHealth();
+	protected boolean isAlive;
 
 	/**
 	 * Constructor for all Units in the game. Must be called by all classes
@@ -140,4 +142,61 @@ public abstract class Unit extends CollidableObject {
 		gs.setHeroYPos(getYPos());
 		setPosition(getX(), getYPos());
 	}
+	
+	/***
+	 * returns the max health of the unit
+	 * @return: the unit's max health
+	 */
+	public abstract int getMaxHealth();
+	
+	/***
+	 * handles when the unit runs out of life
+	 */
+	public abstract void die();
+	
+	/**
+	 * Sets the unit's current health.
+	 * 
+	 * @param health
+	 *            : The unit's new health.
+	 */
+	public void setHealth(int newHealth) {
+		health = newHealth;
+		if (health < 1) 
+		{
+		  die();
+		}
+	}// end setHealth()
+	
+	/***
+	 * Returns the health of the unit
+	 * @return: the unit's health
+	 */
+	public int getHealth()
+	{
+	  return health;
+	}
+	/***
+	 * returns if the unit is alive or not
+	 * 
+	 * @return: true if the unit is alive; false if not
+	 */
+	public boolean getIsAlive()
+	{
+	  return isAlive;
+	}
+	
+	/***
+	 * sets the alive status of the unit to newIsAlive
+	 * @param newIsAlive: the new living status of the unit
+	 */
+	public void setIsAlive(boolean newIsAlive)
+	{
+	  isAlive = newIsAlive; 
+	}
+	
+	/***
+	 * 
+	 */
+	//public void handleCollisionWith
 }
