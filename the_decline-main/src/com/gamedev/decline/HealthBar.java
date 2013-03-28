@@ -20,7 +20,7 @@ public class HealthBar {
 	// only implemented for the hero since the hero is
 	// the only one that has health at this point in
 	// the game.
-	Unit unit;
+	Unit unit = null;
 	
 
 	final int MAX_WIDTH = 50;
@@ -68,6 +68,15 @@ public class HealthBar {
 	public void setUnit(Unit newUnit)
 	{
 	  unit = newUnit;
+	}
+	
+	/***
+	 * Returns the unit that currently or last had the health bar
+	 * @return: the unit object
+	 */
+	public Unit getUnit()
+	{
+	  return unit;
 	}
 
 }

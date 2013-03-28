@@ -51,6 +51,7 @@ public class Enemy extends Unit {
 	 * Sets the Enemy's draw position to the right edge of the screen.
 	 */
 	public void setToInitialDrawPosition() {
+	        health = getMaxHealth();
 		setPosition(START_XDRAW, START_YDRAW);
 	}// end setToInitialDrawPosition()
 
@@ -79,5 +80,7 @@ public class Enemy extends Unit {
 	public void die()
 	{
 	  setIsAlive(false);
+	  setHasHealthBar(false);
 	}
+	
 }// end Enemy class

@@ -243,7 +243,7 @@ public class Decline implements ApplicationListener {
 					if (hero.getHealth() < 0) {
 						hero.setHealth(0);
 					}// end if
-					em.removeActiveEnemy(i);
+					em.enemyDamagedEvent(i,activeEnemies.get(i).getMaxHealth());
 					heroHitSound.play();
 				}// end if
 			}// end for

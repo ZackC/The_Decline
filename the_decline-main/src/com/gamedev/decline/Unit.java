@@ -34,6 +34,7 @@ public abstract class Unit extends CollidableObject {
 	private int jumpSpeed;
 	protected int health = getMaxHealth();
 	protected boolean isAlive;
+	protected boolean hasHealthBar = false;
 
 	/**
 	 * Constructor for all Units in the game. Must be called by all classes
@@ -196,7 +197,20 @@ public abstract class Unit extends CollidableObject {
 	}
 	
 	/***
-	 * 
+	 * returns if the unit has a health bar
+	 * @return: true if the unit currently has a health bar
 	 */
-	//public void handleCollisionWith
+	public boolean getHasHealthBar()
+	{
+	  return hasHealthBar;
+	}
+	
+	/***
+	 * 
+	 * @param newHasHealthBarStatus
+	 */
+	public void setHasHealthBar(boolean newHasHealthBarStatus)
+	{
+	  hasHealthBar = newHasHealthBarStatus;
+	}
 }

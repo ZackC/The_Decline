@@ -41,6 +41,7 @@ public class HealthBarManager
        currentHealthBar = healthBarDisplayed.get(i);
        if(!currentHealthBar.update())
        {
+	 //System.out.println("Removing the health bar");
          healthBarDisplayed.removeIndex(i);
        }
      }
@@ -48,7 +49,13 @@ public class HealthBarManager
    
    public void add(Unit unit)
    {
+     //System.out.println("Adding a health bar");
      currentHealthBar = initializedHealthBars[currentHealthBarNumber % INITIAL_NUMBER_OF_HEALTH_BARS];
+     if(currentHealthBar.getUnit() != null && currentHealthBar.getUnit() instanceof Hero)
+     {
+       currentHealthBarNumber++;
+       currentHealthBar = initializedHealthBars[currentHealthBarNumber % INITIAL_NUMBER_OF_HEALTH_BARS];
+     }
      currentHealthBar.setUnit(unit);
      healthBarDisplayed.add(currentHealthBar);
      currentHealthBarNumber++;

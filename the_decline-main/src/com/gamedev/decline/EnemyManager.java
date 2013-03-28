@@ -72,8 +72,12 @@ public class EnemyManager {
 	public void enemyDamagedEvent(int index, int damage)
 	{
 	  currentEnemy = currentEnemies.get(index);
+	  if(!currentEnemy.getHasHealthBar())
+	  {
+	    gs.getHealthBarManager().add(currentEnemy);
+	    currentEnemy.setHasHealthBar(true);
+	  }
 	  currentEnemy.setHealth(currentEnemy.getHealth() - damage);
-	  gs.getHealthBarManager().add(currentEnemy);
 	  if(!currentEnemy.getIsAlive())
 	  {
 	    removeActiveEnemy(index);
