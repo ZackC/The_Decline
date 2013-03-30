@@ -30,8 +30,8 @@ public abstract class Unit extends CollidableObject {
 	// Internal Variables //
 	protected int speed;
 	private float xPosChange;
-	private float yPosChange;
-	private int jumpSpeed;
+	protected float yPosChange;
+	protected int jumpSpeed;
 	protected int health = getMaxHealth();
 	protected boolean isAlive;
 	protected boolean hasHealthBar = false;
@@ -129,19 +129,6 @@ public abstract class Unit extends CollidableObject {
 	 * hero. So we will have to refactor if we want it for other units.
 	 */
 	public void jump() {
-
-		yPosChange = jumpSpeed; // * Gdx.graphics.getDeltaTime();
-		setYPos(getYPos() + yPosChange);
-		if (getYPos() >= Hero.JUMP_DISTANCE) {
-			setYPos(Hero.JUMP_DISTANCE);
-			jumpSpeed = -Hero.JUMP_SPEED;
-		} else if (getYPos() < Hero.START_YDRAW) {
-			setYPos(Hero.START_YDRAW);
-			gs.setIsHeroJumping(false);
-			jumpSpeed = Hero.JUMP_SPEED;
-		}
-		gs.setHeroYPos(getYPos());
-		setPosition(getX(), getYPos());
 	}
 	
 	/***

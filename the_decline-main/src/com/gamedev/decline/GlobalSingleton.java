@@ -32,8 +32,10 @@ public class GlobalSingleton {
 	// Internal Variables //
 	private float heroWidth;
 	private float heroHeight;
+	private float heroXDraw = HERO_XDRAW;
+	private float heroYDraw = HERO_YDRAW;
 	private float heroXPos = HERO_XDRAW;
-	private float heroYPos = HERO_XDRAW;
+	private float heroYPos = HERO_YDRAW;
 	private float worldXPos = 0;
 	private float heroMovement = 0;
 	private int heroOrientation = 0;
@@ -88,6 +90,14 @@ public class GlobalSingleton {
 	public float getHeroXPos() {
 		return heroXPos;
 	} // end getHeroXPos()
+	
+	public float getHeroXDraw(){
+		return heroXDraw;
+	}
+	
+	public float getHeroYDraw(){
+		return heroYDraw;
+	}
 
 	/**
 	 * Gets the current movement speed of the hero. The movement speed is
@@ -144,6 +154,14 @@ public class GlobalSingleton {
 	public void setHeroXPos(float newPos) {
 		heroXPos = newPos;
 	} // end setHeroXPos()
+	
+	public void setHeroXDraw(float newDrawPos){
+		heroXDraw = newDrawPos;
+	}
+	
+	public void setHeroYDraw(float newDrawPos){
+		heroYDraw = newDrawPos;
+	}
 
 	/**
 	 * Sets the current hero movement.

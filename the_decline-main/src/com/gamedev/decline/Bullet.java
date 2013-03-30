@@ -59,15 +59,15 @@ public class Bullet extends Unit {
 			// System.out.println("Start y draw: "+START_YDRAW);
 			// System.out.println("Get hero y pos: "+GlobalSingleton.getInstance().getHeroYPos());
 			// System.out.println("bullet y Pos"+yPos);
-			setXPos(START_XDRAW + GlobalSingleton.getInstance().getWorldXPos()
-					+ GlobalSingleton.getInstance().getHeroWidth()
-					- GlobalSingleton.getInstance().getHeroWidth() / 6);
-			setYPos(START_YDRAW + GlobalSingleton.getInstance().getHeroYPos());
+			setXPos(gs.getHeroXDraw()
+					+ gs.getHeroWidth()
+					- gs.getHeroWidth() / 3);
+			setYPos(START_YDRAW + gs.getHeroYDraw());
 		}// end if
 		else {
 			// setPosition(START_XDRAW, yPos);
-			setXPos(START_XDRAW + GlobalSingleton.getInstance().getWorldXPos());
-			setYPos(START_YDRAW + GlobalSingleton.getInstance().getHeroYPos());
+			setXPos(gs.getHeroXDraw());
+			setYPos(START_YDRAW + gs.getHeroYDraw());
 		} // end else
 	}// end setToInitialDrawPosition()
 

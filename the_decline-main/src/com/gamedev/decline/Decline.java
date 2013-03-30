@@ -56,6 +56,7 @@ public class Decline implements ApplicationListener {
 	Sound enemyHitSound;
 	Sound bulletShotSound;
 	Sound itemPickUpSound;
+	boolean bossFight = true;
 
 	/**
 	 * Function run when the game is started. Basically a high-level constructor
@@ -81,10 +82,10 @@ public class Decline implements ApplicationListener {
 		jungleMusic.setLooping(true);
 		jungleMusic.play();
 
-		heroHitSound = Gdx.audio.newSound(Gdx.files.internal("hero_hit.mp3"));
-		enemyHitSound = Gdx.audio.newSound(Gdx.files.internal("enemy_hit.wav"));
-		bulletShotSound = Gdx.audio.newSound(Gdx.files.internal("shotgun.wav"));
-		itemPickUpSound = Gdx.audio.newSound(Gdx.files.internal("bloop.wav"));
+		//heroHitSound = Gdx.audio.newSound(Gdx.files.internal("hero_hit.mp3"));
+		//enemyHitSound = Gdx.audio.newSound(Gdx.files.internal("enemy_hit.wav"));
+		//bulletShotSound = Gdx.audio.newSound(Gdx.files.internal("shotgun.wav"));
+		//itemPickUpSound = Gdx.audio.newSound(Gdx.files.internal("bloop.wav"));
 
 		batch = new SpriteBatch();
 
@@ -141,7 +142,7 @@ public class Decline implements ApplicationListener {
 
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		background.draw(batch, hero.getXPos());
+		background.draw(batch);
 		if (gs.getIsHeroAlive()) {
 			hero.draw(batch);
 		}
@@ -174,13 +175,21 @@ public class Decline implements ApplicationListener {
 		else {
 			// if left is pressed move left
 			if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-				hero.moveLeft();
+				if(bossFight){
+					hero.moveLeft();
+				}else{
+					hero.moveLeftScroll();
+				}
 				if (gs.getHeroOrientation() == GlobalSingleton.RIGHT) {
 					gs.setHeroOrientation(GlobalSingleton.LEFT);
 				}
 				gs.setHeroMovement(-Hero.SPEED);
 			} else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-				hero.moveRight();
+				if(bossFight){
+					hero.moveRight();
+				}else{
+					hero.moveRightScroll();
+				}
 				if (gs.getHeroOrientation() == GlobalSingleton.LEFT) {
 					gs.setHeroOrientation(GlobalSingleton.RIGHT);
 				}
@@ -204,7 +213,7 @@ public class Decline implements ApplicationListener {
 
 		if (shoot == true) {
 			bm.shootBullet();
-			bulletShotSound.play();
+			//bulletShotSound.play();
 			hero.setAmmo(hero.getAmmo() - 1);
 			if (hero.getAmmo() == 0) {
 				ableToShoot = false;
@@ -225,13 +234,17 @@ public class Decline implements ApplicationListener {
 		Array<Enemy> activeEnemies = em.getActiveEnemies();
 		Array<Ammo> activeAmmo = im.getActiveAmmo();
 		Array<HealthPack> activeHealthPacks = im.getActiveHealthPacks();
+		
+		if(bossFight){
+			
+		}
 
 		for (int i = 0; i < activeBullets.size; i++) {
 			for (int j = 0; j < activeEnemies.size; j++) {
 				if (activeBullets.get(i).collidesWith(activeEnemies.get(j))) {
 					bm.removeActiveBullet(i);
 					em.enemyDamagedEvent(j, enemyShotDamage);
-					enemyHitSound.play();
+					//enemyHitSound.play();
 					break;
 				}// end if
 			}// end for
@@ -244,7 +257,7 @@ public class Decline implements ApplicationListener {
 						hero.setHealth(0);
 					}// end if
 					em.enemyDamagedEvent(i,activeEnemies.get(i).getMaxHealth());
-					heroHitSound.play();
+					//heroHitSound.play();
 				}// end if
 			}// end for
 		}
@@ -258,7 +271,7 @@ public class Decline implements ApplicationListener {
 					hero.setAmmo(Hero.MAX_AMMO);
 				}// end if
 				im.removeActiveAmmo(i);
-				itemPickUpSound.play();
+				//itemPickUpSound.play();
 			}// end if
 		}// end for
 
@@ -269,7 +282,7 @@ public class Decline implements ApplicationListener {
 					hero.setHealth(Hero.MAX_HEALTH);
 				}
 				im.removeActiveHealthPack(i);
-				itemPickUpSound.play();
+				//itemPickUpSound.play();
 			}
 		}
 	}

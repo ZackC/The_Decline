@@ -89,13 +89,28 @@ public class Hero extends Unit {
 			jump();
 		}
 	} // end update()
-
-	/**
-	 * Overrides the moveRight function of Unit to add special functionality for
-	 * Hero.
-	 */
+	
 	@Override
-	public void moveRight() {
+	public void moveRight(){
+		posChange = speed * Gdx.graphics.getDeltaTime();
+		setXPos(getXPos() + posChange);
+		setPosition(getXPos() - gs.getWorldXPos(), getYPos());
+		gs.setHeroXDraw(getXPos() - gs.getWorldXPos());
+		if (isFlipX() == true)
+			flip(true, false);
+	}
+	
+	@Override
+	public void moveLeft(){
+		posChange = -(speed * Gdx.graphics.getDeltaTime());
+		setXPos(getXPos() + posChange);
+		setPosition(getXPos() - gs.getWorldXPos(), getYPos());
+		gs.setHeroXDraw(getXPos() - gs.getWorldXPos());
+		if (isFlipX() == false)
+			flip(true, false);
+	}
+	
+	public void moveRightScroll() {
 		posChange = speed * Gdx.graphics.getDeltaTime();
 		setXPos(getXPos() + posChange);
 		gs.setWorldXPos(gs.getWorldXPos() + posChange);
@@ -103,12 +118,7 @@ public class Hero extends Unit {
 			flip(true, false);
 	} // end moveRight()
 
-	/**
-	 * Overrides the moveLeft function of Unit to add special functionality for
-	 * Hero.
-	 */
-	@Override
-	public void moveLeft() {
+	public void moveLeftScroll() {
 		posChange = -(speed * Gdx.graphics.getDeltaTime());
 		setXPos(getXPos() + posChange);
 		gs.setWorldXPos(gs.getWorldXPos() + posChange);
@@ -196,6 +206,23 @@ public class Hero extends Unit {
 	public int getMaxHealth()
 	{
 	  return MAX_HEALTH;
+	}
+	
+	@Override
+	public void jump(){
+		yPosChange = jumpSpeed; // * Gdx.graphics.getDeltaTime();
+		setYPos(getYPos() + yPosChange);
+		if (getYPos() >= Hero.JUMP_DISTANCE) {
+			setYPos(Hero.JUMP_DISTANCE);
+			jumpSpeed = -Hero.JUMP_SPEED;
+		} else if (getYPos() < Hero.START_YDRAW) {
+			setYPos(Hero.START_YDRAW);
+			gs.setIsHeroJumping(false);
+			jumpSpeed = Hero.JUMP_SPEED;
+		}
+		gs.setHeroYPos(getYPos());
+		setPosition(getX(), getYPos());
+		gs.setHeroYDraw(getYPos());
 	}
 	
 	/***
