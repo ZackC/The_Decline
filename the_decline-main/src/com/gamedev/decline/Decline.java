@@ -56,7 +56,7 @@ public class Decline implements ApplicationListener {
 	Sound enemyHitSound;
 	Sound bulletShotSound;
 	Sound itemPickUpSound;
-	boolean bossFight = true;
+	boolean bossFight = false;
 
 	/**
 	 * Function run when the game is started. Basically a high-level constructor
