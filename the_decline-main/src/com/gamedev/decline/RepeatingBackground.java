@@ -33,7 +33,7 @@ public class RepeatingBackground {
 	 */
 	public void draw(SpriteBatch batch) {
 		float backgroundPos = (gs.getWorldXPos() + gs.HERO_XDRAW) % bp[0].getWidth();
-		System.out.println(backgroundPos);
+		//System.out.println(backgroundPos);
 		// System.out.println("HeroPos: "+ heroPos);
 		// System.out.println("bp.width: "+bp[0].getWidth());
 		// System.out.println("heroStaringPos: "+heroStartingPos);
@@ -41,7 +41,7 @@ public class RepeatingBackground {
 
 		// for when hero is on left edge of background panel
 		if (gs.getHeroXPos() % bp[0].getWidth() < GlobalSingleton.HERO_XDRAW) {
-			System.out.println("In 1!!");
+			//System.out.println("In 1!!");
 
 			bp[0].setXPos(-1 * (backgroundPos));
 			bp[1].setXPos(-1 * backgroundPos - bp[0].getWidth());
@@ -52,7 +52,7 @@ public class RepeatingBackground {
 		// when hero is on right edge of background panel
 		else if (gs.getHeroXPos() % bp[0].getWidth() > bp[0].getWidth()
 				- Gdx.graphics.getWidth()) {
-			System.out.println("In 2!!");
+			//System.out.println("In 2!!");
 			bp[0].setXPos(-1 * backgroundPos);
 			bp[1].setXPos(-1 * backgroundPos + bp[0].getWidth());
 			bp[0].draw(batch);
