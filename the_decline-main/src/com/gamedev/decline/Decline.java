@@ -82,10 +82,10 @@ public class Decline implements ApplicationListener {
 		jungleMusic.setLooping(true);
 		jungleMusic.play();
 
-		//heroHitSound = Gdx.audio.newSound(Gdx.files.internal("hero_hit.mp3"));
-		//enemyHitSound = Gdx.audio.newSound(Gdx.files.internal("enemy_hit.wav"));
-		//bulletShotSound = Gdx.audio.newSound(Gdx.files.internal("shotgun.wav"));
-		//itemPickUpSound = Gdx.audio.newSound(Gdx.files.internal("bloop.wav"));
+		heroHitSound = Gdx.audio.newSound(Gdx.files.internal("hero_hit.mp3"));
+		enemyHitSound = Gdx.audio.newSound(Gdx.files.internal("enemy_hit.wav"));
+		bulletShotSound = Gdx.audio.newSound(Gdx.files.internal("shotgun.wav"));
+		itemPickUpSound = Gdx.audio.newSound(Gdx.files.internal("bloop.wav"));
 
 		batch = new SpriteBatch();
 
@@ -213,7 +213,7 @@ public class Decline implements ApplicationListener {
 
 		if (shoot == true) {
 			bm.shootBullet();
-			//bulletShotSound.play();
+			bulletShotSound.play();
 			hero.setAmmo(hero.getAmmo() - 1);
 			if (hero.getAmmo() == 0) {
 				ableToShoot = false;
@@ -244,7 +244,7 @@ public class Decline implements ApplicationListener {
 				if (activeBullets.get(i).collidesWith(activeEnemies.get(j))) {
 					bm.removeActiveBullet(i);
 					em.enemyDamagedEvent(j, enemyShotDamage);
-					//enemyHitSound.play();
+					enemyHitSound.play();
 					break;
 				}// end if
 			}// end for
@@ -257,7 +257,7 @@ public class Decline implements ApplicationListener {
 						hero.setHealth(0);
 					}// end if
 					em.enemyDamagedEvent(i,activeEnemies.get(i).getMaxHealth());
-					//heroHitSound.play();
+					heroHitSound.play();
 				}// end if
 			}// end for
 		}
@@ -271,7 +271,7 @@ public class Decline implements ApplicationListener {
 					hero.setAmmo(Hero.MAX_AMMO);
 				}// end if
 				im.removeActiveAmmo(i);
-				//itemPickUpSound.play();
+				itemPickUpSound.play();
 			}// end if
 		}// end for
 
@@ -282,7 +282,7 @@ public class Decline implements ApplicationListener {
 					hero.setHealth(Hero.MAX_HEALTH);
 				}
 				im.removeActiveHealthPack(i);
-				//itemPickUpSound.play();
+				itemPickUpSound.play();
 			}
 		}
 	}
