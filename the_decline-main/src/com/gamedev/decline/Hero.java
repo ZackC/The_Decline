@@ -236,6 +236,7 @@ public class Hero extends Unit {
 	  {
 	        setIsAlive(false);
 		gs.setIsHeroAlive(false);
+		gs.setIsGameOver(true);
 	  }
 	  lives--;
 	}

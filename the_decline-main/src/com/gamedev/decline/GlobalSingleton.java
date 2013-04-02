@@ -43,6 +43,7 @@ public class GlobalSingleton {
 	private boolean isHeroJumping = false;
 	private boolean isHeroAlive = true;
 	HealthBarManager hbm;
+	private boolean isGameOver = false;
 
 	private GlobalSingleton() {
 
@@ -287,6 +288,16 @@ public class GlobalSingleton {
 	public void setHealthBarManager(HealthBarManager newHBM)
 	{
 	  hbm = newHBM;
+	}
+	
+	public void setIsGameOver(boolean newIsGameOver)
+	{
+	  isGameOver = newIsGameOver;
+	}
+	
+	public boolean getIsGameOver()
+	{
+	  return isGameOver;
 	}
 
 }

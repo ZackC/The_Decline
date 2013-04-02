@@ -13,6 +13,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.utils.Array;
@@ -57,6 +58,7 @@ public class Decline implements ApplicationListener {
 	Sound bulletShotSound;
 	Sound itemPickUpSound;
 	boolean bossFight = false;
+	Sprite gameOverSprite;
 
 	/**
 	 * Function run when the game is started. Basically a high-level constructor
@@ -99,6 +101,7 @@ public class Decline implements ApplicationListener {
 
 		em = new EnemyManager(new Texture(Gdx.files.internal("enemy.png")));
 
+		gameOverSprite = new Sprite(new Texture(Gdx.files.internal("game_over.png")));
 		
 		ammoDisplay = new AmmoCountDisplay(hero);
 		background = new RepeatingBackground(new Texture(
@@ -133,26 +136,38 @@ public class Decline implements ApplicationListener {
 	 */
 	@Override
 	public void render() {
-		handleEvent();
-		handleCollision();
-		update();
+	        if(!gs.getIsGameOver())
+	        {  
+		  handleEvent();
+		  handleCollision();
+		  update();
+	        }
+	        
 
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-		background.draw(batch);
-		if (gs.getIsHeroAlive()) {
+		
+		if(!gs.getIsGameOver())
+	        {  
+		  batch.begin();
+		  background.draw(batch);
+		  if (gs.getIsHeroAlive()) {
 			hero.draw(batch);
-		}
-		bm.draw(batch);
-		em.draw(batch);
-		im.draw(batch);
-		hero.drawAmmoCount(batch);
-		hero.drawLives(batch);
-		batch.end();
-		gs.getHealthBarManager().draw();
+		  }
+	 	  bm.draw(batch);
+		  em.draw(batch);
+		  im.draw(batch);
+		  hero.drawAmmoCount(batch);
+		  hero.drawLives(batch);
+		  batch.end();
+		  gs.getHealthBarManager().draw();
+	        }
+		else
+	        {
+	          handleGameOver();
+	        }
 	}// end setHealth()
 
 	/**
@@ -336,4 +351,13 @@ public class Decline implements ApplicationListener {
 	@Override
 	public void resume() {
 	}// end resume()
+	
+	public void handleGameOver()
+	{
+	  batch.begin();
+	  background.draw(batch);
+	  batch.draw(gameOverSprite, 0,//Gdx.graphics.getWidth() - gameOverSprite.getWidth()/2, 
+	      0);//Gdx.graphics.getHeight() - gameOverSprite.getHeight()/2);
+	  batch.end();
+	}
 }// end Decline class
