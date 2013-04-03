@@ -36,6 +36,6 @@ public class HealthPack extends Item {
 	 *            : The image to be used for the health pack.
 	 */
 	public HealthPack(Texture texture) {
-		super(texture, 0, 0);
+		super(texture, 0, 0, 0);
 	}// end HealthPack()
 }// end HealthPack class

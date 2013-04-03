@@ -29,21 +29,28 @@ public class ItemManager {
 	// Constants of the Object //
 	public static final int MAX_AMMO = 5;
 	public static final int MAX_HEALTH = 5;
+	public static final int MAX_BUSHES = 8;
 
 	// Internal Variables //
 	private Ammo[] ammoArray = new Ammo[MAX_AMMO];
+	private Bush[] bushArray = new Bush[MAX_BUSHES];
 	private HealthPack[] healthArray = new HealthPack[MAX_HEALTH];
 	private Array<Ammo> currentAmmo = new Array<Ammo>();
+	private Array<Bush> currentBushes = new Array<Bush>();
 	private Array<HealthPack> currentHealthPacks = new Array<HealthPack>();
 	private Iterator<Ammo> ammoIter;
 	private Iterator<HealthPack> healthIter;
+	private Iterator<Bush> bushIter;
 	private Ammo ammo;
 	private HealthPack pack;
+	private Bush bush;
 	private Random rand = new Random();
 	private int newAmmoPosition = 800 + rand.nextInt() % 500;
 	private int newHealthPackPosition = 800 + rand.nextInt() % 500;
+	private int newBushPosition = 500 + rand.nextInt() % 500;
 	private int currentAmmoCount = 0;
 	private int currentHealthCount = 0;
+	private int currentBushCount = 0;
 
 	/**
 	 * Instantiates a new ItemManager object. The ItemManager fills an array of
@@ -56,10 +63,15 @@ public class ItemManager {
 	 * @param healthTexture
 	 *            : The image to be used for the HealthPack objects.
 	 */
-	public ItemManager(Texture ammoTexture, Texture healthTexture) {
+	public ItemManager(Texture ammoTexture, Texture healthTexture,
+	    Texture bushTexture) {
 		for (int i = 0; i < ammoArray.length; i++) {
 			ammoArray[i] = new Ammo(ammoTexture);
 		}
+		for (int i  = 0; i < bushArray.length; i++){
+		      bushArray[i] = new Bush(bushTexture);
+		}
+		
 		for (int i = 0; i < healthArray.length; i++) {
 			healthArray[i] = new HealthPack(healthTexture);
 		}
@@ -68,6 +80,10 @@ public class ItemManager {
 	public Array<Ammo> getActiveAmmo() {
 		return currentAmmo;
 	}
+	
+	public Array<Bush> getActiveBush() {
+	   return currentBushes;
+	}
 
 	public Array<HealthPack> getActiveHealthPacks() {
 		return currentHealthPacks;
@@ -75,6 +91,10 @@ public class ItemManager {
 
 	public void removeActiveAmmo(int index) {
 		currentAmmo.removeIndex(index);
+	}
+	
+	public void removeActiveBush(int index) {
+	      currentBushes.removeIndex(index);
 	}
 
 	public void removeActiveHealthPack(int index) {
@@ -94,6 +114,15 @@ public class ItemManager {
 		ammo.setAmountOfAmmoStored(rand.nextInt(5) * 5 + 5);
 		currentAmmo.add(ammo);
 		currentAmmoCount++;
+	}
+	
+	public void makeBushAppear() {
+		bush = bushArray[currentBushCount % MAX_AMMO];
+		bush.setToInitialDrawPosition();
+		bush.setXPos(gs.getWorldXPos() + Item.START_XDRAW);
+		bush.setYPos(Item.START_YDRAW);
+		currentBushes.add(bush);
+		currentBushCount++;
 	}
 
 	/**
@@ -130,6 +159,21 @@ public class ItemManager {
 				ammoIter.remove();
 			}
 		}
+		
+		if (gs.getHeroXPos() > newBushPosition) {
+			makeBushAppear();
+			newBushPosition += 500 + rand.nextInt() % 500;
+		}
+		bushIter = currentBushes.iterator();
+		while (bushIter.hasNext()) {
+			bush = bushIter.next();
+			bush.update();
+			if (bush.getX() < -1 * bush.getWidth()) {
+				bushIter.remove();
+			}
+			
+		}
+		
 		if (gs.getHeroXPos() > newHealthPackPosition) {
 			makeHealthAppear();
 			newHealthPackPosition += 800 + rand.nextInt() % 500;
@@ -153,11 +197,21 @@ public class ItemManager {
 	 *            - The SpriteBatch object which will draw the Ammo objects.
 	 */
 	public void draw(SpriteBatch batch) {
+		
+		
+		bushIter = currentBushes.iterator();
+		while (bushIter.hasNext())
+		{
+		  bush = bushIter.next();
+		  bush.draw(batch);
+		}
+		
 		ammoIter = currentAmmo.iterator();
 		while (ammoIter.hasNext()) {
 			ammo = ammoIter.next();
 			ammo.draw(batch);
 		}
+		
 		healthIter = currentHealthPacks.iterator();
 		while (healthIter.hasNext()) {
 			pack = healthIter.next();

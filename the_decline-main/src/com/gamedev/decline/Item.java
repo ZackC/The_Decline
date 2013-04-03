@@ -43,9 +43,16 @@ public abstract class Item extends CollidableObject {
 	 * @param yPos
 	 *            : The yPos of this specific Item.
 	 */
-	public Item(Texture texture, float xPos, float yPos) {
+	public Item(Texture texture, float xPos, float yPos, int itemSize) {
 		super(texture, xPos, yPos);
-		setSize(ITEM_SIZE, ITEM_SIZE);
+		if(itemSize == 0)
+		{
+		  setSize(ITEM_SIZE, ITEM_SIZE);
+		}
+		else
+		{
+		  setSize(itemSize,itemSize);
+		}
 	}
 
 	/**

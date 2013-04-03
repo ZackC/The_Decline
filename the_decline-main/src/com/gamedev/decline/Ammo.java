@@ -36,7 +36,7 @@ public class Ammo extends Item {
 	 *            : The image to be used for the ammo.
 	 */
 	public Ammo(Texture texture) {
-		super(texture, 0, 0);
+		super(texture, 0, 0, 0);
 	}// end Ammo()
 
 	/**

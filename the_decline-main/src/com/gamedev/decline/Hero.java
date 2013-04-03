@@ -6,9 +6,12 @@ package com.gamedev.decline;
 
 // Badlogic Package Support //
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * 
@@ -25,6 +28,7 @@ public class Hero extends Unit {
 
 	// Global Singleton //
 	private GlobalSingleton gs = GlobalSingleton.getInstance();
+	Sound dyingSound;
 
 	// Constants of the Object //
 	public static final int START_XDRAW = 120;
@@ -37,13 +41,19 @@ public class Hero extends Unit {
 	public static final int AMMO_DISPLAY_X_POSITION = 30;
 	public static final int AMMO_DISPLAY_Y_POSITION = Gdx.graphics.getHeight() - 50;
 	public static final int STARTING_HERO_LIVES = 3;
+	public static final int STARTING_ROCK_HIDING_POWER_COUNT = 3;
 	public static final int LIVES_DISPLAY_Y_POSITION = Gdx.graphics.getHeight() - 70;
 	public static final int LIVES_DISPLAY_X_POSITION = AMMO_DISPLAY_X_POSITION + 150;
 	public static final int LIVES_IMAGE_SIZE = 30;
+	public static final int ROCK_POWER_X_POSITION = LIVES_DISPLAY_X_POSITION + (4 * LIVES_IMAGE_SIZE);
+	public static final int ROCK_POWER_Y_POSITION = LIVES_DISPLAY_Y_POSITION;
+	public static final int ROCK_POWER_SIZE = LIVES_IMAGE_SIZE;
 	
+	int rockPowers = STARTING_ROCK_HIDING_POWER_COUNT;
 	int lives = STARTING_HERO_LIVES;
 	final Texture standingTexture;
 	final Texture hidingTexture;
+	final Texture rockTexture;
 	final Texture heartTexture;
 
 	// Internal Variables //
@@ -58,17 +68,19 @@ public class Hero extends Unit {
 	 * @param newHidingTexture
 	 *            : The image to be used for when the hero is hiding;
 	 */
-	public Hero(Texture newStandingTexture, Texture newHidingTexture, Texture newHeartTexture) {
+	public Hero(Texture newStandingTexture, Texture newHidingTexture, Texture newHeartTexture, 
+	    Texture newRockTexture, Sound newDyingSound) {
 		super(newStandingTexture, SPEED, START_XDRAW, START_YDRAW);
 		standingTexture = newStandingTexture;
 		hidingTexture = newHidingTexture;
+		rockTexture = newRockTexture;
 		setJumpSpeed(JUMP_SPEED);
 		gs.setHeroHeight(getHeight());
 		gs.setHeroWidth(getWidth());
 		gs.setHeroYPos(START_YDRAW);
 		setIsAlive(true);
 		heartTexture = newHeartTexture;
-
+                dyingSound = newDyingSound;
 	}// end Hero()
 
 	/***
@@ -159,9 +171,36 @@ public class Hero extends Unit {
 	/***
 	 * The function to make the hero hide.
 	 */
-	public void hide() {
-		gs.setIsHeroHiding(true);
-		setTexture(hidingTexture);
+	public void hide(Array<Bush> bushArray) {
+	        boolean isBehindBush = false;
+	        for(int i = 0; i < bushArray.size; i++)
+	        {
+	          if(Intersector.intersectRectangles(getBoundingRectangle(),
+	              bushArray.get(i).getBoundingRectangle()))
+	          {
+	            isBehindBush = true;
+	            break;
+	          }
+	        }
+	        if(isBehindBush)
+	        {
+	          gs.setIsHeroHiding(true);
+	          setTexture(hidingTexture);
+	        }
+	        else
+	        {
+	          if(rockPowers > 0)
+	          {
+	          gs.setIsHeroHiding(true);
+	          setTexture(rockTexture);
+	          rockPowers = rockPowers - 1;;
+	          }
+	          else
+	          {
+	            gs.setIsHeroTryingToHide(true);
+	            setTexture(hidingTexture);
+	          }
+	        }
 		setSize(hidingTexture.getWidth(), hidingTexture.getHeight());
 	}
 
@@ -170,6 +209,7 @@ public class Hero extends Unit {
 	 */
 	public void stand() {
 		gs.setIsHeroHiding(false);
+		gs.setIsHeroTryingToHide(false);
 		setTexture(standingTexture);
 		setSize(standingTexture.getWidth(), standingTexture.getHeight());
 	}
@@ -194,6 +234,15 @@ public class Hero extends Unit {
 	  {
 	    batch.draw(heartTexture,LIVES_DISPLAY_X_POSITION + i * LIVES_IMAGE_SIZE,LIVES_DISPLAY_Y_POSITION,
 		LIVES_IMAGE_SIZE,LIVES_IMAGE_SIZE);
+	  }
+	}
+	
+	public void drawRockPower(SpriteBatch batch)
+	{
+	  for(int i = 0; i < rockPowers; i++)
+	  {
+	    batch.draw(rockTexture,ROCK_POWER_X_POSITION + i * ROCK_POWER_SIZE, ROCK_POWER_Y_POSITION,
+		ROCK_POWER_SIZE, ROCK_POWER_SIZE);
 	  }
 	}
 	
@@ -231,6 +280,7 @@ public class Hero extends Unit {
 	@Override
 	public void die()
 	{
+	  dyingSound.play();
 	  health = getMaxHealth();
 	  if(lives < 1)
 	  {
