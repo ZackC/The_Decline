@@ -70,6 +70,11 @@ public class Bullet extends Unit {
 			setXPos(gs.getWorldXPos() + gs.getHeroXDraw());
 			setYPos(START_YDRAW + gs.getHeroYDraw());
 		} // end else
+		System.out.println("Hero world x pos:"+gs.getWorldXPos());
+		System.out.println("Hero x draw: "+gs.getHeroXDraw());
+		System.out.println("Hero get width: "+gs.getHeroWidth());
+		System.out.println("Hero width / 3: "+gs.getHeroWidth()/3);
+		System.out.println("Setting bullet x position to: "+getXPos()+" and y position to: "+getYPos());
 	}// end setToInitialDrawPosition()
 
 	/**

@@ -59,6 +59,7 @@ public class Hero extends Unit {
 	// Internal Variables //
 	private float posChange = 0;
 	private int ammo = MAX_AMMO / 2;
+	BitmapFont font = new BitmapFont();
 
 	/**
 	 * Instantiates a new Hero object by calling the super constructor (Unit)
@@ -219,8 +220,8 @@ public class Hero extends Unit {
 	 * @param batch:  the batch object that draws the text
 	 */
 	public void drawAmmoCount(SpriteBatch batch) {
-		BitmapFont font = new BitmapFont();
-		font.draw(batch, "Ammo Left: " + new Integer(getAmmo()).toString(),
+		
+		font.draw(batch, "Ammo Left: " + getAmmo(),
 				AMMO_DISPLAY_X_POSITION, AMMO_DISPLAY_Y_POSITION);
 	}
 	

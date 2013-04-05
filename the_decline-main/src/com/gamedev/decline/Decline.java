@@ -132,7 +132,7 @@ public class Decline implements ApplicationListener {
 
 		gameOverSprite = new Sprite(new Texture(Gdx.files.internal("game_over.png")));
 		
-		ammoDisplay = new AmmoCountDisplay(hero);
+		//ammoDisplay = new AmmoCountDisplay(hero);
 		background = new RepeatingBackground(new Texture(
 				Gdx.files.internal("background.png")));
 		im = new ItemManager(new Texture(Gdx.files.internal("ammoBox.png")),

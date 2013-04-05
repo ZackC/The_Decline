@@ -90,6 +90,7 @@ public class BulletManager {
 		currentBullet.setToInitialDrawPosition();
                 currentBullet.setIsAlive(true);
 		shotBullets.add(currentBullet);
+		System.out.println("Drawing Bullet number: "+currentBulletNumber % MAX_BULLET_NUMBER);
 		currentBulletNumber++;
 	} // end shootBullet()
 

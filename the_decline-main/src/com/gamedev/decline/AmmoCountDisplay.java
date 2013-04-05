@@ -41,7 +41,7 @@ public class AmmoCountDisplay {
 	 */
 	public void draw(SpriteBatch batch) {
 		font.draw(batch,
-				"Ammo Left: " + new Integer(hero.getAmmo()).toString(),
+				"Ammo Left: " + hero.getAmmo(),
 				xPostion, yPosition);
 	}
 }
