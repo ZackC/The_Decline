@@ -23,7 +23,7 @@ public class Fireball extends Unit {
 	// Constants //
 	public static final int DRAW_WIDTH = 30;
 	public static final int DRAW_HEIGHT = 30;
-	public static final int INITIAL_SPEED = 1000;
+	public static final int INITIAL_SPEED = 500;
 	public static final int MAX_HEALTH = 1;
 	public static final int COLLISION_DAMAGE_TO_SELF = 1;
 
@@ -45,8 +45,8 @@ public class Fireball extends Unit {
 	/**
 	 */
 	public void setToInitialDrawPosition(float bossX, float bossY) {
-		setXPos(gs.getWorldXPos() + bossX - 60);
-		setYPos(gs.getWorldXPos() + bossY);
+		setXPos(gs.getWorldXPos() + bossX - 10);
+		setYPos(gs.getWorldXPos() + bossY + 45);
 	}// end setToInitialDrawPosition()
 
 	/**

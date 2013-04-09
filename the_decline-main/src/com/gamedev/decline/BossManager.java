@@ -82,7 +82,9 @@ public class BossManager {
 	}
 	
 	public void update(){
-		boss.update();
+		if(currentFireballs.size == 0){
+			shootFireball();
+		}
 		
 		fireballIter = currentFireballs.iterator();
 		while (fireballIter.hasNext()) {
@@ -94,6 +96,10 @@ public class BossManager {
 			else if (currentFireball.getX() < 0) {
 				fireballIter.remove();
 			} // end else if
+		}
+		
+		if(boss.getHealth() <= 0){
+			gs.setIsGameOver(true);
 		}
 	}
 	
