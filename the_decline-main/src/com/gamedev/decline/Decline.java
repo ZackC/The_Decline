@@ -51,6 +51,7 @@ public class Decline implements ApplicationListener {
 	BulletManager bm;
 	EnemyManager em;
 	ItemManager im;
+	BossManager bsm;
 	boolean shoot = false;
 	boolean ableToShoot = true;
 	AmmoCountDisplay ammoDisplay;
@@ -63,7 +64,7 @@ public class Decline implements ApplicationListener {
 	Sound heroDyingSound;
 	Sound gameOverSound;
 	Sound hornSound;
-	boolean bossFight = false;
+	boolean bossFight = true;
 	Sprite gameOverSprite;
 	boolean isNight = false;
 	boolean isTransitioning = false;
@@ -130,6 +131,8 @@ public class Decline implements ApplicationListener {
 
 		em = new EnemyManager(new Texture(Gdx.files.internal("enemy.png")), new Texture(Gdx.files.internal("data/enemy.gif")), new Texture(Gdx.files.internal("data/falcon.jpg")));
 
+		bsm = new BossManager(new Texture(Gdx.files.internal("boss.png")), new Texture(Gdx.files.internal("fireball.png")));
+		
 		gameOverSprite = new Sprite(new Texture(Gdx.files.internal("game_over.png")));
 		
 		//ammoDisplay = new AmmoCountDisplay(hero);
@@ -232,9 +235,14 @@ public class Decline implements ApplicationListener {
 		  if (gs.getIsHeroAlive()) {
 			hero.draw(batch);
 		  }
-	 	  bm.draw(batch);
-		  em.draw(batch);
-		  im.draw(batch);
+			  bm.draw(batch);
+			  em.draw(batch);
+			  im.draw(batch);
+		  
+		  if(bossFight){
+			  bsm.draw(batch);
+		  }
+			  
 		  hero.drawAmmoCount(batch);
 		  hero.drawLives(batch);
 		  hero.drawRockPower(batch);
@@ -326,11 +334,13 @@ public class Decline implements ApplicationListener {
 			ableToShoot = true;
 		}
 		
-		if(enemiesToAppear > 0 && TimeUtils.nanoTime() > timeSinceLastEnemyAppeared + TIME_BETWEEN_ENEMIES)
-		{
-		  em.makeEnemyAppear();
-		  enemiesToAppear = enemiesToAppear - 1;
-		  timeSinceLastEnemyAppeared = TimeUtils.nanoTime();
+		if(!bossFight){
+			if(enemiesToAppear > 0 && TimeUtils.nanoTime() > timeSinceLastEnemyAppeared + TIME_BETWEEN_ENEMIES)
+			{
+			  em.makeEnemyAppear();
+			  enemiesToAppear = enemiesToAppear - 1;
+			  timeSinceLastEnemyAppeared = TimeUtils.nanoTime();
+			}
 		}
 	}// end handleEvent()
 
@@ -401,8 +411,12 @@ public class Decline implements ApplicationListener {
 	private void update() {
 		hero.update();
 		bm.update();
-		em.update();
-		im.update();
+		if(bossFight){
+			bsm.update();
+		}else{
+			em.update();
+			im.update();
+		}
 		gs.getHealthBarManager().update();
 	}// end update()
 
