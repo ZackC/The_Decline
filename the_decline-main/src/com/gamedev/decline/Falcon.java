@@ -26,6 +26,7 @@ public class Falcon extends Unit
 
 	// Constants //
 	public static final int INITIAL_SPEED = 400;
+	public static final int Y_SPEED = -10;
 	public static final int WIDTH = 36;
 	public static final int HEIGHT = 67;
 	public static final int START_XDRAW = Gdx.graphics.getWidth() - WIDTH / 2;
@@ -45,6 +46,7 @@ public class Falcon extends Unit
 	public Falcon(Texture texture) {
 		super(texture, INITIAL_SPEED, 0, 0);
 		setSize(WIDTH, HEIGHT);
+		setJumpSpeed(Y_SPEED);
 	} // end Enemy()
 
 	/**
@@ -59,9 +61,21 @@ public class Falcon extends Unit
 	 * The update function is called every global game update. Moves the Falcon
 	 * 	in an arc towards the Hero's feet.
 	 */
-	public void update() {
+	public void update()
+	{
 		moveLeft();
-	} // end update()
+		yPosChange = jumpSpeed;
+		setYPos(getYPos() + yPosChange);
+		if (getYPos() < GlobalSingleton.HERO_YDRAW)
+		{
+			setYPos(GlobalSingleton.HERO_YDRAW);
+		}
+		else if (getXPos() + WIDTH / 2 <= GlobalSingleton.HERO_XDRAW + gs.getHeroWidth() / 2)
+		{
+			jumpSpeed = -Y_SPEED;
+		}
+		setPosition(getX(), getYPos());
+	}
 
 	/***
 	 * Returns the max health of the Falcon
