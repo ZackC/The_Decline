@@ -29,16 +29,27 @@ public class EnemyManager {
 
 	// Constants for the Object //
 	public static final int MAX_ENEMIES = 15;
+	public static final int MAX_FALCONERS = 15;
+	public static final int MAX_FALCONS = 15;
 
 	// Internal Variables //
 	private Enemy[] enemies = new Enemy[MAX_ENEMIES];
+	private Falconer[] falconers = new Falconer[MAX_FALCONERS];
+	private Falcon[] falcons = new Falcon[MAX_FALCONS];
 	private Array<Enemy> currentEnemies = new Array<Enemy>();
+	private Array<Falconer> currentFalconers = new Array<Falconer>();
+	private Array<Falcon> currentFalcons = new Array<Falcon>();
 	private Iterator<Enemy> enemyIter;
+	private Iterator<Falconer> falconerIter;
+	private Iterator<Falcon> falconIter;
 	private Enemy currentEnemy;
+	private Falconer currentFalconer;
+	private Falcon currentFalcon;
 	private int currentEnemyNumber = 0;
+	private int currentFalconerNumber = 0;
 	private Random rand = new Random();
-	private int newEnemyXPosition = Gdx.graphics.getWidth() / 2
-			+ rand.nextInt(100);
+	private int newEnemyXPosition = Gdx.graphics.getWidth() / 2 + rand.nextInt(100);
+	private int newFalconerXPosition = Gdx.graphics.getWidth() / 2 + rand.nextInt(400);
 
 	/**
 	 * Instantiates a new EnemyManager object. The EnemyManager fills an array
@@ -48,10 +59,19 @@ public class EnemyManager {
 	 * @param texture
 	 *            : The image to be used for the Enemy objects.
 	 */
-	public EnemyManager(Texture texture) {
+	public EnemyManager(Texture enemyTexture, Texture falconerTexture, Texture falconTexture)
+	{
 		for (int i = 0; i < MAX_ENEMIES; i++) {
-			enemies[i] = new Enemy(texture);
+			enemies[i] = new Enemy(enemyTexture);
 		} // end for
+		for (int i = 0; i < MAX_FALCONERS; i++)
+		{
+			falconers[i] = new Falconer(falconerTexture);
+		}
+		for (int i = 0; i < MAX_FALCONS; i++)
+		{
+			falcons[i] = new Falcon(falconTexture);
+		}
 	} // end EnemyManager
 
 	/**
@@ -62,8 +82,18 @@ public class EnemyManager {
 	public Array<Enemy> getActiveEnemies() {
 		return currentEnemies;
 	}// end getActiveEnemies()
+	
+	/**
+	 * Gets all currently active Falconers.
+	 * 
+	 * @return : A badlogic array of all active Falconers.
+	 */
+	public Array<Falconer> getActiveFalconers()
+	{
+		return currentFalconers;
+	}
 
-	/***
+	/**
 	 * Handles an enemy being damaged
 	 * @param index - the index of the enemy in the displayed enemy
 	 *       array
@@ -85,6 +115,27 @@ public class EnemyManager {
 	}
 	
 	/**
+	 * Handles a Falconer being damaged.
+	 * @param index - The index of the Falconer in the displayed
+	 * 		Falconer array.
+	 * @param damage - The amount that the enemy was damaged.
+	 */
+	public void falconerDamagedEvent(int index, int damage)
+	{
+		currentFalconer = currentFalconers.get(index);
+		if (!currentFalconer.getHasHealthBar())
+		{
+			gs.getHealthBarManager().add(currentFalconer);
+			currentFalconer.setHasHealthBar(true);
+		}
+		currentFalconer.setHealth(currentFalconer.getHealth() - damage);
+		if (!currentFalconer.getIsAlive())
+		{
+			removeActiveFalconer(index);
+		}
+	}
+	
+	/**
 	 * Removes a specific active Enemy from the group of active Enemies.
 	 * 
 	 * @param index
@@ -93,6 +144,16 @@ public class EnemyManager {
 	public void removeActiveEnemy(int index) {
 		currentEnemies.removeIndex(index);
 	}// end removeActiveEnemy()
+	
+	/**
+	 * Removes a specific active Falconer from the group of active Falconers.
+	 * 
+	 * @param index : The index of the active Falconer to be removed.
+	 */
+	public void removeActiveFalconer(int index)
+	{
+		currentFalconers.removeIndex(index);
+	}
 
 	/**
 	 * Grabs a Enemy from the Enemy buffer created when the manager was
@@ -109,6 +170,23 @@ public class EnemyManager {
 		currentEnemies.add(currentEnemy);
 		currentEnemyNumber++;
 	}// end makeEnemyAppear()
+	
+	/**
+	 * Grabs a Falconer from the Falconer buffer created when the manager was
+	 * 	constructed. Sets the initial values for this specific Falconer. This
+	 * 	Falconer is then added to the array of Falconers that are to be drawn
+	 * 	to the screen and updated.
+	 */
+	public void makeFalconerAppear()
+	{
+		currentFalconer = falconers[currentFalconerNumber % MAX_FALCONERS];
+		currentFalconer.setToInitialDrawPosition();
+		currentFalconer.setIsAlive(true);
+		currentFalconer.setXPos(gs.getWorldXPos() + Falconer.START_XDRAW);
+		currentFalconer.setYPos(Falconer.START_YDRAW);
+		currentFalconers.add(currentFalconer);
+		currentFalconerNumber++;
+	}
 
 	/**
 	 * Checks to see if the hero has moved farther than the random amount
@@ -130,12 +208,30 @@ public class EnemyManager {
 			{
 			   currentEnemy.setIsAlive(false);
 			}// end if
-                        if(!currentEnemy.getIsAlive())
-                        {
-                            enemyIter.remove();                          
-                        }
+            if(!currentEnemy.getIsAlive())
+            {
+            	enemyIter.remove();                          
+            }
 		}// end while
-
+		if (gs.getHeroXPos() > newFalconerXPosition)
+		{
+			makeFalconerAppear();
+			newFalconerXPosition += rand.nextInt(500) + 300;
+		}
+		falconerIter = currentFalconers.iterator();
+		while (falconerIter.hasNext())
+		{
+			currentFalconer = falconerIter.next();
+			currentFalconer.update();
+			if (currentFalconer.getX() < -1 * currentFalconer.getWidth())
+			{
+				currentFalconer.setIsAlive(false);
+			}
+			if (!currentFalconer.getIsAlive())
+			{
+				falconerIter.remove();
+			}
+		}
 	}// end update()
 
 	/**
@@ -145,11 +241,19 @@ public class EnemyManager {
 	 * @param batch
 	 *            - The SpriteBatch object which will draw the Enemy objects.
 	 */
-	public void draw(SpriteBatch batch) {
+	public void draw(SpriteBatch batch)
+	{
 		enemyIter = currentEnemies.iterator();
-		while (enemyIter.hasNext()) {
+		while (enemyIter.hasNext())
+		{
 			currentEnemy = enemyIter.next();
 			currentEnemy.draw(batch);
-		}// end while()
-	}// end draw()
+		}
+		falconerIter = currentFalconers.iterator();
+		while (falconerIter.hasNext())
+		{
+			currentFalconer = falconerIter.next();
+			currentFalconer.draw(batch);
+		}
+	}
 }// end EnemyManager class

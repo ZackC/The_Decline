@@ -114,7 +114,7 @@ public class Decline implements ApplicationListener {
 		itemPickUpSound = Gdx.audio.newSound(Gdx.files.internal("bloop.wav"));
 		heroDyingSound = Gdx.audio.newSound(Gdx.files.internal("dying-noise.wav"));
 		gameOverSound = Gdx.audio.newSound(Gdx.files.internal("game-over-sad.wav"));
-                hornSound = Gdx.audio.newSound(Gdx.files.internal("warning-horn.wav"));
+        hornSound = Gdx.audio.newSound(Gdx.files.internal("warning-horn.wav"));
 		
 		batch = new SpriteBatch();
 
@@ -128,7 +128,7 @@ public class Decline implements ApplicationListener {
 
 		bm = new BulletManager(new Texture(Gdx.files.internal("bullets.png")));
 
-		em = new EnemyManager(new Texture(Gdx.files.internal("enemy.png")));
+		em = new EnemyManager(new Texture(Gdx.files.internal("enemy.png")), new Texture(Gdx.files.internal("data/enemy.gif")), new Texture(Gdx.files.internal("data/falcon.jpg")));
 
 		gameOverSprite = new Sprite(new Texture(Gdx.files.internal("game_over.png")));
 		
