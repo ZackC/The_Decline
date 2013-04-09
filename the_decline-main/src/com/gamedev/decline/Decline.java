@@ -128,7 +128,7 @@ public class Decline implements ApplicationListener {
 
 		bm = new BulletManager(new Texture(Gdx.files.internal("bullets.png")));
 
-		em = new EnemyManager(new Texture(Gdx.files.internal("enemy.png")), new Texture(Gdx.files.internal("data/enemy.gif")), new Texture(Gdx.files.internal("data/falcon.jpg")));
+		em = new EnemyManager(new Texture(Gdx.files.internal("enemy.png")), new Texture(Gdx.files.internal("data/enemy.gif")), new Texture(Gdx.files.internal("hawk.png")));
 
 		gameOverSprite = new Sprite(new Texture(Gdx.files.internal("game_over.png")));
 		
@@ -137,7 +137,7 @@ public class Decline implements ApplicationListener {
 				Gdx.files.internal("background.png")));
 		im = new ItemManager(new Texture(Gdx.files.internal("ammoBox.png")),
 				new Texture(Gdx.files.internal("healthKit.png")),
-				new Texture(Gdx.files.internal("data/bush.jpg")));
+				new Texture(Gdx.files.internal("bush.png")));
 		gs.setHealthBarManager(new HealthBarManager());
 		gs.getHealthBarManager().add(hero);
 	}
