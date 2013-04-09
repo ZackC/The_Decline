@@ -131,6 +131,22 @@ public abstract class Unit extends CollidableObject {
 	public void jump() {
 	}
 	
+	/**
+	 * Moves the Unit down. Only used for Falcon.
+	 */
+	public void moveDown()
+	{
+		
+	}
+	
+	/**
+	 * Moves the Unit up. Only used for Falcon.
+	 */
+	public void moveUp()
+	{
+		
+	}
+	
 	/***
 	 * returns the max health of the unit
 	 * @return: the unit's max health
