@@ -71,6 +71,10 @@ public class Falconer extends Unit
 		{
 			moveLeft();
 		}
+		else
+		{
+			standStill();
+		}
 	}
 
 	/***

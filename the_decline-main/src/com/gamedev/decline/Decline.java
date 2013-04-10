@@ -178,7 +178,7 @@ public class Decline implements ApplicationListener {
 	 */
 	@Override
 	public void render() {
-		System.out.println(gs.getHeroXPos());
+		//System.out.println(gs.getHeroXPos());
 	        if(!gs.getIsGameOver())
 	        {  
 		  handleEvent();
@@ -351,6 +351,7 @@ public class Decline implements ApplicationListener {
 	private void handleCollision() {
 		Array<Bullet> activeBullets = bm.getActiveBullets();
 		Array<Enemy> activeEnemies = em.getActiveEnemies();
+		Array<Falconer> activeFalconers = em.getActiveFalconers();
 		Array<Ammo> activeAmmo = im.getActiveAmmo();
 		Array<HealthPack> activeHealthPacks = im.getActiveHealthPacks();
 		Array<Fireball> activeFireballs = bsm.getActiveFireballs();
@@ -382,6 +383,10 @@ public class Decline implements ApplicationListener {
 			}
 		}else{
 			for (int i = 0; i < activeBullets.size; i++) {
+				if (activeBullets.get(i) == null)
+				{
+					System.out.println("Null bullet");
+				}
 				for (int j = 0; j < activeEnemies.size; j++) {
 					if (activeBullets.get(i).collidesWith(activeEnemies.get(j))) {
 						bm.removeActiveBullet(i);
@@ -443,9 +448,9 @@ public class Decline implements ApplicationListener {
 			im.update();
 		}
 		gs.getHealthBarManager().update();
-		if(gs.getHeroXPos() > 2000){
+		/*if(gs.getHeroXPos() > 2000){
 			bossFight = true;
-		}
+		}*/
 	}// end update()
 
 	/**

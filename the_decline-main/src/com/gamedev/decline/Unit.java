@@ -132,19 +132,12 @@ public abstract class Unit extends CollidableObject {
 	}
 	
 	/**
-	 * Moves the Unit down. Only used for Falcon.
+	 * Makes the Unit stand still.
 	 */
-	public void moveDown()
+	public void standStill()
 	{
-		
-	}
-	
-	/**
-	 * Moves the Unit up. Only used for Falcon.
-	 */
-	public void moveUp()
-	{
-		
+		xPosChange = -gs.getHeroMovement() * Gdx.graphics.getDeltaTime();
+		setPosition(getX() - xPosChange, getY());
 	}
 	
 	/***
