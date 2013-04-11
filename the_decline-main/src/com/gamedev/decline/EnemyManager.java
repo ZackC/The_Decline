@@ -4,6 +4,7 @@ package com.gamedev.decline;
 // Java Package Support //
 import java.util.Iterator;
 import java.util.Random;
+import java.util.ArrayList;
 
 // Badlogic Package Support //
 import com.badlogic.gdx.Gdx;
@@ -49,6 +50,7 @@ public class EnemyManager {
 	private Random rand = new Random();
 	private int newEnemyXPosition = Gdx.graphics.getWidth() / 2 + rand.nextInt(100);
 	private int newFalconerXPosition = Gdx.graphics.getWidth() / 2 + rand.nextInt(400);
+	Texture enemyTexture, falconerTexture, falconTexture;
 
 	/**
 	 * Instantiates a new EnemyManager object. The EnemyManager fills an array
@@ -60,6 +62,9 @@ public class EnemyManager {
 	 */
 	public EnemyManager(Texture enemyTexture, Texture falconerTexture, Texture falconTexture)
 	{
+		this.enemyTexture = enemyTexture;
+		this.falconerTexture = falconerTexture;
+		this.falconTexture = falconTexture;
 		for (int i = 0; i < MAX_ENEMIES; i++) {
 			enemies[i] = new Enemy(enemyTexture);
 		} // end for
@@ -108,9 +113,9 @@ public class EnemyManager {
 	 *       array
 	 * @param damage - the amount that the enemy was damaged
 	 */
-	public void enemyDamagedEvent(int index, int damage)
+	public boolean enemyDamagedEvent(Enemy enemy, int damage)
 	{
-	  currentEnemy = currentEnemies.get(index);
+		currentEnemy = enemy;
 	  if(!currentEnemy.getHasHealthBar())
 	  {
 	    gs.getHealthBarManager().add(currentEnemy);
@@ -119,7 +124,11 @@ public class EnemyManager {
 	  currentEnemy.setHealth(currentEnemy.getHealth() - damage);
 	  if(!currentEnemy.getIsAlive())
 	  {
-	    removeActiveEnemy(index);
+	    return true;
+	  }
+	  else
+	  {
+		  return false;
 	  }
 	}
 	
@@ -181,7 +190,8 @@ public class EnemyManager {
 	 * and updated.
 	 */
 	public void makeEnemyAppear() {
-		currentEnemy = enemies[currentEnemyNumber % MAX_ENEMIES];
+		//currentEnemy = enemies[currentEnemyNumber % MAX_ENEMIES];
+		currentEnemy = new Enemy(enemyTexture);
 		currentEnemy.setToInitialDrawPosition();
 		currentEnemy.setIsAlive(true);
 		currentEnemy.setXPos(gs.getWorldXPos() + Enemy.START_XDRAW);
@@ -250,7 +260,7 @@ public class EnemyManager {
             	enemyIter.remove();                          
             }
 		}// end while
-		if (gs.getHeroXPos() > newFalconerXPosition)
+		/*if (gs.getHeroXPos() > newFalconerXPosition)
 		{
 			makeFalconerAppear();
 			//makeFalconAppear();
@@ -269,7 +279,7 @@ public class EnemyManager {
 			{
 				falconerIter.remove();
 			}
-		}
+		}*/
 	}// end update()
 
 	/**

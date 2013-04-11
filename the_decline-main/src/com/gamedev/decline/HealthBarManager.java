@@ -50,7 +50,8 @@ public class HealthBarManager
    public void add(Unit unit)
    {
      //System.out.println("Adding a health bar");
-     currentHealthBar = initializedHealthBars[currentHealthBarNumber % INITIAL_NUMBER_OF_HEALTH_BARS];
+     //currentHealthBar = initializedHealthBars[currentHealthBarNumber % INITIAL_NUMBER_OF_HEALTH_BARS];
+	   currentHealthBar = new HealthBar();
      if(currentHealthBar.getUnit() != null && currentHealthBar.getUnit() instanceof Hero)
      {
        currentHealthBarNumber++;

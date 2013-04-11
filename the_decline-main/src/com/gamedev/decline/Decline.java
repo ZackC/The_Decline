@@ -2,7 +2,7 @@
 package com.gamedev.decline;
 
 // Java Package Support //
-// { Not Applicable }
+import java.util.Iterator;
 
 // Badlogic Package Support //
 import com.badlogic.gdx.ApplicationListener;
@@ -382,21 +382,77 @@ public class Decline implements ApplicationListener {
 				gs.setIsGameOver(true);
 			}
 		}else{
-			for (int i = 0; i < activeBullets.size; i++) {
-				if (activeBullets.get(i) == null)
+			int bulletCount = 0, enemyCount = 0;
+			boolean finished = false, collision = false;
+			Iterator<Bullet> bulletIter;
+			Iterator<Enemy> enemyIter;
+			Bullet currentBullet;
+			Enemy currentEnemy;
+			while (!finished)
+			{
+				bulletIter = activeBullets.iterator();
+				enemyIter = activeEnemies.iterator();
+				for (int i = bulletCount; i > 0; i--)
 				{
-					System.out.println("Null bullet");
+					bulletIter.next();
 				}
+				for (int j = enemyCount; j > 0; j--)
+				{
+					enemyIter.next();
+				}
+				while (bulletIter.hasNext())
+				{
+					currentBullet = bulletIter.next();
+					bulletCount++;
+					while (enemyIter.hasNext())
+					{
+						currentEnemy = enemyIter.next();
+						enemyCount++;
+						if (currentBullet.collidesWith(currentEnemy))
+						{
+							bulletIter.remove();
+							bulletCount--;
+							if (em.enemyDamagedEvent(currentEnemy, enemyShotDamage))
+							{
+								enemyIter.remove();
+								enemyCount--;
+							}
+							collision = true;
+							break;
+						}
+					}
+					if (collision)
+					{
+						collision = false;
+						break;
+					}
+					if (!enemyIter.hasNext())
+					{
+						enemyIter = activeEnemies.iterator();
+						enemyCount = 0;
+					}
+				}
+				if (!bulletIter.hasNext())
+				{
+					finished = true;
+				}
+			}
+			
+			/*for (int i = 0; i < activeBullets.size; i++) {
 				for (int j = 0; j < activeEnemies.size; j++) {
 					if (activeBullets.get(i).collidesWith(activeEnemies.get(j))) {
 						bm.removeActiveBullet(i);
-						em.enemyDamagedEvent(j, enemyShotDamage);
+						i--;
+						if (em.enemyDamagedEvent(, enemyShotDamage))
+						{
+							j--;
+						}
 						enemyHitSound.play();
 						break;
 					}// end if
 				}// end for
-			}// end for
-			if (!gs.getIsHeroHiding()) {
+			}// end for*/
+			/*if (!gs.getIsHeroHiding()) {
 				for (int i = 0; i < activeEnemies.size; i++) {
 					if (hero.collidesWith(activeEnemies.get(i))) {
 						hero.setHealth(hero.getHealth() - ENEMY_DAMAGE);
@@ -407,7 +463,7 @@ public class Decline implements ApplicationListener {
 						heroHitSound.play();
 					}// end if
 				}// end for
-			}
+			}*/
 	
 			for (int i = 0; i < activeAmmo.size; i++) {
 				if (hero.collidesWith(activeAmmo.get(i))) {

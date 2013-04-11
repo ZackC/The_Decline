@@ -3,6 +3,7 @@ package com.gamedev.decline;
 
 //Java Package Support //
 import java.util.Iterator;
+import java.util.ArrayList;
 
 //Badlogic Package Support //
 import com.badlogic.gdx.Gdx;
@@ -28,14 +29,15 @@ public class BulletManager {
 	private GlobalSingleton gs = GlobalSingleton.getInstance();
 
 	// Constants //
-	public static final int MAX_BULLET_NUMBER = 100;
+	public static final int MAX_BULLET_NUMBER = 20;
 
 	// Internal Variables //
-	private Bullet[] bullets = new Bullet[100];
+	private Bullet[] bullets = new Bullet[MAX_BULLET_NUMBER];
 	private Array<Bullet> shotBullets = new Array<Bullet>();
 	private Iterator<Bullet> bulletIter;
 	private int currentBulletNumber = 0;
 	private Bullet currentBullet;
+	private Texture texture;
 
 	/**
 	 * Instantiates a new BulletManager object. The BulletManager fills an array
@@ -46,7 +48,8 @@ public class BulletManager {
 	 *            : The image to be used for the Bullet objects.
 	 */
 	public BulletManager(Texture texture) {
-		for (int i = 0; i < 100; i++) {
+		this.texture = texture;
+		for (int i = 0; i < MAX_BULLET_NUMBER; i++) {
 			bullets[i] = new Bullet(texture);
 		} // end for
 	} // end BulletManager()
@@ -80,7 +83,8 @@ public class BulletManager {
 	 */
 	public void shootBullet() 
 	{
-	  currentBullet = bullets[currentBulletNumber % MAX_BULLET_NUMBER];
+	  //currentBullet = bullets[currentBulletNumber % MAX_BULLET_NUMBER];
+		currentBullet = new Bullet(texture);
 		if (gs.getHeroOrientation() == GlobalSingleton.RIGHT) 
 		{
 		   currentBullet.setOrientation(GlobalSingleton.RIGHT);

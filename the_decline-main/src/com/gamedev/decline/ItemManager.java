@@ -29,7 +29,7 @@ public class ItemManager {
 	// Constants of the Object //
 	public static final int MAX_AMMO = 5;
 	public static final int MAX_HEALTH = 5;
-	public static final int MAX_BUSHES = 8;
+	public static final int MAX_BUSHES = 10;
 
 	// Internal Variables //
 	private Ammo[] ammoArray = new Ammo[MAX_AMMO];
@@ -51,6 +51,7 @@ public class ItemManager {
 	private int currentAmmoCount = 0;
 	private int currentHealthCount = 0;
 	private int currentBushCount = 0;
+	private Texture ammoTexture, healthTexture, bushTexture;
 
 	/**
 	 * Instantiates a new ItemManager object. The ItemManager fills an array of
@@ -65,6 +66,9 @@ public class ItemManager {
 	 */
 	public ItemManager(Texture ammoTexture, Texture healthTexture,
 	    Texture bushTexture) {
+		this.ammoTexture = ammoTexture;
+		this.healthTexture = healthTexture;
+		this.bushTexture = bushTexture;
 		for (int i = 0; i < ammoArray.length; i++) {
 			ammoArray[i] = new Ammo(ammoTexture);
 		}
@@ -107,7 +111,8 @@ public class ItemManager {
 	 * drawn to the screen and updated.
 	 */
 	public void makeAmmoAppear() {
-		ammo = ammoArray[currentAmmoCount % MAX_AMMO];
+		//ammo = ammoArray[currentAmmoCount % MAX_AMMO];
+		ammo = new Ammo(ammoTexture);
 		ammo.setToInitialDrawPosition();
 		ammo.setXPos(gs.getWorldXPos() + Item.START_XDRAW);
 		ammo.setYPos(Item.START_YDRAW);
@@ -117,7 +122,8 @@ public class ItemManager {
 	}
 	
 	public void makeBushAppear() {
-		bush = bushArray[currentBushCount % MAX_AMMO];
+		//bush = bushArray[currentBushCount % MAX_AMMO];
+		bush = new Bush(bushTexture);
 		bush.setToInitialDrawPosition();
 		bush.setXPos(gs.getWorldXPos() + Item.START_XDRAW);
 		bush.setYPos(Item.START_YDRAW);
@@ -131,7 +137,8 @@ public class ItemManager {
 	 * that are to be drawn to the screen and updated.
 	 */
 	public void makeHealthAppear() {
-		pack = healthArray[currentHealthCount % MAX_HEALTH];
+		//pack = healthArray[currentHealthCount % MAX_HEALTH];
+		pack = new HealthPack(healthTexture);
 		pack.setToInitialDrawPosition();
 		pack.setXPos(gs.getWorldXPos() + Item.START_XDRAW);
 		pack.setYPos(Item.START_YDRAW);
@@ -172,7 +179,7 @@ public class ItemManager {
 		while (bushIter.hasNext()) {
 			bush = bushIter.next();
 			bush.update();
-			if (bush.getX() < -1 * bush.getWidth()) {
+			if (bush.getX() < -1 * (bush.getWidth() + 1000)) {
 				bushIter.remove();
 			}
 			
