@@ -29,7 +29,7 @@ public abstract class Unit extends CollidableObject {
 
 	// Internal Variables //
 	protected int speed;
-	private float xPosChange;
+	protected float xPosChange;
 	protected float yPosChange;
 	protected int jumpSpeed;
 	protected int health = getMaxHealth();

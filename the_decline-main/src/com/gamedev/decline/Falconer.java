@@ -7,6 +7,8 @@ package com.gamedev.decline;
 // Badlogic Package Support // 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.TimeUtils;
 
 /**
  * 
@@ -33,7 +35,9 @@ public class Falconer extends Unit
 	public static final int MAX_HEALTH = 20;
 
 	// Internal Variables //
-	// { Not Applicable }
+	private Falcon falcon;
+	private int timeBetweenFlights = 10;
+	private long lastFlight;
 	
 	/**
 	 * Instantiates a new Falconer object by calling the super constructor (Unit)
@@ -42,10 +46,12 @@ public class Falconer extends Unit
 	 * @param texture
 	 *            : The image of the Falconer.
 	 */
-	public Falconer(Texture texture)
+	public Falconer(Texture falconerTexture, Texture falconTexture)
 	{
-		super(texture, INITIAL_SPEED, 0, 0);
+		super(falconerTexture, INITIAL_SPEED, 0, 0);
 		setSize(WIDTH, HEIGHT);
+		this.falcon = new Falcon(falconTexture);
+		lastFlight = TimeUtils.nanoTime();
 	}
 
 	/**
@@ -53,8 +59,10 @@ public class Falconer extends Unit
 	 */
 	public void setToInitialDrawPosition()
 	{
+		
 		health = getMaxHealth();
 		setPosition(START_XDRAW, START_YDRAW);
+		falcon.setToInitialDrawPosition();
 	}
 
 	/**
@@ -66,6 +74,10 @@ public class Falconer extends Unit
 		if (speed * Gdx.graphics.getDeltaTime() + getX() + WIDTH < Gdx.graphics.getWidth())
 		{
 			moveRight();
+			if (isFlipX() == false)
+			{
+				flip(true, false);
+			}
 		}
 		else if (getX() + WIDTH > Gdx.graphics.getWidth() || gs.getHeroMovement() < 0)
 		{
@@ -74,6 +86,70 @@ public class Falconer extends Unit
 		else
 		{
 			standStill();
+		}
+		if (TimeUtils.nanoTime() > lastFlight + (timeBetweenFlights * 1000000000L))
+		{
+			falcon.setIsFlying(true);
+			falcon.update();
+			lastFlight = TimeUtils.nanoTime();
+			
+		}
+		else if (!falcon.getIsFlying() && !falcon.getIsLanding())
+		{
+			if (speed * Gdx.graphics.getDeltaTime() + getX() + WIDTH < Gdx.graphics.getWidth())
+			{
+				falcon.moveRight();
+			}
+			else if (getX() + WIDTH > Gdx.graphics.getWidth() || gs.getHeroMovement() < 0)
+			{
+				falcon.moveLeft();
+				if (falcon.isFlipX() == true)
+				{
+					falcon.flip(true, false);
+				}
+			}
+			else
+			{
+				falcon.standStill();
+			}
+		}
+		else if (falcon.getIsFlying())
+		{
+			xPosChange = -(Falcon.X_SPEED * Gdx.graphics.getDeltaTime());
+			falcon.setXPos(falcon.getXPos() + xPosChange);
+			yPosChange = falcon.getJumpSpeed();
+			falcon.setYPos(falcon.getYPos() + yPosChange);
+			if (falcon.getYPos() < GlobalSingleton.HERO_YDRAW)
+			{
+				falcon.setYPos(GlobalSingleton.HERO_YDRAW);
+			}
+			if (falcon.getXPos() + WIDTH / 2 <= gs.getHeroXPos() + gs.getHeroWidth() / 2)
+			{
+				falcon.setJumpSpeed(-Falcon.Y_SPEED * 2);
+			}
+			if (falcon.getX() < -1 * Falcon.WIDTH)
+			{
+				falcon.setIsFlying(false);
+				falcon.setIsLanding(true);
+				falcon.setJumpSpeed(Falcon.Y_SPEED * 2);
+				falcon.setYPos(Gdx.graphics.getHeight());
+				falcon.setPosition(getX() - Falcon.WIDTH / 2, falcon.getYPos());
+			}
+			else
+			{
+				falcon.setPosition(falcon.getXPos() - gs.getWorldXPos(), falcon.getYPos());
+			}
+		}
+		else if (falcon.getIsLanding())
+		{
+			yPosChange = falcon.getJumpSpeed();
+			falcon.setYPos(falcon.getYPos() + yPosChange);
+			if (falcon.getYPos() <= Falcon.START_YDRAW)
+			{
+				falcon.setYPos(Falcon.START_YDRAW);
+				falcon.setIsLanding(false);
+			}
+			falcon.setPosition(falcon.getX(), falcon.getYPos());
 		}
 	}
 
@@ -95,5 +171,30 @@ public class Falconer extends Unit
 	{
 	  setIsAlive(false);
 	  setHasHealthBar(false);
+	  falcon.setIsAlive(false);
+	}
+	
+	public void setIsAlive(boolean newIsAlive)
+	{
+		super.setIsAlive(newIsAlive);
+		falcon.setIsAlive(newIsAlive);
+	}
+	
+	public void setXPos(float newXPos)
+	{
+		super.setXPos(newXPos);
+		falcon.setXPos(newXPos - Falcon.WIDTH / 2);
+	}
+	
+	public void setYPos(float newYPos)
+	{
+		super.setYPos(newYPos);
+		falcon.setYPos(newYPos + Falcon.HEIGHT);
+	}
+	
+	public void draw(SpriteBatch batch)
+	{
+		super.draw(batch);
+		falcon.draw(batch);
 	}
 }

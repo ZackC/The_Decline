@@ -71,7 +71,6 @@ public class BulletManager {
 	 */
 	public void removeActiveBullet(int index) {
 		shotBullets.removeIndex(index);
-		System.out.println("Removing bullet due to collision.");
 	}// end removeActiveBullet
 
 	/**
@@ -95,7 +94,6 @@ public class BulletManager {
 		currentBullet.setToInitialDrawPosition();
                 currentBullet.setIsAlive(true);
 		shotBullets.add(currentBullet);
-		System.out.println("Drawing Bullet number: "+currentBulletNumber % MAX_BULLET_NUMBER);
 		currentBulletNumber++;
 	} // end shootBullet()
 
@@ -111,10 +109,8 @@ public class BulletManager {
 			currentBullet.update();
 			if (currentBullet.getX() > Gdx.graphics.getWidth()) {
 				bulletIter.remove();
-				System.out.println("Removing bullet due to past screen.");
 			} // end if
 			else if (currentBullet.getX() < 0) {
-			        System.out.println("Removing bullet due to leaving front of screen.");
 				bulletIter.remove();
 			} // end else if
 		} // end while

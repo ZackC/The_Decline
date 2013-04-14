@@ -25,16 +25,17 @@ public class Falcon extends Unit
 	// { Not Applicable }
 
 	// Constants //
-	public static final int INITIAL_SPEED = 400;
-	public static final int Y_SPEED = -10;
+	public static final int INITIAL_SPEED = 125;
+	public static final int X_SPEED = 500;
+	public static final int Y_SPEED = -2;
 	public static final int WIDTH = 36;
 	public static final int HEIGHT = 67;
-	public static final int START_XDRAW = Gdx.graphics.getWidth() - WIDTH / 2;
-	public static final int START_YDRAW = Gdx.graphics.getHeight() - HEIGHT / 2;
+	public static final int START_XDRAW = Falconer.START_XDRAW - WIDTH / 2;
+	public static final int START_YDRAW = Falconer.START_YDRAW + HEIGHT;
 	public static final int MAX_HEALTH = 30;
 
 	// Internal Variables //
-	// { Not Applicable }
+	private boolean isFlying = false, isLanding = false;
 	
 	/**
 	 * Instantiates a new Falcon object by calling the super constructor (Unit)
@@ -46,7 +47,7 @@ public class Falcon extends Unit
 	public Falcon(Texture texture) {
 		super(texture, INITIAL_SPEED, 0, 0);
 		setSize(WIDTH, HEIGHT);
-		setJumpSpeed(Y_SPEED);
+		jumpSpeed = Y_SPEED;
 	} // end Enemy()
 
 	/**
@@ -63,18 +64,6 @@ public class Falcon extends Unit
 	 */
 	public void update()
 	{
-		moveLeft();
-		yPosChange = jumpSpeed;
-		setYPos(getYPos() + yPosChange);
-		if (getYPos() < GlobalSingleton.HERO_YDRAW)
-		{
-			setYPos(GlobalSingleton.HERO_YDRAW);
-		}
-		else if (getXPos() + WIDTH / 2 <= GlobalSingleton.HERO_XDRAW + gs.getHeroWidth() / 2)
-		{
-			jumpSpeed = -Y_SPEED;
-		}
-		setPosition(getX(), getYPos());
 	}
 
 	/***
@@ -95,5 +84,25 @@ public class Falcon extends Unit
 	{
 	  setIsAlive(false);
 	  setHasHealthBar(false);
+	}
+	
+	public void setIsFlying(boolean newIsFlying)
+	{
+		isFlying = newIsFlying;
+	}
+	
+	public boolean getIsFlying()
+	{
+		return isFlying;
+	}
+	
+	public void setIsLanding(boolean newIsLanding)
+	{
+		isLanding = newIsLanding;
+	}
+	
+	public boolean getIsLanding()
+	{
+		return isLanding;
 	}
 }

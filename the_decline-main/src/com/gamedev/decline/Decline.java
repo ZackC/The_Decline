@@ -381,7 +381,9 @@ public class Decline implements ApplicationListener {
 			if(hero.collidesWith(boss)){
 				gs.setIsGameOver(true);
 			}
-		}else{
+		}
+		else
+		{
 			int bulletCount = 0, enemyCount = 0;
 			boolean finished = false, collision = false;
 			Iterator<Bullet> bulletIter;
@@ -423,7 +425,6 @@ public class Decline implements ApplicationListener {
 					}
 					if (collision)
 					{
-						collision = false;
 						break;
 					}
 					if (!enemyIter.hasNext())
@@ -432,9 +433,48 @@ public class Decline implements ApplicationListener {
 						enemyCount = 0;
 					}
 				}
-				if (!bulletIter.hasNext())
+				if (!collision && !bulletIter.hasNext())
 				{
 					finished = true;
+				}
+				collision = false;
+			}
+			
+			if (!gs.getIsHeroHiding())
+			{
+				enemyCount = 0;
+				enemyIter = activeEnemies.iterator();
+				finished = false;
+				while (!finished)
+				{
+					for (int i = enemyCount; i > 0; i--)
+					{
+						enemyIter.next();
+					}
+					while (enemyIter.hasNext())
+					{
+						currentEnemy = enemyIter.next();
+						enemyCount++;
+						if (hero.collidesWith(currentEnemy))
+						{
+							hero.setHealth(hero.getHealth() - ENEMY_DAMAGE);
+							if (hero.getHealth() < 0)
+							{
+								hero.setHealth(0);
+							}
+							em.enemyDamagedEvent(currentEnemy, currentEnemy.getMaxHealth());
+							enemyIter.remove();
+							enemyCount--;
+							heroHitSound.play();
+							collision = true;
+							break;
+						}
+					}
+					if (!collision && !enemyIter.hasNext())
+					{
+						finished = true;
+					}
+					collision = false;
 				}
 			}
 			
@@ -464,8 +504,45 @@ public class Decline implements ApplicationListener {
 					}// end if
 				}// end for
 			}*/
+			
+			int ammoCount = 0;
+			Iterator<Ammo> ammoIter;
+			Ammo currentAmmo;
+			finished = false;
+			while (!finished)
+			{
+				ammoIter = activeAmmo.iterator();
+				for (int i = ammoCount; i > 0; i--)
+				{
+					ammoIter.next();
+				}
+				while (ammoIter.hasNext())
+				{
+					currentAmmo = ammoIter.next();
+					ammoCount++;
+					if (hero.collidesWith(currentAmmo))
+					{
+						hero.setAmmo(hero.getAmmo() + currentAmmo.getAmountOfAmmoStored());
+						ableToShoot = true;
+						if (hero.getAmmo() > Hero.MAX_AMMO)
+						{
+							hero.setAmmo(Hero.MAX_AMMO);
+						}
+						ammoIter.remove();
+						ammoCount--;
+						itemPickUpSound.play();
+						collision = true;
+						break;
+					}
+				}
+				if (!collision && !ammoIter.hasNext())
+				{
+					finished = true;
+				}
+				collision = false;
+			}
 	
-			for (int i = 0; i < activeAmmo.size; i++) {
+			/*for (int i = 0; i < activeAmmo.size; i++) {
 				if (hero.collidesWith(activeAmmo.get(i))) {
 					hero.setAmmo(hero.getAmmo()
 							+ im.getActiveAmmo().get(i).getAmountOfAmmoStored());
@@ -476,9 +553,45 @@ public class Decline implements ApplicationListener {
 					im.removeActiveAmmo(i);
 					itemPickUpSound.play();
 				}// end if
-			}// end for
-	
-			for (int i = 0; i < activeHealthPacks.size; i++) {
+			}// end for*/
+			
+			int healthCount = 0;
+			Iterator<HealthPack> packIter;
+			HealthPack currentPack;
+			finished = false;
+			while (!finished)
+			{
+				packIter = activeHealthPacks.iterator();
+				for (int i = healthCount; i > 0; i--)
+				{
+					packIter.next();
+				}
+				while (packIter.hasNext())
+				{
+					currentPack = packIter.next();
+					healthCount++;
+					if (hero.collidesWith(currentPack))
+					{
+						hero.setHealth(hero.getHealth() + HEALTH_PACK);
+						if (hero.getHealth() > Hero.MAX_HEALTH)
+						{
+							hero.setHealth(Hero.MAX_HEALTH);
+						}
+						packIter.remove();
+						healthCount--;
+						itemPickUpSound.play();
+						collision = true;
+						break;
+					}
+				}
+				if (!collision && !packIter.hasNext())
+				{
+					finished = true;
+				}
+				collision = false;
+			}
+			
+			/*for (int i = 0; i < activeHealthPacks.size; i++) {
 				if (hero.collidesWith(activeHealthPacks.get(i))) {
 					hero.setHealth(hero.getHealth() + HEALTH_PACK);
 					if (hero.getHealth() > Hero.MAX_HEALTH) {
@@ -487,7 +600,7 @@ public class Decline implements ApplicationListener {
 					im.removeActiveHealthPack(i);
 					itemPickUpSound.play();
 				}
-			}
+			}*/
 		}
 	}
 

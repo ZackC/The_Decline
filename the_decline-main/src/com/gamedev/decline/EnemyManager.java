@@ -30,21 +30,17 @@ public class EnemyManager {
 
 	// Constants for the Object //
 	public static final int MAX_ENEMIES = 15;
-	public static final int MAX_FALCONERS = 15;
+	public static final int MAX_FALCONERS = 8;
 
 	// Internal Variables //
 	private Enemy[] enemies = new Enemy[MAX_ENEMIES];
 	private Falconer[] falconers = new Falconer[MAX_FALCONERS];
-	private Falcon[] falcons = new Falcon[MAX_FALCONERS];
 	private Array<Enemy> currentEnemies = new Array<Enemy>();
 	private Array<Falconer> currentFalconers = new Array<Falconer>();
-	private Array<Falcon> currentFalcons = new Array<Falcon>();
 	private Iterator<Enemy> enemyIter;
 	private Iterator<Falconer> falconerIter;
-	private Iterator<Falcon> falconIter;
 	private Enemy currentEnemy;
 	private Falconer currentFalconer;
-	private Falcon currentFalcon;
 	private int currentEnemyNumber = 0;
 	private int currentFalconerNumber = 0;
 	private Random rand = new Random();
@@ -70,11 +66,7 @@ public class EnemyManager {
 		} // end for
 		for (int i = 0; i < MAX_FALCONERS; i++)
 		{
-			falconers[i] = new Falconer(falconerTexture);
-		}
-		for (int i = 0; i < MAX_FALCONERS; i++)
-		{
-			falcons[i] = new Falcon(falconTexture);
+			falconers[i] = new Falconer(falconerTexture, falconTexture);
 		}
 	} // end EnemyManager
 
@@ -95,16 +87,6 @@ public class EnemyManager {
 	public Array<Falconer> getActiveFalconers()
 	{
 		return currentFalconers;
-	}
-	
-	/**
-	 * Gets all currently active Falcons.
-	 * 
-	 * @return : A badlogic array of all active Falcons.
-	 */
-	public Array<Falcon> getActiveFalcons()
-	{
-		return currentFalcons;
 	}
 
 	/**
@@ -138,9 +120,9 @@ public class EnemyManager {
 	 * 		Falconer array.
 	 * @param damage - The amount that the enemy was damaged.
 	 */
-	public void falconerDamagedEvent(int index, int damage)
+	public boolean falconerDamagedEvent(Falconer falconer, int damage)
 	{
-		currentFalconer = currentFalconers.get(index);
+		currentFalconer = falconer;
 		if (!currentFalconer.getHasHealthBar())
 		{
 			gs.getHealthBarManager().add(currentFalconer);
@@ -149,7 +131,11 @@ public class EnemyManager {
 		currentFalconer.setHealth(currentFalconer.getHealth() - damage);
 		if (!currentFalconer.getIsAlive())
 		{
-			removeActiveFalconer(index);
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 	
@@ -171,16 +157,6 @@ public class EnemyManager {
 	public void removeActiveFalconer(int index)
 	{
 		currentFalconers.removeIndex(index);
-	}
-	
-	/**
-	 * Removes a specific active Falcon from the group of active Falcons.
-	 * 
-	 * @param index : The index of the active Falcon to be removed.
-	 */
-	public void removeActiveFalcon(int index)
-	{
-		currentFalcons.removeIndex(index);
 	}
 
 	/**
@@ -208,29 +184,17 @@ public class EnemyManager {
 	 */
 	public void makeFalconerAppear()
 	{
-		currentFalconer = falconers[currentFalconerNumber % MAX_FALCONERS];
-		currentFalconer.setToInitialDrawPosition();
-		currentFalconer.setIsAlive(true);
-		currentFalconer.setXPos(gs.getWorldXPos() + Falconer.START_XDRAW);
-		currentFalconer.setYPos(Falconer.START_YDRAW);
-		currentFalconers.add(currentFalconer);
-		currentFalconerNumber++;
-	}
-	
-	/**
-	 * Grabs a Falcon from the Falcon buffer created when the manager was
-	 * 	constructed. Sets the initial values for this specific Falcon. This
-	 * 	Falcon is then added to the array of Falcons that are to be drawn
-	 * 	to the screen and updated.
-	 */
-	public void makeFalconAppear()
-	{
-		currentFalcon = falcons[currentFalconerNumber % MAX_FALCONERS];
-		currentFalcon.setToInitialDrawPosition();
-		currentFalcon.setIsAlive(true);
-		currentFalcon.setXPos(gs.getWorldXPos() + Falcon.START_XDRAW);
-		currentFalcon.setYPos(Falcon.START_YDRAW);
-		currentFalcons.add(currentFalcon);
+		//currentFalconer = falconers[currentFalconerNumber % MAX_FALCONERS];
+		if (currentFalconers.size < MAX_FALCONERS)
+		{
+			currentFalconer = new Falconer(falconerTexture, falconTexture);
+			currentFalconer.setToInitialDrawPosition();
+			currentFalconer.setIsAlive(true);
+			currentFalconer.setXPos(gs.getWorldXPos() + Falconer.START_XDRAW);
+			currentFalconer.setYPos(Falconer.START_YDRAW);
+			currentFalconers.add(currentFalconer);
+			currentFalconerNumber++;
+		}
 	}
 
 	/**
@@ -243,7 +207,7 @@ public class EnemyManager {
 	public void update() {
 		//if(gs.getHeroXPos() < 1200){
 			if (gs.getHeroXPos() > newEnemyXPosition) {
-				makeEnemyAppear();
+				//makeEnemyAppear();
 				newEnemyXPosition += rand.nextInt(400) + 50;
 			}// end if
 		//}
@@ -260,11 +224,11 @@ public class EnemyManager {
             	enemyIter.remove();                          
             }
 		}// end while
-		/*if (gs.getHeroXPos() > newFalconerXPosition)
+		if (gs.getHeroXPos() > newFalconerXPosition)
 		{
 			makeFalconerAppear();
 			//makeFalconAppear();
-			newFalconerXPosition += rand.nextInt(500) + 300;
+			newFalconerXPosition += 100000;//rand.nextInt(500) + 300;
 		}
 		falconerIter = currentFalconers.iterator();
 		while (falconerIter.hasNext())
@@ -279,7 +243,7 @@ public class EnemyManager {
 			{
 				falconerIter.remove();
 			}
-		}*/
+		}
 	}// end update()
 
 	/**
@@ -302,12 +266,6 @@ public class EnemyManager {
 		{
 			currentFalconer = falconerIter.next();
 			currentFalconer.draw(batch);
-		}
-		falconIter = currentFalcons.iterator();
-		while (falconIter.hasNext())
-		{
-			currentFalcon = falconIter.next();
-			currentFalcon.draw(batch);
 		}
 	}
 }// end EnemyManager class
