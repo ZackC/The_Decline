@@ -7,6 +7,7 @@ package com.gamedev.decline;
 // Badlogic Package Support // 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * 
@@ -35,12 +36,16 @@ public class Boss extends Unit {
 
 	// Internal Variables //
 	int orientation = GlobalSingleton.RIGHT;
+	Fireball fireball;
+	boolean fireballMode = true;
+	boolean goingUp = true;
 
 	/**
 	 */
-	public Boss(Texture texture) {
+	public Boss(Texture texture, Fireball fireball) {
 		super(texture, INITIAL_SPEED, 0, 0);
 		setSize(WIDTH, HEIGHT);
+		this.fireball = fireball;
 	} // end Enemy()
 
 	/**
@@ -83,6 +88,19 @@ public class Boss extends Unit {
 	{
 	  setIsAlive(false);
 	  setHasHealthBar(false);
+	}
+	
+	@Override
+	public void draw(SpriteBatch batch){
+		if(fireballMode){
+			if(goingUp == true){
+				batch.draw(fireball.getTexture(), getX(), getY(), 200, 200);
+			}else{
+				batch.draw(fireball.getTexture(), getX(), getY(), 200, 200);
+			}		
+		}else{
+			super.draw(batch);
+		}
 	}
 	
 }// end Enemy class

@@ -38,7 +38,7 @@ public class BossManager {
 	private Iterator<Fireball> fireballIter;
 	
 	public BossManager(Texture bossTexture, Texture fireballTexture){
-		boss = new Boss(bossTexture);
+		boss = new Boss(bossTexture, new Fireball(fireballTexture));
 		for (int i = 0; i < MAX_FIREBALLS; i++) {
 			fireballs[i] = new Fireball(fireballTexture);
 		}
@@ -81,11 +81,7 @@ public class BossManager {
 		currentFireballNumber++;
 	}
 	
-	public void update(){
-		if(currentFireballs.size == 0){
-			shootFireball();
-		}
-		
+	public void update(){		
 		fireballIter = currentFireballs.iterator();
 		while (fireballIter.hasNext()) {
 			currentFireball = fireballIter.next();
