@@ -121,15 +121,15 @@ public class Decline implements ApplicationListener {
 
 		hero = new Hero(new Texture(Gdx.files.internal("hero_weapon.png")),
 				new Texture(Gdx.files.internal("hero_crouch.png")),
-		                new Texture(Gdx.files.internal("data/heart.jpg")),
-		                new Texture(Gdx.files.internal("data/rock.jpg")),
+		                new Texture(Gdx.files.internal("heart.png")),
+		                new Texture(Gdx.files.internal("hero_rock.png")),
 		                heroDyingSound);
 		hero.setOrigin(hero.getWidth() / 2, hero.getHeight() / 2);
 		hero.setToInitialDrawPosition();
 
 		bm = new BulletManager(new Texture(Gdx.files.internal("bullets.png")));
 
-		em = new EnemyManager(new Texture(Gdx.files.internal("enemy.png")), new Texture(Gdx.files.internal("data/enemy.gif")), new Texture(Gdx.files.internal("hawk.png")));
+		em = new EnemyManager(new Texture(Gdx.files.internal("enemy.png")), new Texture(Gdx.files.internal("enemy_falconeer.png")), new Texture(Gdx.files.internal("hawk.png")));
 
 		bsm = new BossManager(new Texture(Gdx.files.internal("boss.png")), new Texture(Gdx.files.internal("fireball.png")));
 		
