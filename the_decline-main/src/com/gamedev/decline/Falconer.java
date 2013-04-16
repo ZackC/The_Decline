@@ -36,7 +36,7 @@ public class Falconer extends Unit
 
 	// Internal Variables //
 	private Falcon falcon;
-	private int timeBetweenFlights = 10;
+	private int timeBetweenFlights = 5;
 	private long lastFlight;
 	
 	/**
@@ -87,20 +87,73 @@ public class Falconer extends Unit
 		{
 			standStill();
 		}
+		//System.out.println("Falcon is flying: "+falcon.getIsFlying());
+		//System.out.println("Falcon is landing: "+falcon.getIsLanding());
 		if (TimeUtils.nanoTime() > lastFlight + (timeBetweenFlights * 1000000000L))
 		{
+		       // System.out.println("1");
 			falcon.setIsFlying(true);
+			//Zach Ogle - what is this next line for?
 			falcon.update();
 			lastFlight = TimeUtils.nanoTime();
 			
 		}
-		else if (!falcon.getIsFlying() && !falcon.getIsLanding())
+		else if (falcon.getIsFlying())
 		{
+		        //System.out.println("3");
+			xPosChange = -(Falcon.X_SPEED * Gdx.graphics.getDeltaTime());
+			falcon.setXPos(falcon.getXPos() + xPosChange);
+			yPosChange = falcon.getJumpSpeed();
+			falcon.setYPos(falcon.getYPos() + yPosChange);
+			if (falcon.getYPos() < GlobalSingleton.HERO_YDRAW)
+			{
+			    //System.out.println("8");
+				falcon.setYPos(GlobalSingleton.HERO_YDRAW);
+			}
+			if (falcon.getXPos() + WIDTH / 2 <= gs.getHeroXPos() + gs.getHeroWidth() / 2)
+			{
+			  //System.out.println("9");
+				falcon.setJumpSpeed(-Falcon.Y_SPEED * 2);
+			}
+			if (falcon.getX() < -1 * Falcon.WIDTH)
+			{
+			  //System.out.println("10");
+				falcon.setIsFlying(false);
+				falcon.setIsLanding(true);
+				falcon.setJumpSpeed(Falcon.Y_SPEED * 2);
+				falcon.setYPos(Gdx.graphics.getHeight());
+				falcon.setX(getX() - Falcon.WIDTH / 2);
+				falcon.setXPos(getXPos() - Falcon.WIDTH / 2);
+				falcon.setPosition(falcon.getX(), falcon.getYPos());
+			}
+			else
+			{
+			  //System.out.println("11");
+			  //System.out.println(falcon.getXPos());
+			  //System.out.println(gs.getWorldXPos());
+				falcon.setPosition(falcon.getXPos() - gs.getWorldXPos(), falcon.getYPos());
+			}
+		}
+		else if (falcon.getIsLanding())
+		{
+		        //System.out.println("4");
+			yPosChange = falcon.getJumpSpeed();
+			falcon.setYPos(falcon.getYPos() + yPosChange);
+			if (falcon.getYPos() <= Falcon.START_YDRAW)
+			{
+				falcon.setYPos(Falcon.START_YDRAW);
+				falcon.setIsLanding(false);
+			}
+			falcon.setPosition(falcon.getX(), falcon.getYPos());
+		}
+		if (!falcon.getIsFlying())
+		{
+		        //System.out.println("2");
 			if (speed * Gdx.graphics.getDeltaTime() + getX() + WIDTH < Gdx.graphics.getWidth())
 			{
 				falcon.moveRight();
 			}
-			else if (getX() + WIDTH > Gdx.graphics.getWidth() || gs.getHeroMovement() < 0)
+			else if (getX() + WIDTH > Gdx.graphics.getWidth() || gs.getHeroMovement() < 0) 
 			{
 				falcon.moveLeft();
 				if (falcon.isFlipX() == true)
@@ -112,44 +165,6 @@ public class Falconer extends Unit
 			{
 				falcon.standStill();
 			}
-		}
-		else if (falcon.getIsFlying())
-		{
-			xPosChange = -(Falcon.X_SPEED * Gdx.graphics.getDeltaTime());
-			falcon.setXPos(falcon.getXPos() + xPosChange);
-			yPosChange = falcon.getJumpSpeed();
-			falcon.setYPos(falcon.getYPos() + yPosChange);
-			if (falcon.getYPos() < GlobalSingleton.HERO_YDRAW)
-			{
-				falcon.setYPos(GlobalSingleton.HERO_YDRAW);
-			}
-			if (falcon.getXPos() + WIDTH / 2 <= gs.getHeroXPos() + gs.getHeroWidth() / 2)
-			{
-				falcon.setJumpSpeed(-Falcon.Y_SPEED * 2);
-			}
-			if (falcon.getX() < -1 * Falcon.WIDTH)
-			{
-				falcon.setIsFlying(false);
-				falcon.setIsLanding(true);
-				falcon.setJumpSpeed(Falcon.Y_SPEED * 2);
-				falcon.setYPos(Gdx.graphics.getHeight());
-				falcon.setPosition(getX() - Falcon.WIDTH / 2, falcon.getYPos());
-			}
-			else
-			{
-				falcon.setPosition(falcon.getXPos() - gs.getWorldXPos(), falcon.getYPos());
-			}
-		}
-		else if (falcon.getIsLanding())
-		{
-			yPosChange = falcon.getJumpSpeed();
-			falcon.setYPos(falcon.getYPos() + yPosChange);
-			if (falcon.getYPos() <= Falcon.START_YDRAW)
-			{
-				falcon.setYPos(Falcon.START_YDRAW);
-				falcon.setIsLanding(false);
-			}
-			falcon.setPosition(falcon.getX(), falcon.getYPos());
 		}
 	}
 
@@ -180,15 +195,13 @@ public class Falconer extends Unit
 		falcon.setIsAlive(newIsAlive);
 	}
 	
-	public void setXPos(float newXPos)
+	public void setFalconXPos(float newXPos)
 	{
-		super.setXPos(newXPos);
 		falcon.setXPos(newXPos - Falcon.WIDTH / 2);
 	}
 	
-	public void setYPos(float newYPos)
+	public void setFalconYPos(float newYPos)
 	{
-		super.setYPos(newYPos);
 		falcon.setYPos(newYPos + Falcon.HEIGHT);
 	}
 	

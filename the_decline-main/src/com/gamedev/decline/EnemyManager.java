@@ -192,6 +192,8 @@ public class EnemyManager {
 			currentFalconer.setIsAlive(true);
 			currentFalconer.setXPos(gs.getWorldXPos() + Falconer.START_XDRAW);
 			currentFalconer.setYPos(Falconer.START_YDRAW);
+			currentFalconer.setFalconXPos(gs.getWorldXPos() + Falconer.START_XDRAW);
+			currentFalconer.setFalconYPos(Falconer.START_YDRAW);
 			currentFalconers.add(currentFalconer);
 			currentFalconerNumber++;
 		}
@@ -230,6 +232,7 @@ public class EnemyManager {
 			//makeFalconAppear();
 			newFalconerXPosition += 100000;//rand.nextInt(500) + 300;
 		}
+		//System.out.println("Size of current falconers:"+currentFalconers.size);
 		falconerIter = currentFalconers.iterator();
 		while (falconerIter.hasNext())
 		{
