@@ -519,7 +519,7 @@ public class Decline implements ApplicationListener {
 						enemyCount++;
 						if (hero.collidesWith(currentEnemy))
 						{
-							hero.setHealth(hero.getHealth() - ENEMY_DAMAGE);
+							hero.setHealth(hero.getHealth());// - ENEMY_DAMAGE);
 							if (hero.getHealth() < 0)
 							{
 								hero.setHealth(0);
@@ -554,7 +554,7 @@ public class Decline implements ApplicationListener {
 						falconerCount++;
 						if (hero.collidesWith(currentFalconer))
 						{
-							hero.setHealth(hero.getHealth() - ENEMY_DAMAGE);
+							hero.setHealth(hero.getHealth());// - ENEMY_DAMAGE);
 							if (hero.getHealth() < 0)
 							{
 								hero.setHealth(0);
@@ -583,7 +583,7 @@ public class Decline implements ApplicationListener {
 					currentFalcon = currentFalconer.getFalcon();
 					if (!currentFalcon.getHasDamagedHero() && hero.collidesWith(currentFalcon))
 					{
-						hero.setHealth(hero.getHealth() - ENEMY_DAMAGE / 2);
+						hero.setHealth(hero.getHealth());// - ENEMY_DAMAGE / 2);
 						if (hero.getHealth() < 0)
 						{
 							hero.setHealth(0);
@@ -735,6 +735,8 @@ public class Decline implements ApplicationListener {
 		gs.getHealthBarManager().update();
 		if(gs.getHeroXPos() > 20000){
 			bossFight = true;
+			Array<Falconer> activeFalconers = em.getActiveFalconers();
+			activeFalconers.clear();
 		}
 	}// end update()
 
