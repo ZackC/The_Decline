@@ -36,14 +36,17 @@ public class BossManager {
 	private Array<Fireball> currentFireballs = new Array<Fireball>();
 	private Fireball currentFireball;
 	private Iterator<Fireball> fireballIter;
-	boolean intro = true;
+	private boolean intro = true;
 	private float timeBetweenShots = 1.1f;
 	private long lastShot;
 	private Texture fireballTexture;
 	private long lastJump;
-	private float timeBetweenJumps = 5f;
+	private float timeBetweenJumps = 10f;
 	private boolean goUp = false;
 	private boolean goDown = false;
+	private long lastStunned;
+	private float timeAfterStunned = 5f;
+	private boolean stunned = false;
 	
 	public BossManager(Texture bossTexture, Texture fireballTexture){
 		boss = new Boss(bossTexture, new Fireball(fireballTexture));
@@ -117,12 +120,20 @@ public class BossManager {
 				goDown = false;
 				boss.setYPos(20);
 				boss.setPosition(boss.getX()+50, 20);
+				lastStunned = TimeUtils.nanoTime();
 				lastJump = TimeUtils.nanoTime();
+				lastShot = TimeUtils.nanoTime();
+				stunned = true;
 				if(gs.getHeroXDraw() > boss.getX() && boss.getOrientation() == gs.LEFT){
 					boss.flipOrientation();
 				}else if(gs.getHeroXDraw() < boss.getX() && boss.getOrientation() == gs.RIGHT){
 					boss.flipOrientation();
 				}
+			}
+		}else if(stunned){
+			if (!(TimeUtils.nanoTime() > lastStunned + (timeAfterStunned * 1000000000L))){
+				stunned = false;
+				lastJump = TimeUtils.nanoTime();
 			}
 		}else{
 			if (TimeUtils.nanoTime() > lastShot + (timeBetweenShots * 1000000000L))
