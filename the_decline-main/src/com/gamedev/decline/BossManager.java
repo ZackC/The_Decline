@@ -113,7 +113,7 @@ public class BossManager {
 			}
 			
 			if(boss.getHealth() <= 0){
-				gs.setIsGameOver(true);
+				gs.setIsGameWon(true);
 			}
 		}
 	}

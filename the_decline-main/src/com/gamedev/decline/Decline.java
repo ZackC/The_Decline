@@ -66,6 +66,7 @@ public class Decline implements ApplicationListener {
 	Sound hornSound;
 	boolean bossFight = false;
 	Sprite gameOverSprite;
+	Sprite gameWinSprite;
 	boolean isNight = false;
 	boolean isTransitioning = false;
 	final int lightTimeSeconds = 40;
@@ -134,6 +135,7 @@ public class Decline implements ApplicationListener {
 		bsm = new BossManager(new Texture(Gdx.files.internal("boss.png")), new Texture(Gdx.files.internal("fireball.png")));
 		
 		gameOverSprite = new Sprite(new Texture(Gdx.files.internal("game_over.png")));
+		gameWinSprite = new Sprite(new Texture(Gdx.files.internal("Win_screen.png")));
 		
 		//ammoDisplay = new AmmoCountDisplay(hero);
 		background = new RepeatingBackground(new Texture(
@@ -254,6 +256,10 @@ public class Decline implements ApplicationListener {
 	        {
 	          handleGameOver();
 	        }
+		
+		if(gs.getIsGameWon()){
+			handleGameWin();
+		}
 	}// end setHealth()
 
 	/**
@@ -779,5 +785,14 @@ public class Decline implements ApplicationListener {
 	  batch.draw(gameOverSprite, 0,//Gdx.graphics.getWidth() - gameOverSprite.getWidth()/2, 
 	      0);//Gdx.graphics.getHeight() - gameOverSprite.getHeight()/2);
 	  batch.end();
+	}
+	
+	public void handleGameWin()
+	{
+		batch.begin();
+		  background.draw(batch);
+		  batch.draw(gameWinSprite, 0,//Gdx.graphics.getWidth() - gameOverSprite.getWidth()/2, 
+		      0);//Gdx.graphics.getHeight() - gameOverSprite.getHeight()/2);
+		  batch.end();
 	}
 }// end Decline class

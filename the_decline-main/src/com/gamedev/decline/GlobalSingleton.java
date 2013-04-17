@@ -44,6 +44,7 @@ public class GlobalSingleton {
 	private boolean isHeroAlive = true;
 	HealthBarManager hbm;
 	private boolean isGameOver = false;
+	private boolean isGameWon = false;
 	boolean isHeroTryingToHide = false;
 
 	private GlobalSingleton() {
@@ -311,4 +312,11 @@ public class GlobalSingleton {
 	  isHeroTryingToHide = newHeroIsTryingToHide;
 	}
 
+	public void setIsGameWon(boolean isGameWon){
+		this.isGameWon = isGameWon;
+	}
+	
+	public boolean getIsGameWon(){
+		return isGameWon;
+	}
 }
