@@ -208,12 +208,12 @@ public class EnemyManager {
 	 * Enemy has traveled off screen after updating then that Enemy is removed.
 	 */
 	public void update() {
-		//if(gs.getHeroXPos() < 1200){
+		if(gs.getHeroXPos() < 1200){
 			if (gs.getHeroXPos() > newEnemyXPosition) {
-				//makeEnemyAppear();
+				makeEnemyAppear();
 				newEnemyXPosition += rand.nextInt(400) + 50;
 			}// end if
-		//}
+		}
 		enemyIter = currentEnemies.iterator();
 		while (enemyIter.hasNext()) {
 			currentEnemy = enemyIter.next();
@@ -227,11 +227,14 @@ public class EnemyManager {
             	enemyIter.remove();                          
             }
 		}// end while
-		if (gs.getHeroXPos() > newFalconerXPosition)
+		if (gs.getHeroXPos() < 1200)
 		{
-			makeFalconerAppear();
-			//makeFalconAppear();
-			newFalconerXPosition += rand.nextInt(500) + 300;
+			if (gs.getHeroXPos() > newFalconerXPosition)
+			{
+				makeFalconerAppear();
+				//makeFalconAppear();
+				newFalconerXPosition += rand.nextInt(500) + 300;
+			}
 		}
 		//System.out.println("Size of current falconers:"+currentFalconers.size);
 		falconerIter = currentFalconers.iterator();

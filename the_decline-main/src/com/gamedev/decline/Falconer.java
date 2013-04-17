@@ -132,6 +132,7 @@ public class Falconer extends Unit
 				falcon.setX(getX());
 				falcon.setXPos(getXPos());
 				falcon.setPosition(falcon.getX(), falcon.getYPos());
+				falcon.setHasDamagedHero(false);
 			}
 			else
 			{
@@ -212,6 +213,11 @@ public class Falconer extends Unit
 	public void setFalconYPos(float newYPos)
 	{
 		falcon.setYPos(newYPos + Falcon.HEIGHT);
+	}
+	
+	public Falcon getFalcon()
+	{
+		return falcon;
 	}
 	
 	public void draw(SpriteBatch batch)

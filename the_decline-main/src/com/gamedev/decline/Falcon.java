@@ -35,7 +35,7 @@ public class Falcon extends Unit
 	public static final int MAX_HEALTH = 30;
 
 	// Internal Variables //
-	private boolean isFlying = false, isLanding = false;
+	private boolean isFlying = false, isLanding = false, hasDamagedHero = false;
 	
 	/**
 	 * Instantiates a new Falcon object by calling the super constructor (Unit)
@@ -104,5 +104,15 @@ public class Falcon extends Unit
 	public boolean getIsLanding()
 	{
 		return isLanding;
+	}
+	
+	public void setHasDamagedHero(boolean newHasDamagedHero)
+	{
+		hasDamagedHero = newHasDamagedHero;
+	}
+	
+	public boolean getHasDamagedHero()
+	{
+		return hasDamagedHero;
 	}
 }

@@ -498,10 +498,11 @@ public class Decline implements ApplicationListener {
 			if (!gs.getIsHeroHiding())
 			{
 				enemyCount = 0;
-				enemyIter = activeEnemies.iterator();
 				finished = false;
 				while (!finished)
 				{
+
+					enemyIter = activeEnemies.iterator();
 					for (int i = enemyCount; i > 0; i--)
 					{
 						enemyIter.next();
@@ -533,10 +534,10 @@ public class Decline implements ApplicationListener {
 				}
 				
 				falconerCount = 0;
-				falconerIter = activeFalconers.iterator();
 				finished = false;
 				while (!finished)
 				{
+					falconerIter = activeFalconers.iterator();
 					for (int i = falconerCount; i > 0; i--)
 					{
 						falconerIter.next();
@@ -565,6 +566,25 @@ public class Decline implements ApplicationListener {
 						finished = true;
 					}
 					collision = false;
+				}
+				
+				finished = false;
+				Falcon currentFalcon;
+				falconerIter = activeFalconers.iterator();
+				while (falconerIter.hasNext())
+				{
+					currentFalconer = falconerIter.next();
+					currentFalcon = currentFalconer.getFalcon();
+					if (!currentFalcon.getHasDamagedHero() && hero.collidesWith(currentFalcon))
+					{
+						hero.setHealth(hero.getHealth() - ENEMY_DAMAGE / 2);
+						if (hero.getHealth() < 0)
+						{
+							hero.setHealth(0);
+						}
+						heroHitSound.play();
+						currentFalcon.setHasDamagedHero(true);
+					}
 				}
 			}
 			
@@ -707,9 +727,9 @@ public class Decline implements ApplicationListener {
 			im.update();
 		}
 		gs.getHealthBarManager().update();
-		/*if(gs.getHeroXPos() > 2000){
+		if(gs.getHeroXPos() > 2000){
 			bossFight = true;
-		}*/
+		}
 	}// end update()
 
 	/**

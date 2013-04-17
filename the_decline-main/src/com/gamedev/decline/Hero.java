@@ -35,7 +35,7 @@ public class Hero extends Unit {
 	public static final int START_YDRAW = 20;
 	public static final int SPEED = 200;
 	public static final int JUMP_SPEED = 5;
-	public static final int JUMP_DISTANCE = 160;
+	public static final int JUMP_DISTANCE = 190;
 	public static final int MAX_AMMO = 50;
 	public static final int MAX_HEALTH = 100;
 	public static final int AMMO_DISPLAY_X_POSITION = 30;

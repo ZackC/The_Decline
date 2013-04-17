@@ -154,12 +154,12 @@ public class ItemManager {
 	 * method.
 	 */
 	public void update() {
-		//if(gs.getHeroXPos() < 1200){
+		if(gs.getHeroXPos() < 1200){
 			if (gs.getHeroXPos() > newAmmoPosition) {
 				makeAmmoAppear();
 				newAmmoPosition += 800 + rand.nextInt() % 500;
 			}
-		//}
+		}
 		ammoIter = currentAmmo.iterator();
 		while (ammoIter.hasNext()) {
 			ammo = ammoIter.next();
@@ -169,12 +169,12 @@ public class ItemManager {
 			}
 		}
 		
-		//if(gs.getHeroXPos() < 1200){
+		if(gs.getHeroXPos() < 1200){
 			if (gs.getHeroXPos() > newBushPosition) {
 				makeBushAppear();
 				newBushPosition += 500 + rand.nextInt() % 500;
 			}
-		//}
+		}
 		bushIter = currentBushes.iterator();
 		while (bushIter.hasNext()) {
 			bush = bushIter.next();
@@ -185,12 +185,12 @@ public class ItemManager {
 			
 		}
 		
-		//if(gs.getHeroXPos() < 1200){
+		if(gs.getHeroXPos() < 1200){
 			if (gs.getHeroXPos() > newHealthPackPosition) {
 				makeHealthAppear();
 				newHealthPackPosition += 800 + rand.nextInt() % 500;
 			}
-		//}
+		}
 		healthIter = currentHealthPacks.iterator();
 		while (healthIter.hasNext()) {
 			pack = healthIter.next();
