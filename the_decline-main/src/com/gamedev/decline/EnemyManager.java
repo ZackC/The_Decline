@@ -208,7 +208,7 @@ public class EnemyManager {
 	 * Enemy has traveled off screen after updating then that Enemy is removed.
 	 */
 	public void update() {
-		if(gs.getHeroXPos() < 1200){
+		if(gs.getHeroXPos() < 19000){
 			if (gs.getHeroXPos() > newEnemyXPosition) {
 				makeEnemyAppear();
 				newEnemyXPosition += rand.nextInt(400) + 50;
@@ -227,7 +227,7 @@ public class EnemyManager {
             	enemyIter.remove();                          
             }
 		}// end while
-		if (gs.getHeroXPos() < 1200)
+		if (gs.getHeroXPos() < 19000)
 		{
 			if (gs.getHeroXPos() > newFalconerXPosition)
 			{

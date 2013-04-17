@@ -733,7 +733,7 @@ public class Decline implements ApplicationListener {
 			im.update();
 		}
 		gs.getHealthBarManager().update();
-		if(gs.getHeroXPos() > 2200){
+		if(gs.getHeroXPos() > 20000){
 			bossFight = true;
 		}
 	}// end update()
