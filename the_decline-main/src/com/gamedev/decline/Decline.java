@@ -341,7 +341,7 @@ public class Decline implements ApplicationListener {
 			ableToShoot = true;
 		}
 		
-		if(!bossFight && gs.getHeroXPos() < 19000){
+		if(!bossFight && gs.getHeroXPos() < 5000){
 			if(enemiesToAppear > 0 && TimeUtils.nanoTime() > timeSinceLastEnemyAppeared + TIME_BETWEEN_ENEMIES)
 			{
 			  em.makeEnemyAppear();
@@ -733,7 +733,7 @@ public class Decline implements ApplicationListener {
 			im.update();
 		}
 		gs.getHealthBarManager().update();
-		if(gs.getHeroXPos() > 20000){
+		if(gs.getHeroXPos() > 6000){
 			bossFight = true;
 			Array<Falconer> activeFalconers = em.getActiveFalconers();
 			activeFalconers.clear();
