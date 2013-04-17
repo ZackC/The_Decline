@@ -95,6 +95,7 @@ public class BossManager {
 				boss.setFireballMode(false);
 				intro = false;
 				boss.setToGroundDrawPosition();
+				boss.setIsAlive(true);
 				lastJump = TimeUtils.nanoTime();
 			}
 		}else if(goUp){
