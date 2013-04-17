@@ -11,6 +11,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 
 /**
  * 
@@ -31,18 +32,19 @@ public class BossManager {
 	
 	// Internal Variables //
 	private Boss boss;
-	private Fireball[] fireballs = new Fireball[MAX_FIREBALLS];
+
 	private Array<Fireball> currentFireballs = new Array<Fireball>();
-	private int currentFireballNumber = 0;
 	private Fireball currentFireball;
 	private Iterator<Fireball> fireballIter;
+	boolean intro = true;
+	private float timeBetweenShots = 1.1f;
+	private long lastShot;
+	private Texture fireballTexture;
 	
 	public BossManager(Texture bossTexture, Texture fireballTexture){
 		boss = new Boss(bossTexture, new Fireball(fireballTexture));
-		for (int i = 0; i < MAX_FIREBALLS; i++) {
-			fireballs[i] = new Fireball(fireballTexture);
-		}
 		boss.setToInitialDrawPosition();
+		this.fireballTexture = fireballTexture;
 		boss.flipOrientation();
 	}
 	
@@ -67,7 +69,7 @@ public class BossManager {
 	}
 	
 	public void shootFireball(){
-		currentFireball = fireballs[currentFireballNumber % MAX_FIREBALLS];
+		currentFireball = new Fireball(fireballTexture);
 		if (boss.getOrientation() == GlobalSingleton.RIGHT) 
 		{
 		   currentFireball.setOrientation(GlobalSingleton.RIGHT);
@@ -78,24 +80,41 @@ public class BossManager {
 		currentFireball.setToInitialDrawPosition(boss.getX(), boss.getY());
         currentFireball.setIsAlive(true);
 		currentFireballs.add(currentFireball);
-		currentFireballNumber++;
 	}
 	
-	public void update(){		
-		fireballIter = currentFireballs.iterator();
-		while (fireballIter.hasNext()) {
-			currentFireball = fireballIter.next();
-			currentFireball.update();
-			if (currentFireball.getX() > Gdx.graphics.getWidth()) {
-				fireballIter.remove();
-			} // end if
-			else if (currentFireball.getX() < 0) {
-				fireballIter.remove();
-			} // end else if
-		}
-		
-		if(boss.getHealth() <= 0){
-			gs.setIsGameOver(true);
+	public void update(){
+		if(intro){
+			boss.setFireballMode(true);
+			boss.setFireballDirection(false);
+			boss.moveDown();
+			if(boss.getYPos() < 20){
+				boss.setFireballMode(false);
+				intro = false;
+				boss.setToGroundDrawPosition();
+			}
+		}else{
+			if (TimeUtils.nanoTime() > lastShot + (timeBetweenShots * 1000000000L))
+			{
+			    System.out.println("1");
+				shootFireball();
+				lastShot = TimeUtils.nanoTime();
+			}
+			
+			fireballIter = currentFireballs.iterator();
+			while (fireballIter.hasNext()) {
+				currentFireball = fireballIter.next();
+				currentFireball.update();
+				if (currentFireball.getX() > Gdx.graphics.getWidth()) {
+					fireballIter.remove();
+				} // end if
+				else if (currentFireball.getX() < 0) {
+					fireballIter.remove();
+				} // end else if
+			}
+			
+			if(boss.getHealth() <= 0){
+				gs.setIsGameOver(true);
+			}
 		}
 	}
 	
@@ -105,6 +124,7 @@ public class BossManager {
 		fireballIter = currentFireballs.iterator();
 		while(fireballIter.hasNext()){
 			currentFireball = fireballIter.next();
+			System.out.println(currentFireball.getX()+"-"+currentFireball.getY());
 			currentFireball.draw(batch);
 		}
 	}

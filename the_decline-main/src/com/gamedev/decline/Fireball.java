@@ -46,7 +46,7 @@ public class Fireball extends Unit {
 	 */
 	public void setToInitialDrawPosition(float bossX, float bossY) {
 		setXPos(gs.getWorldXPos() + bossX - 10);
-		setYPos(gs.getWorldXPos() + bossY + 45);
+		setYPos(bossY + 45);
 	}// end setToInitialDrawPosition()
 
 	/**

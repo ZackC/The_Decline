@@ -129,7 +129,7 @@ public class Decline implements ApplicationListener {
 
 		bm = new BulletManager(new Texture(Gdx.files.internal("bullets.png")));
 
-		em = new EnemyManager(new Texture(Gdx.files.internal("enemy.png")), new Texture(Gdx.files.internal("enemy_falconeer.png")), new Texture(Gdx.files.internal("data/enemy.gif")), new Texture(Gdx.files.internal("hawk.png")));
+		em = new EnemyManager(new Texture(Gdx.files.internal("enemy.png")), new Texture(Gdx.files.internal("enemy_falconeer.png")), new Texture(Gdx.files.internal("enemy_falconeer_noFalcon.png")), new Texture(Gdx.files.internal("hawk.png")));
 
 		bsm = new BossManager(new Texture(Gdx.files.internal("boss.png")), new Texture(Gdx.files.internal("fireball.png")));
 		
@@ -727,7 +727,7 @@ public class Decline implements ApplicationListener {
 			im.update();
 		}
 		gs.getHealthBarManager().update();
-		if(gs.getHeroXPos() > 2000){
+		if(gs.getHeroXPos() > 2200){
 			bossFight = true;
 		}
 	}// end update()
