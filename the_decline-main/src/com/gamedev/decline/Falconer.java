@@ -37,7 +37,7 @@ public class Falconer extends Unit
 
 	// Internal Variables //
 	private Falcon falcon;
-	private int timeBetweenFlights = 5;
+	private float timeBetweenFlights = 8;
 	private long lastFlight;
 	private Texture falconerTexture, falconerWithoutFalconTexture;
 	private Color color;

@@ -155,7 +155,7 @@ public class ItemManager {
 	 * method.
 	 */
 	public void update() {
-		if(gs.getHeroXPos() < 5000){
+		if(gs.getHeroXPos() < 9000){
 			if (gs.getHeroXPos() > newAmmoPosition) {
 				makeAmmoAppear();
 				newAmmoPosition += 800 + rand.nextInt() % 500;
@@ -170,7 +170,7 @@ public class ItemManager {
 			}
 		}
 		
-		if(gs.getHeroXPos() < 5000){
+		if(gs.getHeroXPos() < 9000){
 			if (gs.getHeroXPos() > newBushPosition) {
 				makeBushAppear();
 				newBushPosition += 500 + rand.nextInt() % 500;
@@ -186,7 +186,7 @@ public class ItemManager {
 			
 		}
 		
-		if(gs.getHeroXPos() < 5000){
+		if(gs.getHeroXPos() < 9000){
 			if (gs.getHeroXPos() > newHealthPackPosition) {
 				makeHealthAppear();
 				newHealthPackPosition += 800 + rand.nextInt() % 500;
