@@ -129,7 +129,7 @@ public class Decline implements ApplicationListener {
 
 		bm = new BulletManager(new Texture(Gdx.files.internal("bullets.png")));
 
-		em = new EnemyManager(new Texture(Gdx.files.internal("enemy.png")), new Texture(Gdx.files.internal("enemy_falconeer.png")), new Texture(Gdx.files.internal("hawk.png")));
+		em = new EnemyManager(new Texture(Gdx.files.internal("enemy.png")), new Texture(Gdx.files.internal("enemy_falconeer.png")), new Texture(Gdx.files.internal("data/enemy.gif")), new Texture(Gdx.files.internal("hawk.png")));
 
 		bsm = new BossManager(new Texture(Gdx.files.internal("boss.png")), new Texture(Gdx.files.internal("fireball.png")));
 		
@@ -440,6 +440,61 @@ public class Decline implements ApplicationListener {
 				collision = false;
 			}
 			
+			int falconerCount = 0;
+			bulletCount = 0;
+			Iterator<Falconer> falconerIter = activeFalconers.iterator();
+			Falconer currentFalconer;
+			finished = false;
+			while (!finished)
+			{
+				bulletIter = activeBullets.iterator();
+				falconerIter = activeFalconers.iterator();
+				for (int i = bulletCount; i > 0; i--)
+				{
+					bulletIter.next();
+				}
+				for (int j = falconerCount; j > 0; j--)
+				{
+					falconerIter.next();
+				}
+				while (bulletIter.hasNext())
+				{
+					currentBullet = bulletIter.next();
+					bulletCount++;
+					while (falconerIter.hasNext())
+					{
+						currentFalconer = falconerIter.next();
+						falconerCount++;
+						if (currentBullet.collidesWith(currentFalconer))
+						{
+							bulletIter.remove();
+							bulletCount--;
+							if (em.falconerDamagedEvent(currentFalconer, enemyShotDamage))
+							{
+								falconerIter.remove();
+								falconerCount--;
+							}
+							collision = true;
+							break;
+						}
+					}
+					if (collision)
+					{
+						break;
+					}
+					if (!falconerIter.hasNext())
+					{
+						falconerIter = activeFalconers.iterator();
+						falconerCount = 0;
+					}
+				}
+				if (!collision && !bulletIter.hasNext())
+				{
+					finished = true;
+				}
+				collision = false;
+			}
+			
 			if (!gs.getIsHeroHiding())
 			{
 				enemyCount = 0;
@@ -471,6 +526,41 @@ public class Decline implements ApplicationListener {
 						}
 					}
 					if (!collision && !enemyIter.hasNext())
+					{
+						finished = true;
+					}
+					collision = false;
+				}
+				
+				falconerCount = 0;
+				falconerIter = activeFalconers.iterator();
+				finished = false;
+				while (!finished)
+				{
+					for (int i = falconerCount; i > 0; i--)
+					{
+						falconerIter.next();
+					}
+					while (falconerIter.hasNext())
+					{
+						currentFalconer = falconerIter.next();
+						falconerCount++;
+						if (hero.collidesWith(currentFalconer))
+						{
+							hero.setHealth(hero.getHealth() - ENEMY_DAMAGE);
+							if (hero.getHealth() < 0)
+							{
+								hero.setHealth(0);
+							}
+							em.falconerDamagedEvent(currentFalconer, currentFalconer.getMaxHealth());
+							falconerIter.remove();
+							falconerCount--;
+							heroHitSound.play();
+							collision = true;
+							break;
+						}
+					}
+					if (!collision && !falconerIter.hasNext())
 					{
 						finished = true;
 					}

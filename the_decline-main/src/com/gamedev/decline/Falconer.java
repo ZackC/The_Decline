@@ -6,6 +6,7 @@ package com.gamedev.decline;
 
 // Badlogic Package Support // 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -38,6 +39,8 @@ public class Falconer extends Unit
 	private Falcon falcon;
 	private int timeBetweenFlights = 5;
 	private long lastFlight;
+	private Texture falconerTexture, falconerWithoutFalconTexture;
+	private Color color;
 	
 	/**
 	 * Instantiates a new Falconer object by calling the super constructor (Unit)
@@ -46,12 +49,16 @@ public class Falconer extends Unit
 	 * @param texture
 	 *            : The image of the Falconer.
 	 */
-	public Falconer(Texture falconerTexture, Texture falconTexture)
+	public Falconer(Texture falconerTexture, Texture falconerWithoutFalconTexture, Texture falconTexture)
 	{
 		super(falconerTexture, INITIAL_SPEED, 0, 0);
 		setSize(WIDTH, HEIGHT);
 		this.falcon = new Falcon(falconTexture);
 		lastFlight = TimeUtils.nanoTime();
+		this.falconerTexture = falconerTexture;
+		this.falconerWithoutFalconTexture = falconerWithoutFalconTexture;
+		color = falcon.getColor();
+		falcon.setColor(Color.CLEAR);
 	}
 
 	/**
@@ -93,9 +100,9 @@ public class Falconer extends Unit
 		{
 		       // System.out.println("1");
 			falcon.setIsFlying(true);
-			//Zach Ogle - what is this next line for?
-			falcon.update();
 			lastFlight = TimeUtils.nanoTime();
+			setTexture(falconerWithoutFalconTexture);
+			falcon.setColor(color);
 			
 		}
 		else if (falcon.getIsFlying())
@@ -122,8 +129,8 @@ public class Falconer extends Unit
 				falcon.setIsLanding(true);
 				falcon.setJumpSpeed(Falcon.Y_SPEED * 2);
 				falcon.setYPos(Gdx.graphics.getHeight());
-				falcon.setX(getX() - Falcon.WIDTH / 2);
-				falcon.setXPos(getXPos() - Falcon.WIDTH / 2);
+				falcon.setX(getX());
+				falcon.setXPos(getXPos());
 				falcon.setPosition(falcon.getX(), falcon.getYPos());
 			}
 			else
@@ -143,6 +150,8 @@ public class Falconer extends Unit
 			{
 				falcon.setYPos(Falcon.START_YDRAW);
 				falcon.setIsLanding(false);
+				setTexture(falconerTexture);
+				falcon.setColor(Color.CLEAR);
 			}
 			falcon.setPosition(falcon.getX(), falcon.getYPos());
 		}
@@ -197,7 +206,7 @@ public class Falconer extends Unit
 	
 	public void setFalconXPos(float newXPos)
 	{
-		falcon.setXPos(newXPos - Falcon.WIDTH / 2);
+		falcon.setXPos(newXPos);
 	}
 	
 	public void setFalconYPos(float newYPos)

@@ -46,7 +46,7 @@ public class EnemyManager {
 	private Random rand = new Random();
 	private int newEnemyXPosition = Gdx.graphics.getWidth() / 2 + rand.nextInt(100);
 	private int newFalconerXPosition = Gdx.graphics.getWidth() / 2 + rand.nextInt(400);
-	Texture enemyTexture, falconerTexture, falconTexture;
+	Texture enemyTexture, falconerTexture, falconerWithoutFalconTexture, falconTexture;
 
 	/**
 	 * Instantiates a new EnemyManager object. The EnemyManager fills an array
@@ -56,17 +56,18 @@ public class EnemyManager {
 	 * @param texture
 	 *            : The image to be used for the Enemy objects.
 	 */
-	public EnemyManager(Texture enemyTexture, Texture falconerTexture, Texture falconTexture)
+	public EnemyManager(Texture enemyTexture, Texture falconerTexture, Texture falconerWithoutFalconTexture, Texture falconTexture)
 	{
 		this.enemyTexture = enemyTexture;
 		this.falconerTexture = falconerTexture;
+		this.falconerWithoutFalconTexture = falconerWithoutFalconTexture;
 		this.falconTexture = falconTexture;
 		for (int i = 0; i < MAX_ENEMIES; i++) {
 			enemies[i] = new Enemy(enemyTexture);
 		} // end for
 		for (int i = 0; i < MAX_FALCONERS; i++)
 		{
-			falconers[i] = new Falconer(falconerTexture, falconTexture);
+			falconers[i] = new Falconer(falconerTexture, falconerWithoutFalconTexture, falconTexture);
 		}
 	} // end EnemyManager
 
@@ -187,7 +188,7 @@ public class EnemyManager {
 		//currentFalconer = falconers[currentFalconerNumber % MAX_FALCONERS];
 		if (currentFalconers.size < MAX_FALCONERS)
 		{
-			currentFalconer = new Falconer(falconerTexture, falconTexture);
+			currentFalconer = new Falconer(falconerTexture, falconerWithoutFalconTexture, falconTexture);
 			currentFalconer.setToInitialDrawPosition();
 			currentFalconer.setIsAlive(true);
 			currentFalconer.setXPos(gs.getWorldXPos() + Falconer.START_XDRAW);
@@ -230,7 +231,7 @@ public class EnemyManager {
 		{
 			makeFalconerAppear();
 			//makeFalconAppear();
-			newFalconerXPosition += 100000;//rand.nextInt(500) + 300;
+			newFalconerXPosition += rand.nextInt(500) + 300;
 		}
 		//System.out.println("Size of current falconers:"+currentFalconers.size);
 		falconerIter = currentFalconers.iterator();

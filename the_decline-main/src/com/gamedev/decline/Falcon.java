@@ -27,10 +27,10 @@ public class Falcon extends Unit
 	// Constants //
 	public static final int INITIAL_SPEED = 125;
 	public static final int X_SPEED = 500;
-	public static final int Y_SPEED = -2;
+	public static final int Y_SPEED = -4;
 	public static final int WIDTH = 36;
 	public static final int HEIGHT = 67;
-	public static final int START_XDRAW = Falconer.START_XDRAW - WIDTH / 2;
+	public static final int START_XDRAW = Falconer.START_XDRAW;
 	public static final int START_YDRAW = Falconer.START_YDRAW + HEIGHT;
 	public static final int MAX_HEALTH = 30;
 
