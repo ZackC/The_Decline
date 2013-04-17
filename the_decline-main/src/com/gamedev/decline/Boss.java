@@ -105,6 +105,12 @@ public class Boss extends Unit {
 	  setHasHealthBar(false);
 	}
 	
+	public void moveUp() {
+		yPosChange = 600 * Gdx.graphics.getDeltaTime();
+		setYPos(getYPos() + yPosChange);
+		setPosition(getXPos(), getYPos());
+	}
+	
 	public void moveDown() {
 		yPosChange = -600 * Gdx.graphics.getDeltaTime();
 		setYPos(getYPos() + yPosChange);

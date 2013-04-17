@@ -40,6 +40,10 @@ public class BossManager {
 	private float timeBetweenShots = 1.1f;
 	private long lastShot;
 	private Texture fireballTexture;
+	private long lastJump;
+	private float timeBetweenJumps = 5f;
+	private boolean goUp = false;
+	private boolean goDown = false;
 	
 	public BossManager(Texture bossTexture, Texture fireballTexture){
 		boss = new Boss(bossTexture, new Fireball(fireballTexture));
@@ -91,30 +95,61 @@ public class BossManager {
 				boss.setFireballMode(false);
 				intro = false;
 				boss.setToGroundDrawPosition();
+				lastJump = TimeUtils.nanoTime();
+			}
+		}else if(goUp){
+			boss.setFireballMode(true);
+			boss.setFireballDirection(true);
+			boss.moveUp();
+			if(boss.getYPos() > 800){
+				goUp = false;
+				goDown = true;
+				boss.setXPos(gs.getHeroXDraw());
+				boss.setYPos(800);
+				boss.setPosition(gs.getHeroXDraw(), 800);
+			}
+		}else if(goDown){
+			boss.setFireballDirection(false);
+			boss.moveDown();
+			System.out.println(boss.getX()+"-"+boss.getY());
+			if(boss.getYPos() < 20){
+				boss.setFireballMode(false);
+				goDown = false;
+				boss.setYPos(20);
+				boss.setPosition(boss.getX()+50, 20);
+				lastJump = TimeUtils.nanoTime();
+				if(gs.getHeroXDraw() > boss.getX() && boss.getOrientation() == gs.LEFT){
+					boss.flipOrientation();
+				}else if(gs.getHeroXDraw() < boss.getX() && boss.getOrientation() == gs.RIGHT){
+					boss.flipOrientation();
+				}
 			}
 		}else{
 			if (TimeUtils.nanoTime() > lastShot + (timeBetweenShots * 1000000000L))
 			{
-			    System.out.println("1");
 				shootFireball();
 				lastShot = TimeUtils.nanoTime();
 			}
 			
-			fireballIter = currentFireballs.iterator();
-			while (fireballIter.hasNext()) {
-				currentFireball = fireballIter.next();
-				currentFireball.update();
-				if (currentFireball.getX() > Gdx.graphics.getWidth()) {
-					fireballIter.remove();
-				} // end if
-				else if (currentFireball.getX() < 0) {
-					fireballIter.remove();
-				} // end else if
+			if (TimeUtils.nanoTime() > lastJump + (timeBetweenJumps * 1000000000L)){
+				goUp = true;
 			}
-			
-			if(boss.getHealth() <= 0){
-				gs.setIsGameWon(true);
-			}
+		}
+		
+		fireballIter = currentFireballs.iterator();
+		while (fireballIter.hasNext()) {
+			currentFireball = fireballIter.next();
+			currentFireball.update();
+			if (currentFireball.getX() > Gdx.graphics.getWidth()) {
+				fireballIter.remove();
+			} // end if
+			else if (currentFireball.getX() < 0) {
+				fireballIter.remove();
+			} // end else if
+		}
+		
+		if(boss.getHealth() <= 0){
+			gs.setIsGameWon(true);
 		}
 	}
 	
@@ -124,7 +159,6 @@ public class BossManager {
 		fireballIter = currentFireballs.iterator();
 		while(fireballIter.hasNext()){
 			currentFireball = fireballIter.next();
-			System.out.println(currentFireball.getX()+"-"+currentFireball.getY());
 			currentFireball.draw(batch);
 		}
 	}
