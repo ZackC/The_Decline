@@ -26,7 +26,7 @@ public class HealthPack extends Item {
 	// { Not Applicable }
 
 	// Internal Variables //
-	// { Not Applicable }
+	int amountOfHealth;
 
 	/**
 	 * Instantiates a new HealthPack object by calling the super constructor
@@ -38,4 +38,14 @@ public class HealthPack extends Item {
 	public HealthPack(Texture texture) {
 		super(texture, 0, 0, 0);
 	}// end HealthPack()
+
+	public int getAmountOfHealth()
+	{
+	  return amountOfHealth;
+	}
+
+	public void setAmountOfHealth(int amountOfHealth)
+	{
+	  this.amountOfHealth = amountOfHealth;
+	}
 }// end HealthPack class

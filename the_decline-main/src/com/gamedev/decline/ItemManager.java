@@ -142,6 +142,7 @@ public class ItemManager {
 		pack.setToInitialDrawPosition();
 		pack.setXPos(gs.getWorldXPos() + Item.START_XDRAW);
 		pack.setYPos(Item.START_YDRAW);
+		pack.setAmountOfHealth(rand.nextInt(10) * 5 + 5);
 		currentHealthPacks.add(pack);
 		currentHealthCount++;
 	}

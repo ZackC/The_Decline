@@ -688,7 +688,7 @@ public class Decline implements ApplicationListener {
 					healthCount++;
 					if (hero.collidesWith(currentPack))
 					{
-						hero.setHealth(hero.getHealth() + HEALTH_PACK);
+						hero.setHealth(hero.getHealth() + currentPack.getAmountOfHealth());
 						if (hero.getHealth() > Hero.MAX_HEALTH)
 						{
 							hero.setHealth(Hero.MAX_HEALTH);
