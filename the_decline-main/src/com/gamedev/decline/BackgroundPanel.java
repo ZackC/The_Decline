@@ -9,17 +9,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
- * 
  * com/gamedev/decline/BackgroundPanel.java
  * 
  * @author(s) : Ian Middleton, Zach Coker, Zach Ogle
- * @version : 1.0 Last Update : 3/25/2013 Update By : Ian Middleton
+ * @version : 1.0 Last Update : 4/19/2013 Update By : Zach Ogle
  * 
- *          Source code for the BackgroundPanel class. The BackgroundPanel class
- *          represents the BackgroundPanel in the game.
+ * Source code for the BackgroundPanel class. The BackgroundPanel class
+ *	represents the BackgroundPanel in the game.
  * 
  */
-public class BackgroundPanel {
+public class BackgroundPanel
+{
 
 	// Global Singleton //
 	// { Not Applicable }
@@ -33,55 +33,62 @@ public class BackgroundPanel {
 	private float xPos = 0;
 
 	/**
-	 * Default constructor
+	 * Default constructor for BackgroundPanel.
 	 * 
-	 * @param newTexture
-	 *            - The image for the BackgroundPanel.
+	 * @param newTexture : The image for the BackgroundPanel.
 	 */
-	public BackgroundPanel(Texture newTexture) {
+	public BackgroundPanel(Texture newTexture)
+	{
 		texture = newTexture;
-	}// end BackgroundPanel()
+	}
 
 	/**
-	 * Gets the x position of the background.
+	 * Gets the x position of the BackgroundPanel.
 	 * 
-	 * @return : The x position of the background.
+	 * @return : The x position of the BackgroundPanel.
 	 */
-	public float getXPos() {
+	public float getXPos()
+	{
 		return xPos;
-	}// end getXPos()
+	}
 
 	/**
-	 * Sets the x position of the background.
+	 * Sets the x position of the BackgroundPanel.
 	 * 
-	 * @param newPos
-	 *            - The new x position of the background.
+	 * @param newPos : The new x position of the BackgroundPanel.
 	 */
-	public void setXPos(float newPos) {
+	public void setXPos(float newPos)
+	{
 		xPos = newPos;
-	}// end setXPos()
+	}
 
 	/**
-	 * The draw visitor for the background.
+	 * Draws the BackgroundPanel to the screen.
 	 * 
-	 * @param batch
-	 *            - The SpriteBatch to draw the object.
+	 * @param batch : The SpriteBatch to draw the BackgroundPanel.
 	 */
-	public void draw(SpriteBatch batch) {
-		// System.out.println(xPos);
+	public void draw(SpriteBatch batch)
+	{
 		batch.draw(texture, xPos, 0, WIDTH, HEIGHT);
-	}// end draw()
+	}
 
 	/**
 	 * Returns the width of the BackgroundPanel.
 	 * 
 	 * @return : The width of the BackgroundPanel.
 	 */
-	public int getWidth() {
+	public int getWidth()
+	{
 		return WIDTH;
-	}// end getWidth()
+	}
 
-	public int getHeight() {
+	/**
+	 * Returns the height of the BackgroundPanel.
+	 * 
+	 * @return : The height of the BackgroundPanel.
+	 */
+	public int getHeight()
+	{
 		return HEIGHT;
 	}
-}// end BackgroundPanel class
+}

@@ -8,15 +8,17 @@ package com.gamedev.decline;
 import com.badlogic.gdx.graphics.Texture;
 
 /**
- * 
  * com/gamedev/decline/Fireball.java
  * 
  * @author(s) : Ian Middleton, Zach Coker, Zach Ogle
- * @version : 2.0 Last Update : 3/25/2013 Update By : Ian Middleton
+ * @version : 2.0 Last Update : 4/21/2013 Update By : Zach Ogle
  * 
+ * Source code for the Fireball class. The Fireball class represents
+ *	a Fireball object in the game. It extends and uses the Unit class.
  *
  */
-public class Fireball extends Unit {
+public class Fireball extends Unit
+{
 	// Global Singleton //
 	// { Not Applicable }
 
@@ -31,62 +33,78 @@ public class Fireball extends Unit {
 	private int orientation;
 
 	/**
+	 * Instantiates a new Fireball object by calling the super constructor (Unit)
+	 *	and setting the draw size.
 	 */
-	public Fireball(Texture texture) {
+	public Fireball(Texture texture)
+	{
 		super(texture, INITIAL_SPEED, 0, 0);
 		setSize(DRAW_WIDTH, DRAW_HEIGHT);
-	} // end Bullet()
+	}
 
+	/**
+	 * Required implementation of abstract method.
+	 */
 	@Override
-	public void setToInitialDrawPosition(){
-		
+	public void setToInitialDrawPosition()
+	{
 	}
 	
 	/**
+	 * Sets the Fireball to its initial draw position depending on
+	 *	the Boss coordinates.
+	 *
+	 * @param bossX : The x position of the Boss's screen coordinates.
+	 * @param bossY : The y position of the Boss's screen coordinates.
 	 */
-	public void setToInitialDrawPosition(float bossX, float bossY) {
+	public void setToInitialDrawPosition(float bossX, float bossY)
+	{
 		setXPos(gs.getWorldXPos() + bossX - 10);
 		setYPos(bossY + 45);
-	}// end setToInitialDrawPosition()
+	}
 
 	/**
-	 * Used to set the orientation of the bullet and which direction it should
-	 * fly.
+	 * Sets the orientation of the Fireball.
 	 * 
-	 * @param bulletOrientation
-	 *            : The direction the bullet should be oriented. Uses global
-	 *            singleton values for left and right.
+	 * @param orientation : The Fireball's orientation.
 	 */
-	public void setOrientation(int orientation) {
+	public void setOrientation(int orientation)
+	{
 		this.orientation = orientation;
-	} // end setOrientation()
+	}
 
 	/**
+	 * Moves the Fireball according to its orientation.
 	 */
-	public void update() {
-		if (orientation == GlobalSingleton.RIGHT) {
+	public void update()
+	{
+		if (orientation == GlobalSingleton.RIGHT)
+		{
 			moveRight();
-		} // end if
-		else if (orientation == GlobalSingleton.LEFT) {
+		}
+		else if (orientation == GlobalSingleton.LEFT)
+		{
 			moveLeft();
-		} // end else if
-	} // end update()
+		}
+	}
 
 	/**
+	 * Gets the Fireball's max health.
+	 * 
+	 * @return : The Fireball's max health.
 	 */
 	@Override
 	public int getMaxHealth()
 	{
-	  return MAX_HEALTH;
+		return MAX_HEALTH;
 	}
 
 	/**
+	 * Handles the Fireball dying.
 	 */
 	@Override
 	public void die()
 	{
-	  setIsAlive(false);
-	  
+		setIsAlive(false);
 	}
-	
-} // end Bullet class
+}

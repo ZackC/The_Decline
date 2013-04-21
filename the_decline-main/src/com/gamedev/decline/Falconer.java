@@ -12,14 +12,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.TimeUtils;
 
 /**
- * 
- * com/gamedev/decline/Enemy.java
+ * com/gamedev/decline/Falconer.java
  * 
  * @author(s) : Ian Middleton, Zach Coker, Zach Ogle
- * @version : 2.0 Last Update : 4/8/2013 Update By : Zach Ogle
+ * @version : 2.0 Last Update : 4/20/2013 Update By : Zach Ogle
  * 
- *          Source code for the Falconer class. The Falconer class represents
- *          a Falconer object in the game. It extends and uses the Unit class.
+ * Source code for the Falconer class. The Falconer class represents
+ *	a Falconer object in the game. It extends and uses the Unit class.
  * 
  */
 public class Falconer extends Unit
@@ -44,10 +43,11 @@ public class Falconer extends Unit
 	
 	/**
 	 * Instantiates a new Falconer object by calling the super constructor (Unit)
-	 * and setting the draw size.
+	 * and setting the draw size. The Falconer is also assigned a Falcon.
 	 * 
-	 * @param texture
-	 *            : The image of the Falconer.
+	 * @param falconerTexture : The image of the Falconer with a Falcon.
+	 * @param falconerWithoutFalconTexture : The image of the Falconer without a Falcon.
+	 * @param falconTexture : The image of the Falcon.
 	 */
 	public Falconer(Texture falconerTexture, Texture falconerWithoutFalconTexture, Texture falconTexture)
 	{
@@ -73,8 +73,8 @@ public class Falconer extends Unit
 	}
 
 	/**
-	 * The update function is called every global game update. Keeps the Falconer
-	 * 	as close to the right edge of the screen as possible.
+	 * Keeps the Falconer as close to the right edge of the screen as possible. The Falcon will
+	 *	stay with the Falconer until it flies.
 	 */
 	public void update()
 	{
@@ -94,11 +94,8 @@ public class Falconer extends Unit
 		{
 			standStill();
 		}
-		//System.out.println("Falcon is flying: "+falcon.getIsFlying());
-		//System.out.println("Falcon is landing: "+falcon.getIsLanding());
 		if (TimeUtils.nanoTime() > lastFlight + (timeBetweenFlights * 1000000000L))
 		{
-		       // System.out.println("1");
 			falcon.setIsFlying(true);
 			lastFlight = TimeUtils.nanoTime();
 			setTexture(falconerWithoutFalconTexture);
@@ -107,24 +104,20 @@ public class Falconer extends Unit
 		}
 		else if (falcon.getIsFlying())
 		{
-		        //System.out.println("3");
 			xPosChange = -(Falcon.X_SPEED * Gdx.graphics.getDeltaTime());
 			falcon.setXPos(falcon.getXPos() + xPosChange);
 			yPosChange = falcon.getJumpSpeed();
 			falcon.setYPos(falcon.getYPos() + yPosChange);
 			if (falcon.getYPos() < GlobalSingleton.HERO_YDRAW)
 			{
-			    //System.out.println("8");
 				falcon.setYPos(GlobalSingleton.HERO_YDRAW);
 			}
 			if (falcon.getXPos() + WIDTH / 2 <= gs.getHeroXPos() + gs.getHeroWidth() / 2)
 			{
-			  //System.out.println("9");
 				falcon.setJumpSpeed(-Falcon.Y_SPEED * 2);
 			}
 			if (falcon.getX() < -1 * Falcon.WIDTH)
 			{
-			  //System.out.println("10");
 				falcon.setIsFlying(false);
 				falcon.setIsLanding(true);
 				falcon.setJumpSpeed(Falcon.Y_SPEED * 2);
@@ -136,15 +129,11 @@ public class Falconer extends Unit
 			}
 			else
 			{
-			  //System.out.println("11");
-			  //System.out.println(falcon.getXPos());
-			  //System.out.println(gs.getWorldXPos());
 				falcon.setPosition(falcon.getXPos() - gs.getWorldXPos(), falcon.getYPos());
 			}
 		}
 		else if (falcon.getIsLanding())
 		{
-		        //System.out.println("4");
 			yPosChange = falcon.getJumpSpeed();
 			falcon.setYPos(falcon.getYPos() + yPosChange);
 			if (falcon.getYPos() <= Falcon.START_YDRAW)
@@ -158,7 +147,6 @@ public class Falconer extends Unit
 		}
 		if (!falcon.getIsFlying())
 		{
-		        //System.out.println("2");
 			if (speed * Gdx.graphics.getDeltaTime() + getX() + WIDTH < Gdx.graphics.getWidth())
 			{
 				falcon.moveRight();
@@ -178,48 +166,73 @@ public class Falconer extends Unit
 		}
 	}
 
-	/***
-	 * Returns the max health of the Falconer.
-	 * @return: the max health
+	/**
+	 * Gets the Falconer's max health.
+	 * @return : The Falconer's max health.
 	 */
 	@Override
 	public int getMaxHealth()
 	{
-	  return MAX_HEALTH;
+		return MAX_HEALTH;
 	}
 
-	/***
-	 * Handles the Falconer dying
+	/**
+	 * Handles the Falconer and Falcon dying.
 	 */
 	@Override
 	public void die()
 	{
-	  setIsAlive(false);
-	  setHasHealthBar(false);
-	  falcon.setIsAlive(false);
+		setIsAlive(false);
+		setHasHealthBar(false);
+		falcon.setIsAlive(false);
 	}
 	
+	/**
+	 * Sets whether the Falconer and Falcon are alive.
+	 * 
+	 * @param newIsAlive : Whether the Falconer and Falcon are alive.
+	 */
 	public void setIsAlive(boolean newIsAlive)
 	{
 		super.setIsAlive(newIsAlive);
 		falcon.setIsAlive(newIsAlive);
 	}
 	
+	/**
+	 * Sets the x position of the Falcon's world coordinates.
+	 * 
+	 * @param newXPos : The x position of the Falcon's world coordinates.
+	 */
 	public void setFalconXPos(float newXPos)
 	{
 		falcon.setXPos(newXPos);
 	}
 	
+	/**
+	 * Sets the y position of the Falcon's world coordinates.
+	 * 
+	 * @param newYPos : The y position of the Falcon's world coordinates.
+	 */
 	public void setFalconYPos(float newYPos)
 	{
 		falcon.setYPos(newYPos + Falcon.HEIGHT);
 	}
 	
+	/**
+	 * Gets the Falconer's Falcon.
+	 * 
+	 * @return : The Falconer's Falcon.
+	 */
 	public Falcon getFalcon()
 	{
 		return falcon;
 	}
 	
+	/**
+	 * Draws the Falconer and Falcon to the screen.
+	 * 
+	 * @param batch : The SpriteBatch object that draws the Falconer and Falcon.
+	 */
 	public void draw(SpriteBatch batch)
 	{
 		super.draw(batch);

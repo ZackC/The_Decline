@@ -8,18 +8,17 @@ package com.gamedev.decline;
 // { Not Applicable }
 
 /**
- * 
  * com/gamedev/decline/GlobalSingleton.java
  * 
  * @author(s) : Ian Middleton, Zach Coker, Zach Ogle
  * @version : 2.0 Last Update : 3/22/2013 Update By : Ian Middleton
  * 
- *          Source code for the GlobalSingleton class. The GlobalSingleton class
- *          holds information that will need to be accessed across the game.
+ * Source code for the GlobalSingleton class. The GlobalSingleton class
+ *	holds information that will need to be accessed across the game.
  * 
  */
-public class GlobalSingleton {
-
+public class GlobalSingleton
+{
 	// Global Singleton //
 	private static GlobalSingleton instance = null;
 
@@ -30,293 +29,354 @@ public class GlobalSingleton {
 	public static final int LEFT = 1;
 
 	// Internal Variables //
-	private float heroWidth;
-	private float heroHeight;
-	private float heroXDraw = HERO_XDRAW;
-	private float heroYDraw = HERO_YDRAW;
-	private float heroXPos = HERO_XDRAW;
-	private float heroYPos = HERO_YDRAW;
-	private float worldXPos = 0;
-	private float heroMovement = 0;
+	private float heroWidth, heroHeight, heroXDraw = HERO_XDRAW, heroYDraw = HERO_YDRAW;
+	private float heroXPos = HERO_XDRAW, heroYPos = HERO_YDRAW, worldXPos = 0, heroMovement = 0;
 	private int heroOrientation = 0;
-	private boolean isHeroHiding = false;
-	private boolean isHeroJumping = false;
-	private boolean isHeroAlive = true;
-	HealthBarManager hbm;
-	private boolean isGameOver = false;
-	private boolean isGameWon = false;
-	boolean isHeroTryingToHide = false;
-
-	private GlobalSingleton() {
-
-	} // end GlobalSingleton()
+	private boolean isHeroHiding = false, isHeroJumping = false, isHeroAlive = true;
+	private boolean isGameOver = false, isGameWon = false, isHeroTryingToHide = false;
+	private HealthBarManager hbm;
 
 	/**
-	 * Gets the instance of the class. If one does not exist it creates a new
-	 * one.
+	 * Constructor for the GlobalSingleton object.
+	 */
+	private GlobalSingleton()
+	{
+	}
+
+	/**
+	 * Gets the instance of the class. If one does not exist it creates a new one.
 	 * 
 	 * @return : The instance of the class.
 	 */
 	public static GlobalSingleton getInstance() {
-		if (instance == null) {
+		if (instance == null)
+		{
 			instance = new GlobalSingleton();
 			return instance;
-		} // end if
-		else {
+		}
+		else
+		{
 			return instance;
-		} // end else
-	} // end getInstance()
+		}
+	}
 
 	/**
-	 * Gets the width of the hero.
+	 * Gets the width of the Hero.
 	 * 
-	 * @return : Width of the hero.
+	 * @return : The width of the Hero.
 	 */
-	public float getHeroWidth() {
+	public float getHeroWidth()
+	{
 		return heroWidth;
-	} // end getHeroWidth()
+	}
 
 	/**
-	 * Gets the height of the hero.
+	 * Gets the height of the Hero.
 	 * 
-	 * @return : Height of the hero.
+	 * @return : The height of the Hero.
 	 */
-	public float getHeroHeight() {
+	public float getHeroHeight()
+	{
 		return heroHeight;
-	} // end getHeroHeight()
+	}
 
 	/**
-	 * Gets the x position of the hero.
+	 * Gets the x position of the Hero's world coordinates.
 	 * 
-	 * @return : X position of the hero.
+	 * @return : The x position of the Hero's world coordinates.
 	 */
-	public float getHeroXPos() {
+	public float getHeroXPos()
+	{
 		return heroXPos;
-	} // end getHeroXPos()
+	}
 	
-	public float getHeroXDraw(){
+	/**
+	 * Gets the x position of the Hero's screen coordinates.
+	 * 
+	 * @return : The x position of the Hero's screen coordinates.
+	 */
+	public float getHeroXDraw()
+	{
 		return heroXDraw;
 	}
 	
-	public float getHeroYDraw(){
+	/**
+	 * Gets the y position of the Hero's screen coordinates.
+	 * 
+	 * @return : The y position of the Hero's screen coordinates.
+	 */
+	public float getHeroYDraw()
+	{
 		return heroYDraw;
 	}
 
 	/**
-	 * Gets the current movement speed of the hero. The movement speed is
-	 * positive if the hero is moving right and negative if the hero is moving
+	 * Gets the current movement speed of the Hero. The movement speed is
+	 * positive if the Hero is moving right and negative if the Hero is moving
 	 * left.
 	 * 
-	 * @return : The movement speed of the hero.
+	 * @return : The movement speed of the Hero.
 	 */
-	public float getHeroMovement() {
+	public float getHeroMovement()
+	{
 		return heroMovement;
-	} // end getHeroMovement()
+	}
 
 	/**
-	 * Gets the current orientation of the hero. The orientation can be resolved
-	 * by comparing the return value to the constants in the singleton for left
-	 * and right.
+	 * Gets the current orientation of the Hero. The orientation is set to 0 for right
+	 *	and 1 for left.
 	 * 
-	 * @return : The orientation of the hero.
+	 * @return : The orientation of the Hero.
 	 */
-	public int getHeroOrientation() {
+	public int getHeroOrientation()
+	{
 		return heroOrientation;
-	} // end getHeroOrientation()
+	}
 
-	public float getWorldXPos() {
+	/**
+	 * Gets the x position of the left side of the screen's world coordinates.
+	 * @return
+	 */
+	public float getWorldXPos()
+	{
 		return worldXPos;
 	}
 
 	/**
-	 * Sets the width of the hero.
+	 * Sets the width of the Hero.
 	 * 
-	 * @param f
-	 *            : The new width of the hero.
+	 * @param width : The new width of the Hero.
 	 */
-	public void setHeroWidth(float f) {
-		heroWidth = f;
-	} // end setHeroWidth()
+	public void setHeroWidth(float width)
+	{
+		heroWidth = width;
+	}
 
 	/**
-	 * Sets the height of the hero.
+	 * Sets the height of the Hero.
 	 * 
-	 * @param f
-	 *            : The new height of the hero.
+	 * @param height : The new height of the Hero.
 	 */
-	public void setHeroHeight(float f) {
-		heroHeight = f;
-	} // end setHeroHeight()
+	public void setHeroHeight(float height)
+	{
+		heroHeight = height;
+	}
 
 	/**
-	 * Sets the current x position of the hero.
+	 * Sets the x position of the Hero's world coordinates.
 	 * 
-	 * @param newPos
-	 *            : The new x position of the hero.
+	 * @param newPos : The new x position of the Hero's world coordinates.
 	 */
-	public void setHeroXPos(float newPos) {
+	public void setHeroXPos(float newPos)
+	{
 		heroXPos = newPos;
-	} // end setHeroXPos()
+	}
 	
-	public void setHeroXDraw(float newDrawPos){
+	/**
+	 * Sets the x position of the Hero's screen coordinates.
+	 * 
+	 * @param newDrawPos : The new x position of the Hero's screen coordinates.
+	 */
+	public void setHeroXDraw(float newDrawPos)
+	{
 		heroXDraw = newDrawPos;
 	}
 	
-	public void setHeroYDraw(float newDrawPos){
+	/**
+	 * Sets the y position of the Hero's screen coordinates.
+	 * 
+	 * @param newDrawPos : The new y position of the Hero's screen coordinates.
+	 */
+	public void setHeroYDraw(float newDrawPos)
+	{
 		heroYDraw = newDrawPos;
 	}
 
 	/**
-	 * Sets the current hero movement.
+	 * Sets the Hero's movement.
 	 * 
-	 * @param newHeroMovement
-	 *            : The current movement of the hero.
+	 * @param newHeroMovement : The Hero's new movement.
 	 */
-	public void setHeroMovement(float newHeroMovement) {
+	public void setHeroMovement(float newHeroMovement)
+	{
 		heroMovement = newHeroMovement;
-	} // end setHeroMovement()
+	}
 
 	/**
-	 * Sets the current hero orientation.
+	 * Sets the Hero's orientation.
 	 * 
-	 * @param newHeroOrientation
-	 *            : The current orientation of the hero.
+	 * @param newHeroOrientation : The Hero's new orientation.
 	 */
-	public void setHeroOrientation(int newHeroOrientation) {
+	public void setHeroOrientation(int newHeroOrientation)
+	{
 		heroOrientation = newHeroOrientation;
-	} // end setHeroOrientation()
-
-	/***
-	 * Sets the x position in the work of the hero
-	 * 
-	 * @param newWorldXPos
-	 *            : the x position in the world of the hero
-	 */
-	public void setWorldXPos(float newWorldXPos) {
-		worldXPos = newWorldXPos; // end setWorldXPos()
 	}
 
 	/***
-	 * Returns the boolean for if the hero is hiding
+	 * Sets the x position of the left side of the screen's world coordinates.
 	 * 
-	 * @return: true if the hero is hiding, false otherwise
+	 * @param newWorldXPos : The x position of the left side of the screen's world coordinates.
 	 */
-	public boolean getIsHeroHiding() {
+	public void setWorldXPos(float newWorldXPos)
+	{
+		worldXPos = newWorldXPos;
+	}
+
+	/***
+	 * Gets whether the Hero is hiding.
+	 * 
+	 * @return: Whether the Hero is hiding.
+	 */
+	public boolean getIsHeroHiding()
+	{
 		return isHeroHiding;
 	}
 
 	/***
-	 * Sets the boolean for if the hero is hiding
+	 * Sets whether the Hero is hiding.
 	 * 
-	 * @param newHeroHidingValue
-	 *            : the new boolean for the hiding state of the hero
+	 * @param newHeroHidingValue : Whether the Hero is hiding.
 	 */
-	public void setIsHeroHiding(boolean newHeroHidingValue) {
+	public void setIsHeroHiding(boolean newHeroHidingValue)
+	{
 		isHeroHiding = newHeroHidingValue;
 	}
 
 	/***
+	 * Gets whether the Hero is jumping.
 	 * 
-	 * @return: true if the hero is jumping; false otherwise
+	 * @return: Whether the Hero is jumping.
 	 */
-	public boolean getIsHeroJumping() {
+	public boolean getIsHeroJumping()
+	{
 		return isHeroJumping;
 	}
 
 	/***
+	 * Sets whether the Hero is jumping.
 	 * 
-	 * Sets the boolean for if the hero is jumping
-	 * 
-	 * @param newHeroJumpingValue
-	 *            - the boolean for if the hero is jumping
+	 * @param newHeroJumpingValue : Whether the Hero is jumping.
 	 */
-	public void setIsHeroJumping(boolean newHeroJumpingValue) {
+	public void setIsHeroJumping(boolean newHeroJumpingValue)
+	{
 		isHeroJumping = newHeroJumpingValue;
 	}
 
 	/***
-	 * Returns the boolean for if the hero is alive
+	 * Gets whether the Hero is alive.
 	 * 
-	 * @return : true if the hero is alive; false otherwise
+	 * @return : Whether the Hero is alive.
 	 */
-	public boolean getIsHeroAlive() {
+	public boolean getIsHeroAlive()
+	{
 		return isHeroAlive;
 	}
 
 	/***
-	 * The method that sets the variable for if the hero is alive or not
+	 * Sets whether the Hero is alive.
 	 * 
-	 * @param newHeroLivingValue
-	 *            - the new boolean that states if the hero is alive
+	 * @param newHeroLivingValue : Whether the Hero is alive.
 	 */
-	public void setIsHeroAlive(boolean newHeroLivingValue) {
+	public void setIsHeroAlive(boolean newHeroLivingValue)
+	{
 		isHeroAlive = newHeroLivingValue;
 	}
 
 	/***
-	 * Sets the global variable for the y position of the hero in the world and
-	 * the screen
+	 * Sets the y position of the Hero in world coordinates.
 	 * 
-	 * @param newHeroYPos
-	 *            : the new y position of the hero
+	 * @param newHeroYPos : The y position of the Hero in world coordinates.
 	 */
-	public void setHeroYPos(float newHeroYPos) {
+	public void setHeroYPos(float newHeroYPos)
+	{
 		heroYPos = newHeroYPos;
 	}
 
 	/***
-	 * Returns the global variable of the y position of the hero in the world
-	 * and the screen
+	 * Gets the y position of the Hero in world coordinates.
 	 * 
-	 * @return: the y position of the hero.
+	 * @return: The y position of the Hero in world coordinates.
 	 */
-	public float getHeroYPos() {
+	public float getHeroYPos()
+	{
 		return heroYPos;
 	}
 	
 	/***
-	 * Returns the health bar manager of the game
-	 * @return: the health bar manager for the game
+	 * Gets the game's HealthBarManager.
+	 * @return: The game's HealthBarManager.
 	 */
 	public HealthBarManager getHealthBarManager()
 	{
-	  return hbm;
+		return hbm;
 	}
 	
 	/***
-	 * Sets the games health bar manager to the new health bar manager
-	 * @param newHBM: the new Health Bar Manager for the game
+	 * Sets the game's HealthBarManager.
+	 * 
+	 * @param newHBM : The game's new HealthBarManager.
 	 */
 	public void setHealthBarManager(HealthBarManager newHBM)
 	{
-	  hbm = newHBM;
+		hbm = newHBM;
 	}
 	
+	/**
+	 * Sets whether the game is over.
+	 * 
+	 * @param newIsGameOver : Whether the game is over.
+	 */
 	public void setIsGameOver(boolean newIsGameOver)
 	{
-	  isGameOver = newIsGameOver;
+		isGameOver = newIsGameOver;
 	}
 	
+	/**
+	 * Gets whether the game is over.
+	 * 
+	 * @return : Whether the game is over.
+	 */
 	public boolean getIsGameOver()
 	{
-	  return isGameOver;
+		return isGameOver;
 	}
 	
+	/**
+	 * Gets whether the Hero is trying to hide.
+	 * 
+	 * @return : Whether the Hero is trying to hide.
+	 */
 	public boolean getIsHeroTryingToHide()
 	{
-	  return isHeroTryingToHide;
+		return isHeroTryingToHide;
 	}
 	
+	/**
+	 * Sets whether the Hero is trying to hide.
+	 * @param newHeroIsTryingToHide : Whether the Hero is trying to hide.
+	 */
 	public void setIsHeroTryingToHide(boolean newHeroIsTryingToHide)
 	{
-	  isHeroTryingToHide = newHeroIsTryingToHide;
+		isHeroTryingToHide = newHeroIsTryingToHide;
 	}
 
-	public void setIsGameWon(boolean isGameWon){
+	/**
+	 * Sets whether the game has been won.
+	 * 
+	 * @param isGameWon : Whether the game has been won.
+	 */
+	public void setIsGameWon(boolean isGameWon)
+	{
 		this.isGameWon = isGameWon;
 	}
 	
-	public boolean getIsGameWon(){
+	/**
+	 * Gets whether the game has been won.
+	 * 
+	 * @return : Whether the game has been won.
+	 */
+	public boolean getIsGameWon()
+	{
 		return isGameWon;
 	}
 }

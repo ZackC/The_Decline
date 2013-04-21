@@ -5,18 +5,16 @@ package com.gamedev.decline;
 // { Not Applicable }
 
 // Badlogic Package Support // 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
 /**
- * 
- * com/gamedev/decline/Enemy.java
+ * com/gamedev/decline/Falcon.java
  * 
  * @author(s) : Ian Middleton, Zach Coker, Zach Ogle
- * @version : 2.0 Last Update : 4/8/2013 Update By : Zach Ogle
+ * @version : 2.0 Last Update : 4/19/2013 Update By : Zach Ogle
  * 
- *          Source code for the Falcon class. The Falcon class represents
- *          a Falcon object in the game. It extends and uses the Unit class.
+ * Source code for the Falcon class. The Falcon class represents
+ *	a Falcon object in the game. It extends and uses the Unit class.
  * 
  */
 public class Falcon extends Unit
@@ -39,78 +37,109 @@ public class Falcon extends Unit
 	
 	/**
 	 * Instantiates a new Falcon object by calling the super constructor (Unit)
-	 * and setting the draw size.
+	 * and setting the draw size and vertical speed.
 	 * 
-	 * @param texture
-	 *            : The image of the Falcon.
+	 * @param texture : The image of the Falcon.
 	 */
-	public Falcon(Texture texture) {
+	public Falcon(Texture texture)
+	{
 		super(texture, INITIAL_SPEED, 0, 0);
 		setSize(WIDTH, HEIGHT);
 		jumpSpeed = Y_SPEED;
-	} // end Enemy()
+	}
 
 	/**
 	 * Sets the Falcon's draw position to the right edge of the screen.
 	 */
-	public void setToInitialDrawPosition() {
-	        health = getMaxHealth();
+	public void setToInitialDrawPosition()
+	{
+		health = getMaxHealth();
 		setPosition(START_XDRAW, START_YDRAW);
-	}// end setToInitialDrawPosition()
+	}
 
 	/**
-	 * The update function is called every global game update. Moves the Falcon
-	 * 	in an arc towards the Hero's feet.
+	 * Required implementation of abstract method.
 	 */
 	public void update()
 	{
 	}
 
 	/***
-	 * Returns the max health of the Falcon
-	 * @return: the max health
+	 * Gets the max health of the Falcon.
+	 * 
+	 * @return : The Falcon's max health.
 	 */
 	@Override
 	public int getMaxHealth()
 	{
-	  return MAX_HEALTH;
+		return MAX_HEALTH;
 	}
 
 	/***
-	 * Handles the Falcon dying
+	 * Handles the Falcon dying.
 	 */
 	@Override
 	public void die()
 	{
-	  setIsAlive(false);
-	  setHasHealthBar(false);
+		setIsAlive(false);
+		setHasHealthBar(false);
 	}
 	
+	/**
+	 * Sets whether the Falcon is flying.
+	 * 
+	 * @param newIsFlying : Whether the Falcon is flying.
+	 */
 	public void setIsFlying(boolean newIsFlying)
 	{
 		isFlying = newIsFlying;
 	}
 	
+	/**
+	 * Gets whether the Falcon is flying.
+	 * 
+	 * @return : Whether the Falcon is flying.
+	 */
 	public boolean getIsFlying()
 	{
 		return isFlying;
 	}
 	
+	/**
+	 * Sets whether the Falcon is landing.
+	 * 
+	 * @param newIsLanding : Whether the Falcon is landing.
+	 */
 	public void setIsLanding(boolean newIsLanding)
 	{
 		isLanding = newIsLanding;
 	}
 	
+	/**
+	 * Gets whether the Falcon is landing.
+	 * 
+	 * @return : Whether the Falcon is landing.
+	 */
 	public boolean getIsLanding()
 	{
 		return isLanding;
 	}
 	
+	/**
+	 * Sets whether the Falcon has damaged the Hero.
+	 * 
+	 * @param newHasDamagedHero : Whether the Falcon has damaged the Hero.
+	 */
 	public void setHasDamagedHero(boolean newHasDamagedHero)
 	{
 		hasDamagedHero = newHasDamagedHero;
 	}
 	
+	/**
+	 * Gets whether the Falcon has damaged the Hero.
+	 * 
+	 * @return : Whether the Falcon has damaged the Hero.
+	 */
 	public boolean getHasDamagedHero()
 	{
 		return hasDamagedHero;

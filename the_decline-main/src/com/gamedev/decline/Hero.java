@@ -18,17 +18,16 @@ import com.badlogic.gdx.utils.Array;
  * com/gamedev/decline/Hero.java
  * 
  * @author(s) : Ian Middleton, Zach Coker, Zach Ogle
- * @version : 2.0 Last Update : 3/25/2013 Update By : Ian Middleton
+ * @version : 2.0 Last Update : 4/21/2013 Update By : Zach Ogle
  * 
- *          Source code for the Hero class. The Hero class represents the Hero
- *          object in the game. It extends and uses the Unit class.
+ * Source code for the Hero class. The Hero class represents the Hero
+ *	object in the game. It extends and uses the Unit class.
  * 
  */
-public class Hero extends Unit {
-
+public class Hero extends Unit
+{
 	// Global Singleton //
 	private GlobalSingleton gs = GlobalSingleton.getInstance();
-	Sound dyingSound;
 
 	// Constants of the Object //
 	public static final int START_XDRAW = 120;
@@ -41,36 +40,36 @@ public class Hero extends Unit {
 	public static final int AMMO_DISPLAY_X_POSITION = 30;
 	public static final int AMMO_DISPLAY_Y_POSITION = Gdx.graphics.getHeight() - 50;
 	public static final int STARTING_HERO_LIVES = 3;
-	public static final int STARTING_ROCK_HIDING_POWER_COUNT = 3;
+	public static final int STARTING_ROCK_POWER_COUNT = 3;
 	public static final int LIVES_DISPLAY_Y_POSITION = Gdx.graphics.getHeight() - 70;
 	public static final int LIVES_DISPLAY_X_POSITION = AMMO_DISPLAY_X_POSITION + 150;
 	public static final int LIVES_IMAGE_SIZE = 30;
 	public static final int ROCK_POWER_X_POSITION = LIVES_DISPLAY_X_POSITION + (4 * LIVES_IMAGE_SIZE);
 	public static final int ROCK_POWER_Y_POSITION = LIVES_DISPLAY_Y_POSITION;
 	public static final int ROCK_POWER_SIZE = LIVES_IMAGE_SIZE;
-	
-	int rockPowers = STARTING_ROCK_HIDING_POWER_COUNT;
-	int lives = STARTING_HERO_LIVES;
-	final Texture standingTexture;
-	final Texture hidingTexture;
-	final Texture rockTexture;
-	final Texture heartTexture;
 
 	// Internal Variables //
+	private int rockPowers = STARTING_ROCK_POWER_COUNT, lives = STARTING_HERO_LIVES, ammo = MAX_AMMO / 2;
 	private float posChange = 0;
-	private int ammo = MAX_AMMO / 2;
-	BitmapFont font = new BitmapFont();
+	private BitmapFont font = new BitmapFont();
+	private Sound dyingSound;
+	private Texture standingTexture, hidingTexture, rockTexture, heartTexture;
 
 	/**
-	 * Instantiates a new Hero object by calling the super constructor (Unit)
+	 * Instantiates a new Hero object by calling the super constructor (Unit) and
+	 *	saving the different textures and sounds, setting his jump speed, and setting
+	 *	his size and position in world coordinates.
 	 * 
-	 * @param newStandingTexture
-	 *            : The image to be used for when the hero is standing.
-	 * @param newHidingTexture
-	 *            : The image to be used for when the hero is hiding;
+	 * @param newStandingTexture : The image for when the Hero is standing.
+	 * @param newHidingTexture : The image for when the Hero is hiding.
+	 * @param newHeartTexture : The image for the Hero's lives display.
+	 * @param newRockTexture : The image for the Hero's rock powers and when the Hero uses
+	 *	a rock power.
+	 * @param newDyingSound : The sound that will play when the Hero dies.
 	 */
 	public Hero(Texture newStandingTexture, Texture newHidingTexture, Texture newHeartTexture, 
-	    Texture newRockTexture, Sound newDyingSound) {
+	    Texture newRockTexture, Sound newDyingSound)
+	{
 		super(newStandingTexture, SPEED, START_XDRAW, START_YDRAW);
 		standingTexture = newStandingTexture;
 		hidingTexture = newHidingTexture;
@@ -78,137 +77,154 @@ public class Hero extends Unit {
 		setJumpSpeed(JUMP_SPEED);
 		gs.setHeroHeight(getHeight());
 		gs.setHeroWidth(getWidth());
-		gs.setHeroYPos(START_YDRAW);
 		setIsAlive(true);
 		heartTexture = newHeartTexture;
-                dyingSound = newDyingSound;
-	}// end Hero()
-
-	/***
-	 * Sets the hero to the initial draw position.
-	 */
-	public void setToInitialDrawPosition() {
-		setPosition(START_XDRAW, START_YDRAW);
-	}// end setToInitialDrawPosition()
+        dyingSound = newDyingSound;
+	}
 
 	/**
-	 * The update function is called every global update.
-	 * 
-	 * ***PROBLEM*** duplicate problem
+	 * Sets the Hero to his initial draw position.
 	 */
-	public void update() {
+	public void setToInitialDrawPosition()
+	{
+		setPosition(START_XDRAW, START_YDRAW);
+	}
+
+	/**
+	 * Updates the Hero's x position in world coordinates of the Global Singleton
+	 *	and handles any jumping that occurs.
+	 */
+	public void update()
+	{
 		gs.setHeroXPos(xPos);
-		if (gs.getIsHeroJumping()) {
+		if (gs.getIsHeroJumping())
+		{
 			jump();
 		}
-	} // end update()
-	
-	@Override
-	public void moveRight(){
-		posChange = speed * Gdx.graphics.getDeltaTime();
-		setXPos(getXPos() + posChange);
-		setPosition(getXPos() - gs.getWorldXPos(), getYPos());
-		gs.setHeroXDraw(getXPos() - gs.getWorldXPos());
-		if (isFlipX() == true)
-			flip(true, false);
 	}
 	
-	@Override
-	public void moveLeft(){
-		posChange = -(speed * Gdx.graphics.getDeltaTime());
-		setXPos(getXPos() + posChange);
-		setPosition(getXPos() - gs.getWorldXPos(), getYPos());
+	/**
+	 * Moves the Hero right and updates his x position in world coordinates in the
+	 *	Global Singleton. Used in the Boss fight.
+	 */
+	public void moveRight()
+	{
+		super.moveRight();
 		gs.setHeroXDraw(getXPos() - gs.getWorldXPos());
-		if (isFlipX() == false)
-			flip(true, false);
 	}
 	
-	public void moveRightScroll() {
+	/**
+	 * Moves the Hero left and updates his x position in world coordinates in the
+	 *	Global Singleton. Used in the Boss fight.
+	 */
+	public void moveLeft()
+	{
+		super.moveLeft();
+		gs.setHeroXDraw(getXPos() - gs.getWorldXPos());
+	}
+	
+	/**
+	 * Moves the Hero right while the screen is scrolling.
+	 */
+	public void moveRightScroll()
+	{
 		posChange = speed * Gdx.graphics.getDeltaTime();
 		setXPos(getXPos() + posChange);
 		gs.setWorldXPos(gs.getWorldXPos() + posChange);
 		if (isFlipX() == true)
+		{
 			flip(true, false);
-	} // end moveRight()
-
-	public void moveLeftScroll() {
-		posChange = -(speed * Gdx.graphics.getDeltaTime());
-		setXPos(getXPos() + posChange);
-		gs.setWorldXPos(gs.getWorldXPos() + posChange);
-		if (isFlipX() == false)
-			flip(true, false);
-	}// end moveLeft()
+		}
+	}
 
 	/**
-	 * Gets the hero's current ammo count.
-	 * 
-	 * @return : The hero's current ammo count.
+	 * Moves the Hero left while the screen is scrolling.
 	 */
-	public int getAmmo() {
+	public void moveLeftScroll()
+	{
+		posChange = -(speed * Gdx.graphics.getDeltaTime());
+		setXPos(getXPos() + posChange);
+		gs.setWorldXPos(gs.getWorldXPos() + posChange);
+		if (isFlipX() == false)
+		{
+			flip(true, false);
+		}
+	}
+
+	/**
+	 * Gets the Hero's current Ammo count.
+	 * 
+	 * @return : The Hero's current Ammo count.
+	 */
+	public int getAmmo()
+	{
 		return ammo;
-	} // end getAmmo()
+	}
 
 	/**
-	 * Gets the hero's current health.
+	 * Gets the Hero's current health.
 	 * 
-	 * @return : The hero's current health.
+	 * @return : The Hero's current health.
 	 */
-	public int getHealth() {
+	public int getHealth()
+	{
 		return health;
-	}// end getHealth()
+	}
 
 	/**
-	 * Sets the hero's current ammo count.
+	 * Sets the Hero's current Ammo count.
 	 * 
-	 * @param ammo
-	 *            : The hero's new ammo count.
+	 * @param ammo : The Hero's new Ammo count.
 	 */
-	public void setAmmo(int ammo) {
+	public void setAmmo(int ammo)
+	{
 		this.ammo = ammo;
-	}// end setAmmo()
-
+	}
 	
-
-	/***
-	 * The function to make the hero hide.
+	/**
+	 * Makes the Hero hide if possible.
+	 * 
+	 * @param bushArray : The array of Bushes available to hide behind.
 	 */
-	public void hide(Array<Bush> bushArray) {
-	        boolean isBehindBush = false;
-	        for(int i = 0; i < bushArray.size; i++)
+	public void hide(Array<Bush> bushArray)
+	{
+		boolean isBehindBush = false;
+	    for (int i = 0; i < bushArray.size; i++)
+	    {
+	    	if (Intersector.intersectRectangles(getBoundingRectangle(),
+	    			bushArray.get(i).getBoundingRectangle()))
 	        {
-	          if(Intersector.intersectRectangles(getBoundingRectangle(),
-	              bushArray.get(i).getBoundingRectangle()))
-	          {
-	            isBehindBush = true;
+	    		isBehindBush = true;
 	            break;
-	          }
 	        }
-	        if(isBehindBush)
-	        {
-	          gs.setIsHeroHiding(true);
-	          setTexture(hidingTexture);
+	    }
+	    if(isBehindBush)
+	    {
+	    	gs.setIsHeroHiding(true);
+	        setTexture(hidingTexture);
+	    }
+	    else
+	    {
+	    	if(rockPowers > 0)
+	    	{
+	    		gs.setIsHeroHiding(true);
+	    		setTexture(rockTexture);
+	    		rockPowers = rockPowers - 1;;
 	        }
 	        else
 	        {
-	          if(rockPowers > 0)
-	          {
-	          gs.setIsHeroHiding(true);
-	          setTexture(rockTexture);
-	          rockPowers = rockPowers - 1;;
-	          }
-	          else
-	          {
 	            gs.setIsHeroTryingToHide(true);
 	            setTexture(hidingTexture);
-	          }
 	        }
+	    }
 		setSize(hidingTexture.getWidth(), hidingTexture.getHeight());
 	}
 
-	/***
-	 * The function to make the hero stand.
+	/**
+	 * Makes the Hero stand up.
 	 */
-	public void stand() {
+	public void stand()
+	{
 		gs.setIsHeroHiding(false);
 		gs.setIsHeroTryingToHide(false);
 		setTexture(standingTexture);
@@ -216,56 +232,65 @@ public class Hero extends Unit {
 	}
 
 	/**
-	 * The function to display the ammo count
-	 * @param batch:  the batch object that draws the text
+	 * Displays the Hero's Ammo count.
+	 * @param batch : The SpriteBatch object which will draw the Ammo count.
 	 */
-	public void drawAmmoCount(SpriteBatch batch) {
-		
-		font.draw(batch, "Ammo Left: " + getAmmo(),
-				AMMO_DISPLAY_X_POSITION, AMMO_DISPLAY_Y_POSITION);
+	public void drawAmmoCount(SpriteBatch batch)
+	{
+		font.draw(batch, "Ammo Left: " + getAmmo(),	AMMO_DISPLAY_X_POSITION, AMMO_DISPLAY_Y_POSITION);
 	}
 	
-	/***
-	 * This function draws the lives for the hero.
-	 * @param batch: the batch object that draws the lives images.
+	/**
+	 * Displays the Hero's lives.
+	 * @param batch : The SpriteBatch object which will draw the lives.
 	 */
 	public void drawLives(SpriteBatch batch)
 	{
-	  for(int i = 0; i < lives; i++)
-	  {
-	    batch.draw(heartTexture,LIVES_DISPLAY_X_POSITION + i * LIVES_IMAGE_SIZE,LIVES_DISPLAY_Y_POSITION,
-		LIVES_IMAGE_SIZE,LIVES_IMAGE_SIZE);
-	  }
+		for(int i = 0; i < lives; i++)
+		{
+			batch.draw(heartTexture,LIVES_DISPLAY_X_POSITION + i * LIVES_IMAGE_SIZE,LIVES_DISPLAY_Y_POSITION,
+					LIVES_IMAGE_SIZE,LIVES_IMAGE_SIZE);
+		}
 	}
 	
+	/**
+	 * Display's the Hero's rock powers.
+	 * 
+	 * @param batch : The SpriteBatch object which will draw the rock powers.
+	 */
 	public void drawRockPower(SpriteBatch batch)
 	{
-	  for(int i = 0; i < rockPowers; i++)
-	  {
-	    batch.draw(rockTexture,ROCK_POWER_X_POSITION + i * ROCK_POWER_SIZE, ROCK_POWER_Y_POSITION,
-		ROCK_POWER_SIZE, ROCK_POWER_SIZE);
-	  }
+		for(int i = 0; i < rockPowers; i++)
+		{
+			batch.draw(rockTexture,ROCK_POWER_X_POSITION + i * ROCK_POWER_SIZE, ROCK_POWER_Y_POSITION,
+					ROCK_POWER_SIZE, ROCK_POWER_SIZE);
+		}
 	}
 	
-	/***
-	 * Returns the max health of the hero
+	/**
+	 * Gets the Hero's max health.
 	 * 
-	 * @return: the hero's max health
+	 * @return : The Hero's max health.
 	 */
-	@Override
 	public int getMaxHealth()
 	{
-	  return MAX_HEALTH;
+		return MAX_HEALTH;
 	}
 	
-	@Override
-	public void jump(){
-		yPosChange = jumpSpeed; // * Gdx.graphics.getDeltaTime();
+	/**
+	 * Makes the Hero jump.
+	 */
+	public void jump()
+	{
+		yPosChange = jumpSpeed;
 		setYPos(getYPos() + yPosChange);
-		if (getYPos() >= Hero.JUMP_DISTANCE) {
+		if (getYPos() >= Hero.JUMP_DISTANCE)
+		{
 			setYPos(Hero.JUMP_DISTANCE);
 			jumpSpeed = -Hero.JUMP_SPEED;
-		} else if (getYPos() < Hero.START_YDRAW) {
+		}
+		else if (getYPos() < Hero.START_YDRAW)
+		{
 			setYPos(Hero.START_YDRAW);
 			gs.setIsHeroJumping(false);
 			jumpSpeed = Hero.JUMP_SPEED;
@@ -276,19 +301,18 @@ public class Hero extends Unit {
 	}
 	
 	/***
-	 * Handles the hero dying. 
+	 * Handles the Hero dying.
 	 */
-	@Override
 	public void die()
 	{
-	  dyingSound.play();
-	  health = getMaxHealth();
-	  if(lives < 1)
-	  {
-	        setIsAlive(false);
-		gs.setIsHeroAlive(false);
-		gs.setIsGameOver(true);
-	  }
-	  lives--;
+		dyingSound.play();
+		health = getMaxHealth();
+		if(lives < 1)
+		{
+			setIsAlive(false);
+			gs.setIsHeroAlive(false);
+			gs.setIsGameOver(true);
+		}
+		lives--;
 	}
 }

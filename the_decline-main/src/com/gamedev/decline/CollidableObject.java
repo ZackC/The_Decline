@@ -10,19 +10,19 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Intersector;
 
 /**
- * 
  * com/gamedev/decline/CollidableObject.java
  * 
  * @author(s) : Ian Middleton, Zach Coker, Zach Ogle
- * @version : 1.0 Last Update : 3/25/2013 Update By : Ian Middleton
+ * @version : 1.0 Last Update : 4/19/2013 Update By : Zach Ogle
  * 
- *          Source code for the CollidableObject class. The CollidableObject
- *          class is an abstract class that is meant to be extended for specific
- *          CollidableObjects within the game.
+ * Source code for the CollidableObject class. The CollidableObject
+ *	class is an abstract class that is meant to be extended for specific
+ *	CollidableObjects within the game.
  * 
  */
 
-public class CollidableObject extends Sprite {
+public class CollidableObject extends Sprite
+{
 
 	// Global Singleton //
 	// { Not Applicable }
@@ -37,69 +37,69 @@ public class CollidableObject extends Sprite {
 	/**
 	 * Basic constructor for a Collidable Object.
 	 * 
-	 * @param texture
-	 *            : The image for this CollidableObject.
-	 * @param xPos
-	 *            : The x position in world coordinates.
-	 * @param yPos
-	 *            : The y position in world coordinates.
+	 * @param texture : The image for this CollidableObject.
+	 * @param xPos : The x position in world coordinates.
+	 * @param yPos : The y position in world coordinates.
 	 */
-	public CollidableObject(Texture texture, float xPos, float yPos) {
+	public CollidableObject(Texture texture, float xPos, float yPos)
+	{
 		super(texture);
 		this.xPos = xPos;
 		this.yPos = yPos;
-	}// end CollidableObject()
+	}
 
 	/**
 	 * Checks whether two CollidableObjects have collided.
 	 * 
-	 * @param otherCObject
-	 *            : The other CollidableObject to check for a collision with.
-	 * @return : True if there is a collision, false if not.
+	 * @param otherCObject : The other CollidableObject to check for a collision with.
+	 * @return : Whether or not there was a collision between the two CollidableObjects.
 	 */
-	public boolean collidesWith(CollidableObject otherCObject) {
-		//if ((xPos + getWidth()) >= otherCObject.getXPos()) {
-	          if(Intersector.intersectRectangles(getBoundingRectangle(), otherCObject.getBoundingRectangle())){
+	public boolean collidesWith(CollidableObject otherCObject)
+	{
+		if(Intersector.intersectRectangles(getBoundingRectangle(), otherCObject.getBoundingRectangle()))
+		{
 			return true;
-		}// end if
+		}
 		return false;
-	}// end collidesWith()
+	}
 
 	/**
-	 * Sets the x position of the Unit's world coordinates.
+	 * Sets the x position of the CollidableObject's world coordinates.
 	 * 
-	 * @param newXPos
-	 *            : The new world x position of the Unit.
+	 * @param newXPos : The new x position of the CollidableObject's world coordinates.
 	 */
-	public void setXPos(float newXPos) {
+	public void setXPos(float newXPos)
+	{
 		xPos = newXPos;
-	}// end setXPos()
+	}
 
 	/**
-	 * Gets the x position of the Unit in world coordinates.
+	 * Gets the x position of the CollidableObject's in world coordinates.
 	 * 
-	 * @return : The world x position of the Unit.
+	 * @return : The x position of the CollidableObject's world coordinates.
 	 */
-	public float getXPos() {
+	public float getXPos()
+	{
 		return xPos;
-	}// end getXPos()
+	}
 
 	/**
-	 * Sets the y position of the Unit in world coordinates.
+	 * Sets the y position of the CollidableObject in world coordinates.
 	 * 
-	 * @param newYPos
-	 *            : The new world y position of the Unit.
+	 * @param newYPos : The new y position of the CollidableObject's world coordinates.
 	 */
-	public void setYPos(float newYPos) {
+	public void setYPos(float newYPos)
+	{
 		yPos = newYPos;
-	}// end setYPos()
+	}
 
 	/**
-	 * Gets the y position of the Unit in world coordinates.
+	 * Gets the y position of the CollidableObject in world coordinates.
 	 * 
-	 * @return : The world y position of the Unit.
+	 * @return : The y position of the CollidableObject's world coordinates.
 	 */
-	public float getYPos() {
+	public float getYPos()
+	{
 		return yPos;
-	}// end getYPos()
-}// end CollidableObject class
+	}
+}

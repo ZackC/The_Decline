@@ -4,7 +4,6 @@ package com.gamedev.decline;
 // Java Package Support //
 import java.util.Iterator;
 import java.util.Random;
-import java.util.ArrayList;
 
 // Badlogic Package Support //
 import com.badlogic.gdx.Gdx;
@@ -13,36 +12,30 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
 /**
- * 
  * com/gamedev/decline/EnemyManager.java
  * 
  * @author(s) : Ian Middleton, Zach Coker, Zach Ogle
- * @version : 2.0 Last Update : 3/25/2013 Update By : Ian Middleton
+ * @version : 2.0 Last Update : 4/19/2013 Update By : Zach Ogle
  * 
- *          Source code for the EnemyManager class. The EnemyManager class takes
- *          care of creating, updating, drawing, and reallocating Enemy objects.
+ * Source code for the EnemyManager class. The EnemyManager class takes
+ *	care of creating, updating, drawing, and removing Enemy objects.
  * 
  */
-public class EnemyManager {
-
+public class EnemyManager
+{
 	// Global Singleton //
 	private GlobalSingleton gs = GlobalSingleton.getInstance();
 
 	// Constants for the Object //
-	public static final int MAX_ENEMIES = 15;
 	public static final int MAX_FALCONERS = 8;
 
 	// Internal Variables //
-	private Enemy[] enemies = new Enemy[MAX_ENEMIES];
-	private Falconer[] falconers = new Falconer[MAX_FALCONERS];
 	private Array<Enemy> currentEnemies = new Array<Enemy>();
 	private Array<Falconer> currentFalconers = new Array<Falconer>();
 	private Iterator<Enemy> enemyIter;
 	private Iterator<Falconer> falconerIter;
 	private Enemy currentEnemy;
 	private Falconer currentFalconer;
-	private int currentEnemyNumber = 0;
-	private int currentFalconerNumber = 0;
 	private Random rand = new Random();
 	private int newEnemyXPosition = Gdx.graphics.getWidth() / 2 + rand.nextInt(100);
 	private int newFalconerXPosition = Gdx.graphics.getWidth() / 2 + rand.nextInt(400);
@@ -62,28 +55,22 @@ public class EnemyManager {
 		this.falconerTexture = falconerTexture;
 		this.falconerWithoutFalconTexture = falconerWithoutFalconTexture;
 		this.falconTexture = falconTexture;
-		for (int i = 0; i < MAX_ENEMIES; i++) {
-			enemies[i] = new Enemy(enemyTexture);
-		} // end for
-		for (int i = 0; i < MAX_FALCONERS; i++)
-		{
-			falconers[i] = new Falconer(falconerTexture, falconerWithoutFalconTexture, falconTexture);
-		}
-	} // end EnemyManager
+	}
 
 	/**
-	 * Gets all currently active Enemies.
+	 * Gets the Array of active Enemies.
 	 * 
-	 * @return : A badlogic array of all the active Enemies.
+	 * @return : An Array of active Enemies.
 	 */
-	public Array<Enemy> getActiveEnemies() {
+	public Array<Enemy> getActiveEnemies()
+	{
 		return currentEnemies;
-	}// end getActiveEnemies()
+	}
 	
 	/**
-	 * Gets all currently active Falconers.
+	 * Gets the Array of active Falconers.
 	 * 
-	 * @return : A badlogic array of all active Falconers.
+	 * @return : An Array of active Falconers.
 	 */
 	public Array<Falconer> getActiveFalconers()
 	{
@@ -91,35 +78,35 @@ public class EnemyManager {
 	}
 
 	/**
-	 * Handles an enemy being damaged
-	 * @param index - the index of the enemy in the displayed enemy
-	 *       array
-	 * @param damage - the amount that the enemy was damaged
+	 * Handles an Enemy being damaged.
+	 * 
+	 * @param enemy : The Enemy to calculate damage on.
+	 * @param damage : The amount of damage inflicted.
 	 */
 	public boolean enemyDamagedEvent(Enemy enemy, int damage)
 	{
 		currentEnemy = enemy;
-	  if(!currentEnemy.getHasHealthBar())
-	  {
-	    gs.getHealthBarManager().add(currentEnemy);
-	    currentEnemy.setHasHealthBar(true);
-	  }
-	  currentEnemy.setHealth(currentEnemy.getHealth() - damage);
-	  if(!currentEnemy.getIsAlive())
-	  {
-	    return true;
-	  }
-	  else
-	  {
-		  return false;
-	  }
+		if(!currentEnemy.getHasHealthBar())
+		{
+			gs.getHealthBarManager().add(currentEnemy);
+			currentEnemy.setHasHealthBar(true);
+		}
+		currentEnemy.setHealth(currentEnemy.getHealth() - damage);
+		if(!currentEnemy.getIsAlive())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	/**
 	 * Handles a Falconer being damaged.
-	 * @param index - The index of the Falconer in the displayed
-	 * 		Falconer array.
-	 * @param damage - The amount that the enemy was damaged.
+	 * 
+	 * @param falconer : The Falconer to calculate damage on.
+	 * @param damage : The amount of damage inflicted.
 	 */
 	public boolean falconerDamagedEvent(Falconer falconer, int damage)
 	{
@@ -139,53 +126,27 @@ public class EnemyManager {
 			return false;
 		}
 	}
-	
-	/**
-	 * Removes a specific active Enemy from the group of active Enemies.
-	 * 
-	 * @param index
-	 *            : The index of the active Enemy to be removed.
-	 */
-	public void removeActiveEnemy(int index) {
-		currentEnemies.removeIndex(index);
-	}// end removeActiveEnemy()
-	
-	/**
-	 * Removes a specific active Falconer from the group of active Falconers.
-	 * 
-	 * @param index : The index of the active Falconer to be removed.
-	 */
-	public void removeActiveFalconer(int index)
-	{
-		currentFalconers.removeIndex(index);
-	}
 
 	/**
-	 * Grabs a Enemy from the Enemy buffer created when the manager was
-	 * constructed. Sets the initial values for this specific Enemy. This Enemy
-	 * is then added to the array of Enemy that are to be drawn to the screen
-	 * and updated.
+	 * Creates a new Enemy and sets the initial values for this specific Enemy.
+	 *	This Enemy is then added to the Array of active Enemies.
 	 */
-	public void makeEnemyAppear() {
-		//currentEnemy = enemies[currentEnemyNumber % MAX_ENEMIES];
+	public void makeEnemyAppear()
+	{
 		currentEnemy = new Enemy(enemyTexture);
 		currentEnemy.setToInitialDrawPosition();
 		currentEnemy.setIsAlive(true);
 		currentEnemy.setXPos(gs.getWorldXPos() + Enemy.START_XDRAW);
 		currentEnemy.setYPos(Enemy.START_YDRAW);
 		currentEnemies.add(currentEnemy);
-		currentEnemyNumber++;
-	}// end makeEnemyAppear()
+	}
 	
 	/**
-	 * Grabs a Falconer from the Falconer buffer created when the manager was
-	 * 	constructed. Sets the initial values for this specific Falconer. This
-	 * 	Falconer is then added to the array of Falconers that are to be drawn
-	 * 	to the screen and updated.
+	 * Creates a new Falconer and sets the initial values for this specific Falconer.
+	 *	This Falconer is then added to the Array of active Falconers.
 	 */
 	public void makeFalconerAppear()
 	{
-		//currentFalconer = falconers[currentFalconerNumber % MAX_FALCONERS];
 		if (currentFalconers.size < MAX_FALCONERS)
 		{
 			currentFalconer = new Falconer(falconerTexture, falconerWithoutFalconTexture, falconTexture);
@@ -196,47 +157,48 @@ public class EnemyManager {
 			currentFalconer.setFalconXPos(gs.getWorldXPos() + Falconer.START_XDRAW);
 			currentFalconer.setFalconYPos(Falconer.START_YDRAW);
 			currentFalconers.add(currentFalconer);
-			currentFalconerNumber++;
 		}
 	}
 
 	/**
-	 * Checks to see if the hero has moved farther than the random amount
-	 * required for a new enemy to be spawned. If the hero has moved this
-	 * distance than a new enemy is created. Afterwards, the function iterates
-	 * through all Enemies on the screen and calls their update method. If an
-	 * Enemy has traveled off screen after updating then that Enemy is removed.
+	 * Checks to see if the Hero has moved farther than the random amount required for a new
+	 *	Enemy or Falconer to be spawned. If the Hero has moved this distance then a new Enemy
+	 *	or Falconer is created. Afterwards, the function iterates through all Enemies and Falconers
+	 *	on the screen and calls their update method. If an Enemy or Falconer has traveled off screen
+	 *	after updating then that Enemy or Falconer is removed.
 	 */
-	public void update() {
-		if(gs.getHeroXPos() < 9000){
-			if (gs.getHeroXPos() > newEnemyXPosition) {
+	public void update()
+	{
+		if(gs.getHeroXPos() < 9000)
+		{
+			if (gs.getHeroXPos() > newEnemyXPosition)
+			{
 				makeEnemyAppear();
 				newEnemyXPosition += rand.nextInt(400) + 50;
-			}// end if
+			}
 		}
 		enemyIter = currentEnemies.iterator();
-		while (enemyIter.hasNext()) {
+		while (enemyIter.hasNext())
+		{
 			currentEnemy = enemyIter.next();
 			currentEnemy.update();
 			if (currentEnemy.getX() < -1 * currentEnemy.getWidth()) 
 			{
 			   currentEnemy.setIsAlive(false);
-			}// end if
+			}
             if(!currentEnemy.getIsAlive())
             {
             	enemyIter.remove();                          
             }
-		}// end while
+		}
 		if (gs.getHeroXPos() < 9000)
 		{
 			if (gs.getHeroXPos() > newFalconerXPosition)
 			{
 				makeFalconerAppear();
-				//makeFalconAppear();
 				newFalconerXPosition += rand.nextInt(500) + 300;
 			}
 		}
-		//System.out.println("Size of current falconers:"+currentFalconers.size);
 		falconerIter = currentFalconers.iterator();
 		while (falconerIter.hasNext())
 		{
@@ -251,14 +213,13 @@ public class EnemyManager {
 				falconerIter.remove();
 			}
 		}
-	}// end update()
+	}
 
 	/**
-	 * Iterates through the array of Enemies to be drawn to the screen and calls
-	 * the draw function for each Enemy.
+	 * Iterates through the Arrays of Enemies and Falconers to be drawn
+	 *	to the screen and calls the draw function for each Enemy and Falconer.
 	 * 
-	 * @param batch
-	 *            - The SpriteBatch object which will draw the Enemy objects.
+	 * @param batch : The SpriteBatch object that draws the Enemies and Falconers.
 	 */
 	public void draw(SpriteBatch batch)
 	{
@@ -275,4 +236,4 @@ public class EnemyManager {
 			currentFalconer.draw(batch);
 		}
 	}
-}// end EnemyManager class
+}

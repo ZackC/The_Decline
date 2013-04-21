@@ -9,18 +9,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
 /**
- * 
  * com/gamedev/decline/Unit.java
  * 
  * @author(s) : Ian Middleton, Zach Coker, Zach Ogle
- * @version : 1.0 Last Update : 3/23/2013 Update By : Ian Middleton
+ * @version : 1.0 Last Update : 4/21/2013 Update By : Zach Ogles
  * 
- *          Source code for the Unit class. The Unit class is an abstract class
- *          that is meant to be extended for specific Units within the game.
+ * Source code for the Unit class. The Unit class is an abstract class
+ *	that is meant to be extended for specific Units within the game. It
+ *	extends and uses the CollidableObject class.
  * 
  */
-public abstract class Unit extends CollidableObject {
-
+public abstract class Unit extends CollidableObject
+{
 	// Global Singleton //
 	protected GlobalSingleton gs = GlobalSingleton.getInstance();
 
@@ -28,44 +28,37 @@ public abstract class Unit extends CollidableObject {
 	// { Not Applicable }
 
 	// Internal Variables //
-	protected int speed;
-	protected float xPosChange;
-	protected float yPosChange;
-	protected int jumpSpeed;
-	protected int health = getMaxHealth();
-	protected boolean isAlive;
-	protected boolean hasHealthBar = false;
+	protected int speed, jumpSpeed, health = getMaxHealth();
+	protected float xPosChange, yPosChange;
+	protected boolean isAlive, hasHealthBar = false;
 
 	/**
-	 * Constructor for all Units in the game. Must be called by all classes
-	 * extending Unit.
+	 * Constructs a new Unit by calling the super constructor (CollidableObject)
+	 *	and setting the speed.
 	 * 
-	 * @param texture
-	 *            : The image for this specific Unit.
-	 * @param speed
-	 *            : The speed of this specific Unit.
-	 * @param xPos
-	 *            : The xPos of this specific Unit.
-	 * @param yPos
-	 *            : The yPos of this specific Unit.
+	 * @param texture : The image for this specific Unit.
+	 * @param speed : The speed of this specific Unit.
+	 * @param xPos : The x position in world coordinates of this specific Unit.
+	 * @param yPos : The y position in world coordinates of this specific Unit.
 	 */
-	public Unit(Texture texture, int speed, float xPos, float yPos) {
+	public Unit(Texture texture, int speed, float xPos, float yPos)
+	{
 		super(texture, xPos, yPos);
 		this.speed = speed;
 	}
 
 	/***
-	 * Sets the unit to the initial draw position
+	 * Sets the Unit to its initial draw position. Must be implemented by all Units.
 	 */
 	public abstract void setToInitialDrawPosition();
 
 	/**
 	 * Sets the speed of the Unit.
 	 * 
-	 * @param newSpeed
-	 *            : New speed of the Unit.
+	 * @param newSpeed : The speed of the Unit.
 	 */
-	public void setSpeed(int newSpeed) {
+	public void setSpeed(int newSpeed)
+	{
 		speed = newSpeed;
 	}
 
@@ -74,17 +67,18 @@ public abstract class Unit extends CollidableObject {
 	 * 
 	 * @return : The speed of the unit.
 	 */
-	public int getSpeed() {
+	public int getSpeed()
+	{
 		return speed;
 	}
 
 	/**
 	 * Sets the speed of the Unit.
 	 * 
-	 * @param newSpeed
-	 *            : New speed of the Unit.
+	 * @param newSpeed : The speed of the Unit.
 	 */
-	public void setJumpSpeed(int newSpeed) {
+	public void setJumpSpeed(int newSpeed)
+	{
 		jumpSpeed = newSpeed;
 	}
 
@@ -93,42 +87,42 @@ public abstract class Unit extends CollidableObject {
 	 * 
 	 * @return : The speed of the unit.
 	 */
-	public int getJumpSpeed() {
+	public int getJumpSpeed()
+	{
 		return jumpSpeed;
 	}
 
 	/**
-	 * Abstract method that must be implemented by all extending classes.
+	 * Updates the Unit's position. Must be implemented by all Units.
 	 */
 	public abstract void update();
 
 	/**
-	 * Moves the unit right by the amount designated by speed.
+	 * Moves the Unit right according to its speed.
 	 */
-	public void moveRight() {
+	public void moveRight()
+	{
 		xPosChange = speed * Gdx.graphics.getDeltaTime();
 		setXPos(getXPos() + xPosChange);
 		setPosition(getXPos() - gs.getWorldXPos(), getYPos());
 		if (isFlipX() == true)
+		{
 			flip(true, false);
+		}
 	}
 
 	/**
-	 * Moves the unit left by the amount designated by speed.
+	 * Moves the Unit left according to its speed.
 	 */
-	public void moveLeft() {
+	public void moveLeft()
+	{
 		xPosChange = -(speed * Gdx.graphics.getDeltaTime());
 		setXPos(getXPos() + xPosChange);
 		setPosition(getXPos() - gs.getWorldXPos(), getYPos());
 		if (isFlipX() == false)
+		{
 			flip(true, false);
-	}
-
-	/**
-	 * Makes the Unit jump. At the moment, this is only implemented for the
-	 * hero. So we will have to refactor if we want it for other units.
-	 */
-	public void jump() {
+		}
 	}
 	
 	/**
@@ -140,73 +134,76 @@ public abstract class Unit extends CollidableObject {
 		setPosition(getX() - xPosChange, getY());
 	}
 	
-	/***
-	 * returns the max health of the unit
-	 * @return: the unit's max health
+	/**
+	 * Gets the Unit's max health. Must be implemented by all Units.
+	 * 
+	 * @return : The Unit's max health.
 	 */
 	public abstract int getMaxHealth();
 	
-	/***
-	 * handles when the unit runs out of life
+	/**
+	 * Handles the Unit dying. Must be implemented by all Units.
 	 */
 	public abstract void die();
 	
 	/**
-	 * Sets the unit's current health.
+	 * Sets the Unit's health.
 	 * 
-	 * @param health
-	 *            : The unit's new health.
+	 * @param health : The Unit's health.
 	 */
-	public void setHealth(int newHealth) {
+	public void setHealth(int newHealth)
+	{
 		health = newHealth;
 		if (health < 1) 
 		{
 		  die();
 		}
-	}// end setHealth()
+	}
 	
-	/***
-	 * Returns the health of the unit
-	 * @return: the unit's health
+	/**
+	 * Gets the Unit's health.
+	 * @return : The Unit's health.
 	 */
 	public int getHealth()
 	{
-	  return health;
+		return health;
 	}
-	/***
-	 * returns if the unit is alive or not
+	/**
+	 * Gets whether the Unit is alive.
 	 * 
-	 * @return: true if the unit is alive; false if not
+	 * @return : Whether the Unit is alive.
 	 */
 	public boolean getIsAlive()
 	{
-	  return isAlive;
+		return isAlive;
 	}
 	
-	/***
-	 * sets the alive status of the unit to newIsAlive
-	 * @param newIsAlive: the new living status of the unit
+	/**
+	 * Sets whether the Unit is alive.
+	 * 
+	 * @param newIsAlive : Whether the Unit is alive.
 	 */
 	public void setIsAlive(boolean newIsAlive)
 	{
-	  isAlive = newIsAlive; 
+		isAlive = newIsAlive; 
 	}
 	
-	/***
-	 * returns if the unit has a health bar
-	 * @return: true if the unit currently has a health bar
+	/**
+	 * Gets whether the Unit has a HealthBar.
+	 * @return : Whether the Unit has a HealthBar.
 	 */
 	public boolean getHasHealthBar()
 	{
-	  return hasHealthBar;
+		return hasHealthBar;
 	}
 	
-	/***
+	/**
+	 * Sets whether the Unit has a HealthBar.
 	 * 
-	 * @param newHasHealthBarStatus
+	 * @param newHasHealthBarStatus : Whether the Unit has a HealthBar.
 	 */
 	public void setHasHealthBar(boolean newHasHealthBarStatus)
 	{
-	  hasHealthBar = newHasHealthBarStatus;
+		hasHealthBar = newHasHealthBarStatus;
 	}
 }
